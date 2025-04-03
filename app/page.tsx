@@ -24,50 +24,24 @@ export default function Home() {
           <div className='w-full h-full justify-center items-center grid grid-cols-4 px-20'>
 
             <div className='px-5 py-10'>
-              <TokenChart tokenId="bitcoin"/>
+              <TokenChart tokenId="bitcoin" delay={0}/>
             </div>
 
             <div className='px-5 py-10'>
-              <TokenChart tokenId="solana"/>
+              <TokenChart tokenId="solana" delay={1000}/>
             </div>
 
             <div className='px-5 py-10'>
-              <TokenChart tokenId="cardano"/>
+              <TokenChart tokenId="cardano" delay={2000}/>
             </div>
 
             <div className='px-5 py-10'>
-              <TokenChart tokenId="ethereum"/>
+              <TokenChart tokenId="ethereum" delay={3000}/>
             </div>
 
           </div>
 
-          <div className='w-full h-full justify-center items-center grid grid-cols-6 px-20'>
 
-            <div className='px-5 py-10'>
-              <TokenPrice tokenId="ripple" />
-            </div>
-
-            <div className='px-5 py-10'>
-              <TokenPrice tokenId="stellar" />
-            </div>
-
-            <div className='px-5 py-10'>
-              <TokenPrice tokenId="tron" />
-            </div>
-
-            <div className='px-5 py-10'>
-              <TokenPrice tokenId="dogecoin" />
-            </div>
-
-            <div className='px-5 py-10'>
-              <TokenPrice tokenId="sui" />
-            </div>
-
-            <div className='px-5 py-10'>
-              <TokenPrice tokenId="hedera" />
-            </div>
-
-          </div>
         </div>
 
 

@@ -33,21 +33,38 @@ interface ChartPoint {
   price: number
 }
 
-// Chart configuration
-const chartConfig: ChartConfig = {
-  price: {
-    label: "Price (USD)",
-    color: "#00ff99", // Vibrant green for the chart
-  },
+// Props interface
+interface TokenChartProps {
+  tokenId: string
+  days?: number // Number of days for the chart (default: 1)
+  currency?: string // Currency for price display (default: "usd")
+  chartColor?: string // Custom chart color (default: "#BAFD02")
+  delay?: number // Delay in milliseconds before fetching data (default: 0)
 }
 
-export function TokenChart({ tokenId }: { tokenId: string }) {
+export function TokenChart({
+  tokenId,
+  days = 1,
+  currency = "usd",
+  chartColor = "#BAFD02",
+  delay = 0,
+}: TokenChartProps) {
   const [coinData, setCoinData] = useState<CoinDetails | null>(null)
   const [chartData, setChartData] = useState<ChartPoint[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Fetch data from CoinGecko API
+  // Dynamic chart configuration
+  const chartConfig: ChartConfig = {
+    price: {
+      label: `Price (${currency.toUpperCase()})`,
+      color: chartColor,
+    },
+  }
+
+  
+
+  // Fetch data from CoinGecko API with API key
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
@@ -57,10 +74,21 @@ export function TokenChart({ tokenId }: { tokenId: string }) {
         setIsLoading(true)
         setError(null)
 
-        // Fetch coin details
+        // Retrieve the API key from environment variables
+        const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
+        if (!apiKey) {
+          throw new Error("CoinGecko API key is missing")
+        }
+
+        // Fetch coin details with API key in headers
         const detailsResponse = await fetch(
           `https://api.coingecko.com/api/v3/coins/${tokenId}`,
-          { signal }
+          {
+            signal,
+            headers: {
+              "x-cg-demo-api-key": apiKey,
+            },
+          }
         )
         if (!detailsResponse.ok) throw new Error("Failed to fetch coin details")
         const detailsData = await detailsResponse.json()
@@ -68,16 +96,21 @@ export function TokenChart({ tokenId }: { tokenId: string }) {
           id: detailsData.id,
           name: detailsData.name,
           symbol: detailsData.symbol,
-          current_price: detailsData.market_data.current_price.usd,
+          current_price: detailsData.market_data.current_price[currency],
           price_change_percentage_24h:
             detailsData.market_data.price_change_percentage_24h,
           image: detailsData.image.small,
         }
 
-        // Fetch 24-hour chart data
+        // Fetch chart data with API key in headers
         const chartResponse = await fetch(
-          `https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=usd&days=1`,
-          { signal }
+          `https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=${currency}&days=${days}`,
+          {
+            signal,
+            headers: {
+              "x-cg-demo-api-key": apiKey,
+            },
+          }
         )
         if (!chartResponse.ok) throw new Error("Failed to fetch market chart")
         const chartDataRaw = await chartResponse.json()
@@ -100,23 +133,29 @@ export function TokenChart({ tokenId }: { tokenId: string }) {
         setIsLoading(false)
       }
     }
+      // Introduce delay before fetching data
+      const timer = setTimeout(() => {
+        fetchData()
+      }, delay)
 
-    fetchData()
-    return () => controller.abort()
-  }, [tokenId])
+      return () => {
+        clearTimeout(timer)
+        controller.abort()
+      }
+      }, [tokenId, days, currency, delay])
 
   // Calculate min and max prices for Y-axis domain
   const getPriceRange = () => {
-    if (chartData.length === 0) return { min: 0, max: 0 };
-    const prices = chartData.map(point => point.price);
-    const minPrice = Math.min(...prices);
-    const maxPrice = Math.max(...prices);
-    const range = maxPrice - minPrice;
-    const padding = range * 0.1; // 10% padding
-    return { min: minPrice - padding, max: maxPrice + padding };
-  };
+    if (chartData.length === 0) return { min: 0, max: 0 }
+    const prices = chartData.map((point) => point.price)
+    const minPrice = Math.min(...prices)
+    const maxPrice = Math.max(...prices)
+    const range = maxPrice - minPrice
+    const padding = range * 0.1 // 10% padding
+    return { min: minPrice - padding, max: maxPrice + padding }
+  }
 
-  const { min, max } = getPriceRange();
+  const { min, max } = getPriceRange()
 
   // Loading state
   if (isLoading) {
@@ -178,12 +217,12 @@ export function TokenChart({ tokenId }: { tokenId: string }) {
         <div className="flex justify-between items-center">
           <div>
             <div className="text-1xl font-semibold">
-              ${coinData.current_price.toFixed(2)}
+              {coinData.current_price.toFixed(2)} {currency.toUpperCase()}
             </div>
           </div>
         </div>
         <CardDescription className="text-gray-400">
-          24-hour price chart
+          {days}-day price chart
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -191,30 +230,34 @@ export function TokenChart({ tokenId }: { tokenId: string }) {
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#BAFD02" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#BAFD02" stopOpacity={0} />
+                <stop offset="5%" stopColor={chartColor} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid stroke="" vertical={false} />
             <XAxis
               dataKey="time"
-              tick={{ fill: "#888", fontSize: 11,}}
+              tick={{ fill: "#888", fontSize: 11 }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
               domain={[min, max]}
-              tickFormatter={(value) => `$${value.toFixed(2)}`}
-              tick={{ fill: "#888", fontSize: 10, }}
+              tickFormatter={(value) =>
+                `${value.toFixed(2)} ${currency.toUpperCase()}`
+              }
+              tick={{ fill: "#888", fontSize: 10 }}
               axisLine={false}
               tickLine={false}
               hide={true}
             />
-            <ChartTooltip  content={<ChartTooltipContent indicator="line" className="bg-gray-700" />} />
+            <ChartTooltip
+              content={<ChartTooltipContent indicator="line" className="bg-gray-700" />}
+            />
             <Area
               type="monotone"
               dataKey="price"
-              stroke="#BAFD02"
+              stroke={chartColor}
               fill="url(#priceGradient)"
               dot={false}
             />

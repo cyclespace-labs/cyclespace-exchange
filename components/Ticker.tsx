@@ -29,15 +29,14 @@ export function Ticker() {
 
   const fetchCoins = useCallback(async () => {
     if (isRateLimited) return;
-
+    const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
     try {
       const response = await fetch(
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false',
         {
           headers: {
             'Accept': 'application/json',
-            // Add API key if required by CoinGecko in production
-            // 'X-CoinGecko-API-Key': process.env.COINGECKO_API_KEY
+            ...(process.env.COINGECKO_API_KEY && { 'x-cg-demo-api-key': process.env.COINGECKO_API_KEY })
           }
         }
       )
