@@ -23,14 +23,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${_inter.className} antialiased bg-black`}>
 
-
         <Providers>
           <AppRouterCacheProvider>
             {children}
           </AppRouterCacheProvider>
         </Providers>
-
-
 
       </body>
     </html>

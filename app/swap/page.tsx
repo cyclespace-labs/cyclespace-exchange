@@ -7,12 +7,12 @@ import { Widget } from '@/components/Widget/Widget'
 import { WidgetEvents } from '@/components/Widget/WidgetEvents'
 import React from 'react'
 import { motion } from 'motion/react';
+import { TokenChart } from '@/components/TokenChart'
 
 export default function Swap() {
   return (
     <main className=''>
-      <AuroraBackground>
-        
+      
         <div className='w-full flex md:mt-2'>
             <NavBar/>
         </div>
@@ -32,7 +32,6 @@ export default function Swap() {
           <div className='mb-10 md:mt-4 w-[1000px] justify-center items-center'>
             <Ticker/>
           </div>
-          
           <div className='h-fit bg-none flex w-full'>
             <Widget />
             <WidgetEvents />
@@ -42,7 +41,6 @@ export default function Swap() {
 
       </motion.div>
 
-      </AuroraBackground>
     </main>
   )
 }
