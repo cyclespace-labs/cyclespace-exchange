@@ -160,7 +160,7 @@ export function TokenChart({
   // Loading state
   if (isLoading) {
     return (
-      <Card className="bg-gray-900 text-white">
+      <Card className="bg-gray-950 text-white">
         <CardHeader>
           <CardTitle>Loading...</CardTitle>
         </CardHeader>
@@ -171,7 +171,7 @@ export function TokenChart({
   // Error state
   if (error || !coinData) {
     return (
-      <Card className="bg-white/10 text-white">
+      <Card className="bg-white/50 text-white">
         <CardHeader>
           <CardTitle>Error</CardTitle>
           <CardDescription>{error || "No data available"}</CardDescription>
@@ -205,9 +205,9 @@ export function TokenChart({
             )}
           >
             {coinData.price_change_percentage_24h >= 0 ? (
-              <ArrowUp className="h-3 w-3" />
+              <ArrowUp className="h-3 w-3 font-medium" strokeWidth={3} />
             ) : (
-              <ArrowDown className="h-3 w-3" />
+              <ArrowDown className="h-3 w-3" strokeWidth={3}    />
             )}
             <span>
               {Math.abs(coinData.price_change_percentage_24h).toFixed(2)}%

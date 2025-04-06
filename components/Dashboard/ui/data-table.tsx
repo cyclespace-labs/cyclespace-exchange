@@ -47,7 +47,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { z } from "zod"
-import { ChainType, getTokens } from '@lifi/sdk'
+import { ChainType, getTokens,} from '@lifi/sdk'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -233,11 +233,18 @@ export function DataTable() {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
+  const [selectedChain, setSelectedChain] = React.useState<number | null>(null);
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {})
-  )
+  );
+  // Compute available chains
+  const availableChains = React.useMemo(() => {
+    const chains = data.map(token => token.chainId);
+    return Array.from(new Set(chains)).sort();
+  }, [data]);
+  
 
   React.useEffect(() => {
     let isMounted = true
@@ -278,10 +285,13 @@ export function DataTable() {
       isMounted = false
       clearInterval(intervalId)
     }
-  }, [])
+  }, []);
+  
+
+  const filteredData = selectedChain ? data.filter(token => token.chainId === selectedChain) : data;
 
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns,
     state: { sorting, columnVisibility, rowSelection },
     getRowId: (row) => row.id,
@@ -292,7 +302,14 @@ export function DataTable() {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-  })
+  });
+
+  React.useEffect(() => {
+    setColumnVisibility(prev => ({
+      ...prev,
+      chainId: selectedChain ? false : true,
+    }));
+  }, [selectedChain]);
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -376,6 +393,24 @@ export function DataTable() {
       {!loading && !error && (
         <TabsContent value="tokens" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
           <div className="overflow-hidden rounded-lg border">
+          <div className="flex items-center gap-2">
+            <Select
+              value={selectedChain?.toString() || "all"}
+              onValueChange={(value) => setSelectedChain(value === "all" ? null : Number(value))}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select chain" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Chains</SelectItem>
+                {availableChains.map(chainId => (
+                  <SelectItem key={chainId} value={chainId.toString()}>
+                    Chain {chainId}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
             <DndContext
               collisionDetection={closestCenter}
               modifiers={[restrictToVerticalAxis]}

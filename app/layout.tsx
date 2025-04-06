@@ -10,7 +10,8 @@ import { Titillium_Web } from 'next/font/google'
 
 const titillium_web = Titillium_Web({
   subsets: ['latin'],
-  weight: '200'
+  weight: '400',
+  
 })
 
 export const metadata: Metadata = {

@@ -6,7 +6,7 @@ export function HeroSection() {
   return (
     <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-center">
       <div className=" pt-10 md:pt-20">
-        <h1 className="relative z-20 mx-auto max-w-3xl  text-start justify-start items-start text-4xl font-medium text-white md:text-6xl lg:text-6xl dark:text-slate-300">
+        <h1 className="relative z-20 mx-auto max-w-3xl space-y-5 text-start justify-start items-start text-4xl font-medium text-white md:text-6xl lg:text-6xl dark:text-slate-300">
           {"Trade and explore over 7 million tokens"
             .split(" ")
             .map((word, index) => (

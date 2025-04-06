@@ -42,7 +42,7 @@ interface TokenChartProps {
   delay?: number // Delay in milliseconds before fetching data (default: 0)
 }
 
-export function TokenPrice({
+export function ChainList({
   tokenId,
   days = 1,
   currency = "usd",
