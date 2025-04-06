@@ -4,10 +4,10 @@ import { motion } from "motion/react";
 
 export function HeroSection() {
   return (
-    <div className="relative mx-auto my-0 flex max-w-7xl flex-col items-center justify-center">
-      <div className="px-4 pt-10 md:pt-20">
-        <h1 className="relative z-10 mx-auto max-w-3xl text-center text-2xl font-bold text-white md:text-4xl lg:text-5xl dark:text-slate-300">
-          {"Explore Over 5 Million Currencies"
+    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-center">
+      <div className=" pt-10 md:pt-20">
+        <h1 className="relative z-20 mx-auto max-w-3xl  text-start justify-start items-start text-4xl font-medium text-white md:text-6xl lg:text-6xl dark:text-slate-300">
+          {"Trade and explore over 7 million tokens"
             .split(" ")
             .map((word, index) => (
               <motion.span
@@ -51,13 +51,10 @@ export function HeroSection() {
             duration: 0.3,
             delay: 1,
           }}
-          className="relative z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
+          className="relative z-10 mt-8 flex flex-wrap items-start justify-start gap-4"
         >
-          <button className="w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-            Explore Now
-          </button>
-          <button className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
-            Contact Support
+          <button className="w-60 transform rounded-full border border-[#BAFD02] bg-[#BAFD02] px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#BAFD02]/80 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
+            Start Trading
           </button>
         </motion.div>
       </div>

@@ -1,13 +1,17 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Inter, } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 import { NavBar } from '@/components/Navigation/NavBar'
+import { Titillium_Web } from 'next/font/google'
 
 
-const _inter = Inter({ subsets: ['latin'] })
+const titillium_web = Titillium_Web({
+  subsets: ['latin'],
+  weight: '200'
+})
 
 export const metadata: Metadata = {
   title: 'Cyclespace Markets',
@@ -21,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${_inter.className} antialiased bg-black`}>
+      <body className={`${titillium_web.className} antialiased bg-black`}>
 
         <Providers>
           <AppRouterCacheProvider>

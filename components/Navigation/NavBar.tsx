@@ -15,6 +15,7 @@ import { Tourney } from "next/font/google"
 import { MenuIcon, XIcon } from "lucide-react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { useRouter } from "next/navigation"
 
 const _tourney = Tourney({ subsets: ['latin'] })
 
@@ -34,7 +35,7 @@ export function NavBar() {
 
           <div className="hidden md:flex gap-4 lg:gap-8 text-white/80">
             <NavigationMenuItem>
-              <Link href="swap" legacyBehavior passHref>
+              <Link href="Swap" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
                   Swap
                 </NavigationMenuLink>
@@ -48,7 +49,7 @@ export function NavBar() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="#" legacyBehavior passHref>
+              <Link href="Dashboard" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
                   Dashboard
                 </NavigationMenuLink>
