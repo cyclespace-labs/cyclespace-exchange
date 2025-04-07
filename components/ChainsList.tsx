@@ -160,7 +160,7 @@ export function ChainList({
   // Loading state
   if (isLoading) {
     return (
-      <Card className="bg-gray-900 text-white">
+      <Card className="bg-gray-950 text-white">
         <CardHeader>
           <CardTitle>Loading...</CardTitle>
         </CardHeader>
@@ -182,7 +182,7 @@ export function ChainList({
 
   // Main UI
   return (
-    <Card className="bg-white/5 text-white rounded-4xl border-none">
+    <Card className="bg-gray-900 text-white rounded-4xl border-none">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">

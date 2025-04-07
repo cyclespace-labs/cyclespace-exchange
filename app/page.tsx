@@ -7,18 +7,21 @@ import { BackgroundGradientAnimation } from '@/components/ui/background-gradient
 import TokenSection from '@/components/TokenSection';
 import CardSection from '../components/ChainSection';
 import ChainSection from '../components/ChainSection';
+import Footer from '@/components/Footer';
+
 
 
 export default function Home() {
   
   return (
-    <BackgroundGradientAnimation className='' >
+    <BackgroundGradientAnimation>
+
     <main className='h-full w-full justify-center items-center flex flex-col bg-auto  scroll-auto'>
         <div className='w-full flex md:mt-2'>
             <NavBar/>
           </div>
 
-        <div className='justify-center items-center flex flex-col bg-none w-[1500px] gap-5'> 
+        <div className='justify-center items-center flex flex-col bg-none w-[1400px] gap-5'> 
 
           <div className='w-full'>
             <HeroSection/>
@@ -33,10 +36,14 @@ export default function Home() {
             <div className="w-full">
               <ChainSection/>
             </div>
-
           </div>
+          <div className='w-full'>
+            <Footer/>
+          </div>
+
         </div> 
     </main>
+
     </BackgroundGradientAnimation>
   )
 }

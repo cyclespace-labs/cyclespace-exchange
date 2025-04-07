@@ -160,7 +160,7 @@ export function TokenChart({
   // Loading state
   if (isLoading) {
     return (
-      <Card className="bg-gray-950 text-white">
+      <Card className="bg-gray-950 text-white h-full w-full">
         <CardHeader>
           <CardTitle>Loading...</CardTitle>
         </CardHeader>
@@ -171,7 +171,7 @@ export function TokenChart({
   // Error state
   if (error || !coinData) {
     return (
-      <Card className="bg-white/50 text-white">
+      <Card className="bg-white/10 text-white w-full h-full">
         <CardHeader>
           <CardTitle>Error</CardTitle>
           <CardDescription>{error || "No data available"}</CardDescription>
@@ -182,7 +182,7 @@ export function TokenChart({
 
   // Main UI
   return (
-    <Card className="bg-white/5 text-white rounded-4xl border-none">
+    <Card className="bg-gray-900 text-white rounded-4xl border-none className">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -222,11 +222,11 @@ export function TokenChart({
           </div>
         </div>
         <CardDescription className="text-gray-400">
-          {days}-day price chart
+          24 Hour Price Chart
         </CardDescription>
-      </CardHeader>
+      </CardHeader >
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[200px] w-full">
+        <ChartContainer config={chartConfig} className="h-[150px] w-full">
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
@@ -252,7 +252,7 @@ export function TokenChart({
               hide={true}
             />
             <ChartTooltip
-              content={<ChartTooltipContent indicator="line" className="bg-gray-700" />}
+              content={<ChartTooltipContent indicator="line" className="bg-[#BAFD02]" />}
             />
             <Area
               type="monotone"
