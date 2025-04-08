@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased bg-white dark:bg-gray-900`}>
+      <body className={`${roboto.className} antialiased bg-gray-100 dark:bg-gray-900`}>
 
         <Providers>
           <AppRouterCacheProvider>

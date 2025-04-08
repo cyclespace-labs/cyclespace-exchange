@@ -4,7 +4,7 @@ import { motion } from "framer-motion"; // Updated import path
 
 export function HeroSection() {
   return (
-    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-start px-4 sm:px-6 lg:px-8 w-full">
+    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-start px-4 sm:px-0 lg:px-0 w-full">
       <div className="pt-8 sm:pt-10 md:pt-20">
         <h1 className="relative z-20 mx-auto max-w-3xl space-y-5 text-start text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-black dark:text-white">
           {"Trade and explore over 7 million tokens"
@@ -39,7 +39,7 @@ export function HeroSection() {
           transition={{ duration: 0.3, delay: 1 }}
           className="relative z-10 mt-6 sm:mt-8 flex flex-wrap items-start justify-start gap-4"
         >
-          <button className="w-full sm:w-auto transform rounded-full border border-[#BAFD02] bg-[#BAFD02] px-6 py-2 font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#BAFD02]/80 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
+          <button className="w-full sm:w-auto transform rounded-full border border-[#BAFD02] bg-[#BAFD02] px-6 py-2 font- text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#BAFD02]/80 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
             Start Trading
           </button>
         </motion.div>

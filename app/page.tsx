@@ -1,13 +1,10 @@
 import React from 'react';
 import { NavBar } from '@/components/Navigation/NavBar'
-import { AuroraBackground } from '@/components/ui/aurora-background';
-import { TokenChart } from '@/components/TokenChart';
 import { HeroSection } from '@/components/HeroSection';
-import { BackgroundGradientAnimation } from '@/components/ui/background-gradient-animation';
 import TokenSection from '@/components/TokenSection';
-import CardSection from '../components/ChainSection';
 import ChainSection from '../components/ChainSection';
 import Footer from '@/components/Footer';
+import GridView from '@/components/GridView';
 
 
 
@@ -35,6 +32,12 @@ export default function Home() {
               <ChainSection/>
             </div>
           </div>
+
+          
+          <div className='w-full'>
+            <GridView/>
+          </div>
+
           <div className='w-full'>
             <Footer/>
           </div>
