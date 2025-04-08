@@ -16,6 +16,7 @@ import { MenuIcon, XIcon } from "lucide-react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
+import { ThemeToggle } from './../ThemeToggle';
 
 const _tourney = Tourney({ subsets: ['latin'] })
 
@@ -28,12 +29,12 @@ export function NavBar() {
       <NavigationMenu className="max-w-full w-full justify-between items-center px-4 md:px-8 py-3 hidden md:flex gap-20">
         <NavigationMenuList className="gap-8 md:gap-8">
           <NavigationMenuItem>
-            <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold text-[#BAFD02]`}>
+            <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold text-gray-800 dark:text-[#BAFD02]`}>
               CYCLESPACE
             </Link>
           </NavigationMenuItem>
 
-          <div className="hidden md:flex gap-4 lg:gap-8 text-white/80">
+          <div className="hidden md:flex gap-4 lg:gap-8 text-gray-600 dark:text-white/80 font-semibold">
             <NavigationMenuItem>
               <Link href="Swap" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
@@ -65,6 +66,9 @@ export function NavBar() {
           <Button className="rounded-full text-black bg-white px-3 md:px-4 text-sm md:text-base">
             Login
           </Button>
+          <div className="rounded-full text-black bg-white px-3 md:px-4 text-sm md:text-base">
+              <ThemeToggle />
+          </div>
         </div>
       </NavigationMenu>
 

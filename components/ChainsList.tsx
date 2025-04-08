@@ -182,7 +182,7 @@ export function ChainList({
 
   // Main UI
   return (
-    <Card className="bg-gray-900 text-white rounded-4xl border-none">
+    <Card className="dark:bg-gray-950 bg-white shadow-2xl shadow-gray-300 dark:shadow-gray-950 dark:text-white text-black rounded-4xl border-none">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export function ChainList({
               alt={coinData.name}
               className="w-8 h-8 rounded-full"
             />
-            <CardTitle className="text-1xl font-bold">
+            <CardTitle className="text-[15px] font-bold">
               {coinData.name} ({coinData.symbol.toUpperCase()})
             </CardTitle>
           </div>
@@ -221,7 +221,7 @@ export function ChainList({
             </div>
           </div>
         </div>
-        <CardDescription className="text-gray-400">
+        <CardDescription className="text-gray-400 font-medium">
           24Hour price chart
         </CardDescription>
       </CardHeader>

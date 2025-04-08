@@ -160,7 +160,7 @@ export function TokenChart({
   // Loading state
   if (isLoading) {
     return (
-      <Card className="bg-gray-950 text-white h-full w-full">
+      <Card className="dark:bg-gray-950 bg-white dark:text-white text-black h-full w-full p-10">
         <CardHeader>
           <CardTitle>Loading...</CardTitle>
         </CardHeader>
@@ -171,7 +171,7 @@ export function TokenChart({
   // Error state
   if (error || !coinData) {
     return (
-      <Card className="bg-white/10 text-white w-full h-full">
+      <Card className="dark:bg-gray-950 bg-white dark:text-white text-black w-full h-full p-10">
         <CardHeader>
           <CardTitle>Error</CardTitle>
           <CardDescription>{error || "No data available"}</CardDescription>
@@ -182,7 +182,7 @@ export function TokenChart({
 
   // Main UI
   return (
-    <Card className="bg-gray-900 text-white rounded-4xl border-none className">
+    <Card className="dark:bg-gray-950 bg-white shadow-2xl shadow-gray-300 dark:shadow-gray-950 dark:text-white text-black rounded-4xl border-none className">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -191,7 +191,7 @@ export function TokenChart({
               alt={coinData.name}
               className="w-8 h-8 rounded-full"
             />
-            <CardTitle className="text-1xl font-bold">
+            <CardTitle className="text-[15px] font-bold">
               {coinData.name} ({coinData.symbol.toUpperCase()})
             </CardTitle>
           </div>
@@ -221,7 +221,7 @@ export function TokenChart({
             </div>
           </div>
         </div>
-        <CardDescription className="text-gray-400">
+        <CardDescription className="text-gray-400 font-medium">
           24 Hour Price Chart
         </CardDescription>
       </CardHeader >

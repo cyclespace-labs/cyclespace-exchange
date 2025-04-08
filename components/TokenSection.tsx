@@ -7,7 +7,7 @@ export default function TokenSection() {
   return (
     <div className='justify-center items-center w-full mt-5 bg-auto'>
 
-        <div className='text-white/80 font-semibold text-[20px]'>
+        <div className='dark:text-white/80 text-gray-800 font-semibold text-[20px]'>
             <p>Trending Tokens</p>
         </div>
 

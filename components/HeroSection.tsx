@@ -1,12 +1,12 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion } from "framer-motion"; // Updated import path
 
 export function HeroSection() {
   return (
-    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-center">
-      <div className=" pt-10 md:pt-20">
-        <h1 className="relative z-20 mx-auto max-w-3xl space-y-5 text-start justify-start items-start text-4xl font-medium text-white md:text-6xl lg:text-6xl dark:text-slate-300">
+    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-start px-4 sm:px-6 lg:px-8 w-full">
+      <div className="pt-8 sm:pt-10 md:pt-20">
+        <h1 className="relative z-20 mx-auto max-w-3xl space-y-5 text-start text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-black dark:text-white">
           {"Trade and explore over 7 million tokens"
             .split(" ")
             .map((word, index) => (
@@ -19,41 +19,27 @@ export function HeroSection() {
                   delay: index * 0.1,
                   ease: "easeInOut",
                 }}
-                className="mr-2 inline-block"
+                className="inline-block mr-2"
               >
                 {word}
               </motion.span>
             ))}
         </h1>
         <motion.p
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.3,
-            delay: 0.8,
-          }}
-          className="relative z-10 mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.8 }}
+          className="relative z-10 mx-auto max-w-xl py-2 sm:py-4 text-center text-base sm:text-lg font-normal text-neutral-600 dark:text-neutral-400"
         >
-
+          {/* Add your paragraph text here */}
         </motion.p>
         <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.3,
-            delay: 1,
-          }}
-          className="relative z-10 mt-8 flex flex-wrap items-start justify-start gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 1 }}
+          className="relative z-10 mt-6 sm:mt-8 flex flex-wrap items-start justify-start gap-4"
         >
-          <button className="w-60 transform rounded-full border border-[#BAFD02] bg-[#BAFD02] px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#BAFD02]/80 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
+          <button className="w-full sm:w-auto transform rounded-full border border-[#BAFD02] bg-[#BAFD02] px-6 py-2 font-semibold text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#BAFD02]/80 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
             Start Trading
           </button>
         </motion.div>
@@ -61,17 +47,3 @@ export function HeroSection() {
     </div>
   );
 }
-
-const Navbar = () => {
-  return (
-    <nav className="flex w-full items-center justify-between border-t border-b border-neutral-200 px-4 py-4 dark:border-neutral-800">
-      <div className="flex items-center gap-2">
-        <div className="size-7 rounded-full bg-gradient-to-br from-violet-500 to-pink-500" />
-        <h1 className="text-base font-bold md:text-2xl">Aceternity UI</h1>
-      </div>
-      <button className="w-24 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-        Login
-      </button>
-    </nav>
-  );
-};

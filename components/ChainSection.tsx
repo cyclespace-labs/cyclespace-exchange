@@ -6,7 +6,7 @@ import { ChainList } from './ChainsList';
 export default function ChainSection() {
   return (
     <div className='justify-center items-center w-full mt-5'>
-        <div className='text-white/80 font-semibold text-[20px]'>
+        <div className='dark:text-white/80 text-gray-800 font-semibold text-[20px]'>
             <p>Popular Chains</p>
         </div>
         <div className='w-full h-full justify-center items-center gap-3 grid grid-cols-5 px-0'>

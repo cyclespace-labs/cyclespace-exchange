@@ -6,11 +6,14 @@ import { Providers } from './providers'
 import { AuroraBackground } from '@/components/ui/aurora-background'
 import { NavBar } from '@/components/Navigation/NavBar'
 import { Titillium_Web } from 'next/font/google'
+import { ThemeProvider } from './../context/ThemeContext';
+import { Lato } from 'next/font/google'
+import { Roboto } from 'next/font/google'
 
 
-const titillium_web = Titillium_Web({
+const roboto = Roboto({
   subsets: ['latin'],
-  weight: '400',
+  weight: '600',
   
 })
 
@@ -26,11 +29,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${titillium_web.className} antialiased bg-black`}>
+      <body className={`${roboto.className} antialiased bg-white dark:bg-gray-900`}>
 
         <Providers>
           <AppRouterCacheProvider>
-            {children}
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
           </AppRouterCacheProvider>
         </Providers>
 
