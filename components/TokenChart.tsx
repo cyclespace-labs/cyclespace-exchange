@@ -18,7 +18,6 @@ import {
 } from "@/components/ui/chart"
 import { cn } from "@/lib/utils"
 
-// Data interfaces
 interface CoinDetails {
   id: string
   name: string
@@ -33,13 +32,12 @@ interface ChartPoint {
   price: number
 }
 
-// Props interface
 interface TokenChartProps {
   tokenId: string
-  days?: number // Number of days for the chart (default: 1)
-  currency?: string // Currency for price display (default: "usd")
-  chartColor?: string // Custom chart color (default: "#BAFD02")
-  delay?: number // Delay in milliseconds before fetching data (default: 0)
+  days?: number
+  currency?: string
+  chartColor?: string
+  delay?: number
 }
 
 export function TokenChart({
@@ -54,7 +52,6 @@ export function TokenChart({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Dynamic chart configuration
   const chartConfig: ChartConfig = {
     price: {
       label: `Price (${currency.toUpperCase()})`,
@@ -62,9 +59,6 @@ export function TokenChart({
     },
   }
 
-  
-
-  // Fetch data from CoinGecko API with API key
   useEffect(() => {
     const controller = new AbortController()
     const signal = controller.signal
@@ -74,13 +68,11 @@ export function TokenChart({
         setIsLoading(true)
         setError(null)
 
-        // Retrieve the API key from environment variables
         const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
         if (!apiKey) {
           throw new Error("CoinGecko API key is missing")
         }
 
-        // Fetch coin details with API key in headers
         const detailsResponse = await fetch(
           `https://api.coingecko.com/api/v3/coins/${tokenId}`,
           {
@@ -102,7 +94,6 @@ export function TokenChart({
           image: detailsData.image.small,
         }
 
-        // Fetch chart data with API key in headers
         const chartResponse = await fetch(
           `https://api.coingecko.com/api/v3/coins/${tokenId}/market_chart?vs_currency=${currency}&days=${days}`,
           {
@@ -133,31 +124,29 @@ export function TokenChart({
         setIsLoading(false)
       }
     }
-      // Introduce delay before fetching data
-      const timer = setTimeout(() => {
-        fetchData()
-      }, delay)
 
-      return () => {
-        clearTimeout(timer)
-        controller.abort()
-      }
-      }, [tokenId, days, currency, delay])
+    const timer = setTimeout(() => {
+      fetchData()
+    }, delay)
 
-  // Calculate min and max prices for Y-axis domain
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [tokenId, days, currency, delay])
+
   const getPriceRange = () => {
     if (chartData.length === 0) return { min: 0, max: 0 }
     const prices = chartData.map((point) => point.price)
     const minPrice = Math.min(...prices)
     const maxPrice = Math.max(...prices)
     const range = maxPrice - minPrice
-    const padding = range * 0.1 // 10% padding
+    const padding = range * 0.1
     return { min: minPrice - padding, max: maxPrice + padding }
   }
 
   const { min, max } = getPriceRange()
 
-  // Loading state
   if (isLoading) {
     return (
       <Card className="dark:bg-gray-950 bg-white dark:text-white text-black h-full w-full p-10">
@@ -168,7 +157,6 @@ export function TokenChart({
     )
   }
 
-  // Error state
   if (error || !coinData) {
     return (
       <Card className="dark:bg-gray-950 bg-white dark:text-white text-black w-full h-full p-10">
@@ -180,7 +168,6 @@ export function TokenChart({
     )
   }
 
-  // Main UI
   return (
     <Card className="dark:bg-gray-950 bg-white shadow-2xl shadow-gray-300 dark:shadow-gray-950 dark:text-white text-black rounded-4xl border-none className">
       <CardHeader>

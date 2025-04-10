@@ -10,7 +10,6 @@ import {
   useSensor,
   useSensors,
   type DragEndEvent,
-  type UniqueIdentifier,
 } from "@dnd-kit/core"
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers"
 import {
@@ -26,13 +25,11 @@ import {
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
-  IconCircleCheckFilled,
   IconDotsVertical,
   IconGripVertical,
   IconLayoutColumns,
   IconLoader,
   IconPlus,
-  IconTrendingUp,
 } from "@tabler/icons-react"
 import {
   ColumnDef,
@@ -47,7 +44,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { z } from "zod"
-import { ChainType, getTokens,} from '@lifi/sdk'
+import { ChainType, getTokens } from '@lifi/sdk'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -82,6 +79,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import { TokenChart } from "@/components/TokenChart"
 
 export const schema = z.object({
   id: z.string(),
@@ -211,11 +209,16 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
     id: row.original.id,
   })
 
+  function setSelectedTokenId(arg0: string): void {
+    throw new Error("Function not implemented.")
+  }
+
   return (
     <TableRow
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
+      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80 cursor-pointer hover:bg-muted/50"
+      onClick={() => setSelectedTokenId(row.original.symbol.toLowerCase())}
     >
       {row.getVisibleCells().map((cell) => (
         <TableCell key={cell.id}>
@@ -226,25 +229,39 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
   )
 }
 
-export function  DataTable() {
+export function DataTable() {
   const [data, setData] = React.useState<z.infer<typeof schema>[]>([])
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
-  const [selectedChain, setSelectedChain] = React.useState<number | null>(null);
+  const [selectedChain, setSelectedChain] = React.useState<number | null>(null)
+  const [searchTerm, setSearchTerm] = React.useState("")
+  const [selectedTokenId, setSelectedTokenId] = React.useState<string | null>(null)
   const sensors = useSensors(
     useSensor(MouseSensor, {}),
     useSensor(TouchSensor, {}),
     useSensor(KeyboardSensor, {})
-  );
-  // Compute available chains
+  )
+
   const availableChains = React.useMemo(() => {
-    const chains = data.map(token => token.chainId);
-    return Array.from(new Set(chains)).sort();
-  }, [data]);
-  
+    const chains = data.map(token => token.chainId)
+    return Array.from(new Set(chains)).sort()
+  }, [data])
+
+  const filteredData = React.useMemo(() => {
+    return data
+      .filter(token => 
+        selectedChain ? token.chainId === selectedChain : true
+      )
+      .filter(token =>
+        searchTerm.toLowerCase() === "" ? true :
+        token.name.toLowerCase().includes(searchTerm) ||
+        token.symbol.toLowerCase().includes(searchTerm) ||
+        token.address.toLowerCase().includes(searchTerm)
+      )
+  }, [data, selectedChain, searchTerm])
 
   React.useEffect(() => {
     let isMounted = true
@@ -285,10 +302,7 @@ export function  DataTable() {
       isMounted = false
       clearInterval(intervalId)
     }
-  }, []);
-  
-
-  const filteredData = selectedChain ? data.filter(token => token.chainId === selectedChain) : data;
+  }, [])
 
   const table = useReactTable({
     data: filteredData,
@@ -302,14 +316,14 @@ export function  DataTable() {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-  });
+  })
 
   React.useEffect(() => {
     setColumnVisibility(prev => ({
       ...prev,
       chainId: selectedChain ? false : true,
-    }));
-  }, [selectedChain]);
+    }))
+  }, [selectedChain])
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
@@ -377,6 +391,37 @@ export function  DataTable() {
         </div>
       </div>
 
+      <div className="px-4 lg:px-6 flex gap-2 mb-4">
+        <Input
+          placeholder="Search tokens..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="max-w-[300px]"
+        />
+        <Select
+          value={selectedChain?.toString() || "all"}
+          onValueChange={(value) => setSelectedChain(value === "all" ? null : Number(value))}
+        >
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Select chain" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Chains</SelectItem>
+            {availableChains.map(chainId => (
+              <SelectItem key={chainId} value={chainId.toString()}>
+                Chain {chainId}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {selectedTokenId && (
+        <div className="px-4 lg:px-6 mb-6">
+          <TokenChart tokenId={selectedTokenId} />
+        </div>
+      )}
+
       {loading && (
         <div className="p-4 text-center text-muted-foreground">
           <IconLoader className="animate-spin mr-2" />
@@ -393,24 +438,6 @@ export function  DataTable() {
       {!loading && !error && (
         <TabsContent value="tokens" className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
           <div className="overflow-hidden rounded-lg border">
-          <div className="flex items-center gap-2">
-            <Select
-              value={selectedChain?.toString() || "all"}
-              onValueChange={(value) => setSelectedChain(value === "all" ? null : Number(value))}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select chain" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Chains</SelectItem>
-                {availableChains.map(chainId => (
-                  <SelectItem key={chainId} value={chainId.toString()}>
-                    Chain {chainId}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
             <DndContext
               collisionDetection={closestCenter}
               modifiers={[restrictToVerticalAxis]}

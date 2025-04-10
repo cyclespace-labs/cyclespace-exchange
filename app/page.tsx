@@ -5,6 +5,7 @@ import TokenSection from '@/components/TokenSection';
 import ChainSection from '../components/ChainSection';
 import Footer from '@/components/Footer';
 import GridView from '@/components/GridView';
+import { DataTable } from '@/components/Dashboard/ui/data-table';
 
 
 
@@ -33,7 +34,10 @@ export default function Home() {
             </div>
           </div>
 
-          
+          <div className='w-full'>
+            <DataTable />
+          </div>
+
           <div className='w-full'>
             <GridView/>
           </div>
