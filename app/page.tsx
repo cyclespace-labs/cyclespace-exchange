@@ -23,15 +23,16 @@ export default function Home() {
             <HeroSection/>
           </div>
 
-          <div className='justify-center items-center flex flex-col'>
+          <div className='justify-center items-center flex flex-col w-full h-full'>
 
-            <div className='w-full'>
+            <div className='w-full h-full'>
               <TokenSection/>
             </div>
 
             <div className="w-full">
               <ChainSection/>
             </div>
+
           </div>
 
           <div className='w-full'>

@@ -12,7 +12,7 @@ export function Widget() {
   
   const config = {
     buildUrl: false,
-    variant: "wide",
+    variant: "compact",
     subvariant: "split",
     appearance: "dark",
     hiddenUI: [HiddenUI.PoweredBy],
@@ -31,7 +31,8 @@ export function Widget() {
       container: {
         boxShadow: "0px 8px 32px rgba(0, 0, 0, 0.08)",
         borderRadius: "16px",
-        height:"auto",
+        height:"full",
+        width:"full",
       },
       shape: {
         borderRadius: 16

@@ -41,7 +41,7 @@ interface TokenChartProps {
   delay?: number
 }
 
-export function TokenChart({
+export function FullChart({
   tokenId,
   days = 1,
   currency = "usd",
@@ -235,6 +235,7 @@ export function TokenChart({
               tick={{ fill: "#888", fontSize: 11 }}
               axisLine={false}
               tickLine={false}
+              hide={false}
             />
             <YAxis
               domain={[min, max]}
@@ -244,7 +245,7 @@ export function TokenChart({
               tick={{ fill: "#888", fontSize: 10 }}
               axisLine={false}
               tickLine={false}
-              hide={true}
+              hide={false}
             />
             <ChartTooltip
               content={<ChartTooltipContent indicator="line" className="bg-[#BAFD02]" />}

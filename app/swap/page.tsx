@@ -2,17 +2,17 @@
 
 import { NavBar } from '@/components/Navigation/NavBar'
 import { Ticker} from '@/components/Ticker'
-import { AuroraBackground } from '@/components/ui/aurora-background'
 import { Widget } from '@/components/Widget/Widget'
 import { WidgetEvents } from '@/components/Widget/WidgetEvents'
 import React from 'react'
 import { motion } from 'motion/react';
-import { TokenChart } from '@/components/TokenChart'
+import { FullChart } from '@/components/FullChart'
+
 
 
 export default function Swap() {
   return (
-    <main className=''>
+    <main className='justify-center items-center h-full w-full flex flex-col'>
       
         <div className='w-full flex md:mt-2'>
             <NavBar/>
@@ -26,21 +26,29 @@ export default function Swap() {
           duration: 0.8,
           ease: "easeInOut",
         }}
-        className=""
+        className="w-[1400px] items-center justify-center h-full flex flex-col"
       >
-        <div className='bg-none justify-center items-center h-fit w-full flex flex-col'> 
+        <div className='justify-center items-center h-full w-full flex flex-col'> 
 
-          <div className='mb-10 md:mt-4 w-[1000px] justify-center items-center'>
+          <div className='mt-6 mb-8 h-full w-full justify-center items-center'>
             <Ticker/>
           </div>
-          <div className='h-fit bg-none flex w-full'>
-            <Widget />
-            <WidgetEvents />
+
+          <div className='h-full w-full grid grid-flow-col justify-center items-center gap-3'>
+
+            <div className='min-h-[567px] h-full min-w-[1000px] w-full'>
+              <FullChart tokenId="bitcoin" delay={500}/>
+            </div>
+
+            <div className='h-full w-fit'>
+              <Widget />
+              <WidgetEvents />
+            </div>
+
           </div>
 
         </div>
-        <div>
-        </div>
+
       </motion.div>
     </main>
   )
