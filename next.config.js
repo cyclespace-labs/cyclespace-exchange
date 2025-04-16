@@ -6,16 +6,23 @@ const nextConfig = {
     return config
   },
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: "",
+      },
+    ]
+  }
 }
 
 module.exports = {
-  experimental: {
-    turbo: {
+    turbopack: { 
       // Example: adding an alias and custom file extension
       resolveAlias: {
         underscore: 'lodash',
       },
       resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.json'],
-    },
   },
 }

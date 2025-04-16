@@ -31,13 +31,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased bg-gray-100 dark:bg-gray-900`}>
 
-        <Providers>
-          <AppRouterCacheProvider>
+ 
             <ThemeProvider>
               {children}
             </ThemeProvider>
-          </AppRouterCacheProvider>
-        </Providers>
+
+
 
       </body>
     </html>
