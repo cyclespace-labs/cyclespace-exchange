@@ -6,12 +6,10 @@ import { ChainType, HiddenUI, LiFiWidget, WidgetSkeleton, WidgetTokens } from '@
 import { ClientOnly } from './ClientOnly'
 
 
-
-
 export function Widget() {
   
   const config = {
-    buildUrl: false,
+    buildUrl: true,
     variant: "compact",
     subvariant: "split",
     appearance: "dark",

@@ -7,6 +7,7 @@ import { WidgetEvents } from '@/components/Widget/WidgetEvents'
 import React from 'react'
 import { motion } from 'motion/react';
 import { FullChart } from '@/components/FullChart'
+import { TokenDashboard } from '@/components/Widget/TokenDashboard'
 
 
 
@@ -33,7 +34,7 @@ export default function Swap() {
           <div className='mt-6 mb-8 h-full w-full justify-center items-center'>
             <Ticker/>
           </div>
-
+          
           <div className='h-full w-full grid grid-flow-col justify-center items-center gap-3'>
 
             <div className='min-h-[567px] h-full min-w-[1000px] w-full'>
