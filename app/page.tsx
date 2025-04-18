@@ -12,7 +12,7 @@ import { DataTable } from '@/components/Dashboard/ui/data-table';
 export default function Home() {
   
   return (
-    <main className='h-full w-full justify-center items-center flex flex-col bg-auto  scroll-auto'>
+    <main className='h-full w-full justify-center items-center flex flex-col bg-auto'>
         <div className='w-full flex md:mt-2'>
             <NavBar/>
           </div>

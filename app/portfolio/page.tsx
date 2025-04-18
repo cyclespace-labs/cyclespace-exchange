@@ -1,5 +1,7 @@
+"use client"
+
 import Image from "next/image";
-import { ProjectsCard } from "@/lib/interface";
+import { NewsCard } from "@/lib/interface";
 import { client } from "@/lib/sanity";
 
 async function getData() {
@@ -19,7 +21,7 @@ async function getData() {
 }
 
 export default async function Portfolio() {
-  const data: ProjectsCard[] = await getData();
+  const data: NewsCard[] = await getData();
 
   return (
     <section className="max-w-7xl w-full px-4 md:px-8 mx-auto">

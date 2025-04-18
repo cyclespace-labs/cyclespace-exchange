@@ -10,7 +10,7 @@ export function Widget() {
   
   const config = {
     buildUrl: true,
-    variant: "compact",
+    variant: "wide",
     subvariant: "split",
     appearance: "dark",
     hiddenUI: [HiddenUI.PoweredBy],

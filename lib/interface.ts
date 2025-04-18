@@ -1,4 +1,4 @@
-export interface ProjectsCard {
+export interface NewsCard {
     title: string;
     _id: string;
     imageUrl: string;
@@ -34,4 +34,11 @@ export interface ProjectsCard {
     secondImage: any;
     thirdImage: any;
     imageUrl: string;
+    categories: Category[];
   };
+
+  export interface Category {
+    _id: string;
+    name: string;
+    slug: string;
+  }

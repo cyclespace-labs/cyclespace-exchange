@@ -134,8 +134,8 @@ export function Ticker() {
                 }}
                 className="md:w-6 md:h-6 rounded-full object-contain w-6 h-6 sm:w-4 sm:h-4 text-1xl md:text-2xl sm:text-1xl"
               />
-              <span className="font-semibold text-white uppercase">{coin.symbol}</span>
-              <span className="text-sm font-medium text-white/80">
+              <span className="font-semibold text-black dark:text-white uppercase">{coin.symbol}</span>
+              <span className="text-sm font-medium text-black dark:text-white">
                 ${coin.current_price.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 4

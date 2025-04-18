@@ -22,7 +22,7 @@ async function getData() {
   return data;
 }
 
-export default async function Projects() {
+export default async function NewsLayout() {
   const data: simpleBlogCard[] = await getData();
 
   console.log(data);

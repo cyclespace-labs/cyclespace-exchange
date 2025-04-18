@@ -150,7 +150,7 @@ export function TokenChart({
 
   if (isLoading) {
     return (
-      <Skeleton className="dark:bg-gray-950 bg-white dark:text-white text-black h-full w-full rounded-md p-10">
+      <Skeleton className="dark:bg-gray-950 bg-white dark:text-white text-black h-full w-full rounded-4xl p-10  ">
         <CardHeader className="flex flex-col gap-2">
           <Skeleton className="h-4 w-1/2 bg-zinc-300" />
           <Skeleton className="h-4 w-1/4 bg-zinc-300" />
@@ -169,9 +169,14 @@ export function TokenChart({
       <Skeleton className="dark:bg-gray-950 bg-white dark:text-white text-black w-full h-full p-10">
           <CardHeader>
             <Skeleton className="h-4 w-1/2 bg-zinc-300" />
-            <CardTitle>Error</CardTitle>
+            <Skeleton className="h-4 w-1/4 bg-zinc-300" />
             <CardDescription>{error || "No data available"}</CardDescription>
           </CardHeader>
+          <CardContent className="flex flex-col gap-2">
+          <Skeleton className="h-4 w-full bg-zinc-300" />
+          <Skeleton className="h-4 w-full bg-zinc-300" />
+          <Skeleton className="h-4 w-full bg-zinc-300" />
+          </CardContent>
       </Skeleton>
     )
   }

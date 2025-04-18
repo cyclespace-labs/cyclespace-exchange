@@ -43,9 +43,9 @@ export function NavBar() {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="blog" legacyBehavior passHref>
+              <Link href="News" legacyBehavior passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
-                  Newsletter
+                  News
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

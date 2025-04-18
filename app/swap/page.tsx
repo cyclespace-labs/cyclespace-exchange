@@ -42,9 +42,9 @@ export default function Swap() {
               
               <div className='h-full w-full grid grid-flow-col justify-center items-center gap-3'>
 
-                <div className='min-h-[567px] h-full min-w-[1000px] w-full'>
+                {/*<div className='min-h-[567px] h-full min-w-[1000px] w-full'>
                   <FullChart tokenId="bitcoin" delay={500}/>
-                </div>
+                </div>*/}
 
                 <div className='h-full w-fit'>
                   <Widget />

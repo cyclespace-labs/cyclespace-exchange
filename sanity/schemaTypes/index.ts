@@ -1,4 +1,4 @@
-import {projectsType} from './project'
 import {blog} from './blog'
+import { category } from './category'
 
-export const schemaTypes = [projectsType, blog]
+export const schemaTypes = [blog, category]
