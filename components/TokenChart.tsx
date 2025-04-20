@@ -16,8 +16,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "./ui/skeleton"
+import { MarketInfoBadges } from "./MarketInfoBadges"
 
 interface CoinDetails {
   id: string
@@ -26,6 +28,8 @@ interface CoinDetails {
   current_price: number
   price_change_percentage_24h: number
   image: string
+  market_cap: number
+  total_volume: number
 }
 
 interface ChartPoint {
@@ -93,6 +97,8 @@ export function TokenChart({
           price_change_percentage_24h:
             detailsData.market_data.price_change_percentage_24h,
           image: detailsData.image.small,
+          market_cap: detailsData.market_data.market_cap[currency],
+          total_volume: detailsData.market_data.total_volume[currency],
         }
 
         const chartResponse = await fetch(
@@ -135,6 +141,20 @@ export function TokenChart({
       controller.abort()
     }
   }, [tokenId, days, currency, delay])
+
+  const formatLargeNumber = (num: number): string => {
+    if (num >= 1e12) {
+      return (num / 1e12).toFixed(2) + "T"
+    } else if (num >= 1e9) {
+      return (num / 1e9).toFixed(2) + "B"
+    } else if (num >= 1e6) {
+      return (num / 1e6).toFixed(2) + "M"
+    } else if (num >= 1e3) {
+      return (num / 1e3).toFixed(2) + "K"
+    } else {
+      return num.toFixed(2)
+    }
+  }
 
   const getPriceRange = () => {
     if (chartData.length === 0) return { min: 0, max: 0 }
@@ -182,7 +202,7 @@ export function TokenChart({
   }
 
   return (
-    <Card className="dark:bg-gray-950 bg-white shadow-2xl shadow-gray-300 dark:shadow-gray-950 dark:text-white text-black rounded-4xl border-none className">
+    <Card className="dark:bg-gray-950 bg-white shadow-2xl shadow-gray-300 dark:shadow-gray-950 dark:text-white text-black rounded-4xl border-none">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -207,7 +227,7 @@ export function TokenChart({
             {coinData.price_change_percentage_24h >= 0 ? (
               <ArrowUp className="h-3 w-3 font-medium" strokeWidth={3} />
             ) : (
-              <ArrowDown className="h-3 w-3" strokeWidth={3}    />
+              <ArrowDown className="h-3 w-3" strokeWidth={3} />
             )}
             <span>
               {Math.abs(coinData.price_change_percentage_24h).toFixed(2)}%
@@ -215,16 +235,20 @@ export function TokenChart({
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <div>
-            <div className="text-1xl font-semibold">
-              {coinData.current_price.toFixed(2)} {currency.toUpperCase()}
-            </div>
+          <div className="text-1xl font-semibold">
+            {coinData.current_price.toFixed(2)} {currency.toUpperCase()}
+          </div>
+          <div className="flex gap-1 flex-col">
+              <MarketInfoBadges 
+                marketCap={coinData.market_cap} 
+                volume={coinData.total_volume} 
+                currency={currency} />
           </div>
         </div>
         <CardDescription className="text-gray-400 font-medium">
           24 Hour Price Chart
         </CardDescription>
-      </CardHeader >
+      </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-full w-full">
           <AreaChart data={chartData}>

@@ -40,5 +40,7 @@ export interface NewsCard {
   export interface Category {
     _id: string;
     name: string;
-    slug: string;
+    slug: {
+      current: string;
+    };
   }
