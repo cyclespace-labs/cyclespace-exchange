@@ -6,6 +6,7 @@ import ChainSection from '../components/ChainSection';
 import Footer from '@/components/Footer';
 import GridView from '@/components/GridView';
 import { DataTable } from '@/components/Dashboard/ui/data-table';
+import { ChainFilter } from '@/components/ChainFilter';
 
 
 
@@ -24,6 +25,10 @@ export default function Home() {
           </div>
 
           <div className='justify-center items-center flex flex-col w-full h-full'>
+
+              <div className='w-full h-full'>
+                <ChainFilter days={7} currency="usd" chartColor="#FF0000" />
+              </div>
 
             <div className='w-full h-full'>
               <TokenSection/>
