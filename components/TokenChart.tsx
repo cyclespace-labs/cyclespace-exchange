@@ -39,6 +39,8 @@ interface ChartPoint {
 
 interface TokenChartProps {
   tokenId: string
+  chainIconUrl?: string
+  tokenIconUrl?: string
   days?: number
   currency?: string
   chartColor?: string
@@ -47,9 +49,11 @@ interface TokenChartProps {
 
 export function TokenChart({
   tokenId,
+  tokenIconUrl,
+  chainIconUrl,
   days = 1,
   currency = "usd",
-  chartColor = "#BAFD02",
+  chartColor = "green",
   delay = 0,
 }: TokenChartProps) {
   const [coinData, setCoinData] = useState<CoinDetails | null>(null)
@@ -203,17 +207,27 @@ export function TokenChart({
   return (
     <Card className="dark:bg-gray-950 bg-white shadow-2xl shadow-gray-300 dark:shadow-gray-950 dark:text-white text-black rounded-4xl border-none">
       <CardHeader>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img
-              src={coinData.image}
-              alt={coinData.name}
-              className="w-8 h-8 rounded-full"
-            />
-            <CardTitle className="text-[15px] font-bold">
-              {coinData.name} ({coinData.symbol.toUpperCase()})
-            </CardTitle>
-          </div>
+      <div className="flex justify-between items-center">
+    <div className="flex items-center gap-2">
+      {/* Updated icon pair */}
+      <div className="relative">
+        <img
+          src={tokenIconUrl || coinData.image}
+          alt={coinData.name}
+          className="w-8 h-8 rounded-full"
+        />
+        {chainIconUrl && (
+          <img
+            src={chainIconUrl}
+            alt="Chain"
+            className="w-4 h-4 rounded-full border border-gray-600 absolute -bottom-1 -right-1 bg-white"
+          />
+        )}
+      </div>
+      <CardTitle className="text-[15px] font-bold">
+        {coinData.name} ({coinData.symbol.toUpperCase()})
+      </CardTitle>
+    </div>
           <div
             className={cn(
               "flex items-center gap-1 px-2 py-1 rounded-full text-sm",
@@ -275,7 +289,7 @@ export function TokenChart({
               hide={true}
             />
             <ChartTooltip
-              content={<ChartTooltipContent indicator="line" className="bg-[#BAFD02]" />}
+              content={<ChartTooltipContent indicator="line" className="bg-green-500" />}
             />
             <Area
               type="monotone"
