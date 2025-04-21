@@ -10,13 +10,14 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import { Button } from "../ui/button"
 import { Tourney } from "next/font/google"
 import { MenuIcon, XIcon } from "lucide-react"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useRouter } from "next/navigation"
 import { ThemeToggle } from './../ThemeToggle';
+import { ChainTokenSearch } from '@/components/ChainTokenSearch';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 const _tourney = Tourney({ subsets: ['latin'] })
 
@@ -36,21 +37,21 @@ export function NavBar() {
 
           <div className="hidden md:flex gap-4 lg:gap-8 text-gray-600 dark:text-white/80 font-semibold">
             <NavigationMenuItem>
-              <Link href="Swap" legacyBehavior passHref>
+              <Link href="Swap"  passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
                   Swap
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="News" legacyBehavior passHref>
+              <Link href="News"  passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
                   News
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="Dashboard" legacyBehavior passHref>
+              <Link href="Dashboard"  passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
                   Dashboard
                 </NavigationMenuLink>
@@ -58,6 +59,17 @@ export function NavBar() {
             </NavigationMenuItem>
           </div>
         </NavigationMenuList>
+
+          <div>
+          <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline">Select Chain/Token</Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80">
+                <ChainTokenSearch showChart={false} />
+              </PopoverContent>
+            </Popover>
+          </div>
 
         <div className="flex gap-2 md:gap-4 items-center">
           <Button className="rounded-full text-black bg-[#BAFD02] px-3 md:px-4 text-sm md:text-base">
@@ -70,6 +82,7 @@ export function NavBar() {
               <ThemeToggle />
           </div>
         </div>
+
       </NavigationMenu>
 
       {/* Mobile Nav */}

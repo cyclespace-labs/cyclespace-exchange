@@ -20,7 +20,7 @@ const formatLargeNumber = (num: number): string => {
   }
 }
 
-export function MarketInfoBadges({ marketCap, volume, currency }: MarketInfoBadgesProps) {
+export function MarketInfo({ marketCap, volume, currency }: MarketInfoBadgesProps) {
   return (
     <div className="flex gap-0 flex-col">
       <Badge className="text-[10px]">

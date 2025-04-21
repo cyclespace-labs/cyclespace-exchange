@@ -19,7 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "./ui/skeleton"
-import { MarketInfoBadges } from "./MarketInfoBadges"
+import { MarketInfo } from "./MarketInfo"
 
 interface CoinDetails {
   id: string
@@ -252,7 +252,7 @@ export function TokenChart({
             {coinData.current_price.toFixed(2)} {currency.toUpperCase()}
           </div>
           <div className="flex gap-1 flex-col">
-              <MarketInfoBadges 
+              <MarketInfo 
                 marketCap={coinData.market_cap} 
                 volume={coinData.total_volume} 
                 currency={currency} />
