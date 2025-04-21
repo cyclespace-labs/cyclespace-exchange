@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { TokenChart } from "@/components/TokenChart";
 import { green } from "@mui/material/colors";
+import { Search } from "lucide-react";
 
 interface Chain {
   name: string;
@@ -19,6 +20,7 @@ interface Token {
   id: string;
   name: string;
   iconUrl: string;
+  address?: string;
 }
 
 interface AssetPlatform {
@@ -53,13 +55,11 @@ export function ChainTokenSearch({
   const [isLoadingChains, setIsLoadingChains] = useState(true);
   const [isLoadingTokens, setIsLoadingTokens] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Dialog state
   const [open, setOpen] = useState(false);
   const [searchChain, setSearchChain] = useState("");
   const [searchToken, setSearchToken] = useState("");
+  const [showAllChains, setShowAllChains] = useState(false);
 
-  // Fetch chains on mount
   useEffect(() => {
     const fetchChains = async () => {
       try {
@@ -67,7 +67,6 @@ export function ChainTokenSearch({
         const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
         if (!apiKey) throw new Error("CoinGecko API key is missing");
 
-        // Fetch asset platforms
         const platformsResponse = await fetch(
           "https://api.coingecko.com/api/v3/asset_platforms",
           { headers: { "x-cg-demo-api-key": apiKey } }
@@ -75,7 +74,6 @@ export function ChainTokenSearch({
         if (!platformsResponse.ok) throw new Error("Failed to fetch asset platforms");
         const platformsData: AssetPlatform[] = await platformsResponse.json();
 
-        // Fetch native token images
         const nativeTokenIds = platformsData
           .map(p => p.native_coin_id)
           .filter((id): id is string => !!id);
@@ -87,7 +85,6 @@ export function ChainTokenSearch({
         const marketData: any[] = await marketResponse.json();
         const tokenImageMap = new Map(marketData.map(token => [token.id, token.image]));
 
-        // Create chain list with icons
         const chainList = platformsData
           .filter(p => p.native_coin_id && p.id)
           .map(p => ({
@@ -108,19 +105,16 @@ export function ChainTokenSearch({
     fetchChains();
   }, []);
 
-  // After chains are loaded, set Solana as default chain and Bitcoin as default token (if available)
   useEffect(() => {
     if (chains.length === 0) return;
     const solanaChain = chains.find(chain => chain.assetPlatformId === "solana");
-    if (solanaChain) {
-      setSelectedChain(solanaChain);
-    }
+    if (solanaChain) setSelectedChain(solanaChain);
   }, [chains]);
 
-  // Fetch tokens when chain is selected
   useEffect(() => {
     if (!selectedChain) return;
     setIsLoadingTokens(true);
+    
     const loadTokens = async () => {
       try {
         const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
@@ -136,18 +130,14 @@ export function ChainTokenSearch({
         const tokenList = data.map((token: any) => ({
           id: token.id,
           name: token.name,
-          iconUrl: token.image
+          iconUrl: token.image,
+          address: token.contract_address
         }));
 
         setTokens(tokenList);
-
-        // Set Bitcoin as default token if available
+        
         const bitcoinToken = tokenList.find(token => token.id === "bitcoin");
-        if (bitcoinToken) {
-          setSelectedToken(bitcoinToken);
-        } else if (tokenList.length > 0) {
-          setSelectedToken(tokenList[0]);
-        }
+        setSelectedToken(bitcoinToken || tokenList[0]);
       } catch (err) {
         setTokens([]);
         setError("Failed to load tokens");
@@ -158,7 +148,6 @@ export function ChainTokenSearch({
     loadTokens();
   }, [selectedChain, currency]);
 
-  // Reset token selection when chain changes (except for initial Solana+Bitcoin)
   useEffect(() => {
     if (selectedChain && selectedChain.assetPlatformId !== "solana") {
       setSelectedToken(null);
@@ -170,108 +159,139 @@ export function ChainTokenSearch({
     <div className="w-full flex flex-col gap-4">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline" className="w-full">
-            {selectedChain ? (
-              <span className="flex items-center gap-2">
-                <img src={selectedChain.iconUrl} alt={selectedChain.name} className="w-5 h-5 rounded-full" />
-                {selectedChain.name}
-              </span>
-            ) : (
-              placeholder
-            )}
-            {selectedToken && (
-              <>
-                <span className="mx-2">/</span>
-                <span className="flex items-center gap-2">
+          <Button variant="secondary" className="w-full justify-between items-center rounded-full bg-white">
+            <span className="text-gray-500">Search for tokens and chains</span>
+            <div className="flex items-center gap-2">
+              {selectedChain && (
+                <>
+                  <img src={selectedChain.iconUrl} alt={selectedChain.name} className="w-5 h-5 rounded-full" />
+                  <span>{selectedChain.name}</span>
+                </>
+              )}
+              {selectedToken && (
+                <>
+                  <span>/</span>
                   <img src={selectedToken.iconUrl} alt={selectedToken.name} className="w-5 h-5 rounded-full" />
-                  {selectedToken.name}
-                </span>
-              </>
-            )}
+                  <span>{selectedToken.name}</span>
+                </>
+              )}
+            </div>
           </Button>
         </DialogTrigger>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              {!selectedChain ? "Select a Chain" : "Select a Token"}
+
+        <DialogContent className="max-w-2xl h-[800px] bg-white rounded-xl p-0">
+          <DialogHeader className="px-6 pt-6">
+            <DialogTitle className="text-left text-lg font-semibold">
+              Search token name or paste address
             </DialogTitle>
           </DialogHeader>
-          {!selectedChain ? (
-            <>
-              <Input
-                placeholder="Search chain..."
-                value={searchChain}
-                onChange={e => setSearchChain(e.target.value)}
-                className="mb-2"
-              />
-              <div className="max-h-64 overflow-y-auto space-y-1">
-                {isLoadingChains ? (
-                  <div>Loading chains...</div>
-                ) : (
-                  chains
-                    .filter(chain =>
-                      chain.name.toLowerCase().includes(searchChain.toLowerCase())
-                    )
-                    .map(chain => (
-                      <Card
-                        key={chain.assetPlatformId}
-                        className="flex items-center gap-3 p-2 cursor-pointer hover:bg-accent"
-                        onClick={() => {
-                          setSelectedChain(chain);
-                          setOpen(true);
-                        }}
-                      >
-                        <img src={chain.iconUrl} alt={chain.name} className="w-7 h-7 rounded-full" />
-                        <span>{chain.name}</span>
-                      </Card>
-                    ))
-                )}
-              </div>
-            </>
-          ) : (
-            <>
+
+          <div className="px-6 space-y-6 pb-6">
+            {/* Chain Selection Row */}
+            <div className="flex gap-2 items-center overflow-x-auto pb-2">
               <Button
-                variant="ghost"
-                size="sm"
-                className="mb-2"
+                variant={!selectedChain ? "default" : "outline"}
+                className="shrink-0 h-12 w-12 rounded-full p-0"
                 onClick={() => setSelectedChain(null)}
               >
-                ← Back to Chains
+                All
               </Button>
+              
+              {chains.slice(0, showAllChains ? chains.length : 8).map(chain => (
+                <Button
+                  key={chain.assetPlatformId}
+                  variant={selectedChain?.assetPlatformId === chain.assetPlatformId ? "default" : "outline"}
+                  className="shrink-0 h-12 w-12 rounded-full p-0"
+                  onClick={() => setSelectedChain(chain)}
+                >
+                  <img src={chain.iconUrl} alt={chain.name} className="w-6 h-6" />
+                </Button>
+              ))}
+
+              {!showAllChains && chains.length > 8 && (
+                <Button
+                  variant="outline"
+                  className="shrink-0 h-12 w-12 rounded-full p-0"
+                  onClick={() => setShowAllChains(true)}
+                >
+                  +{chains.length - 8}
+                </Button>
+              )}
+            </div>
+
+            {/* Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-3 top-3.5 h-5 w-5 text-muted-foreground" />
               <Input
-                placeholder="Search token..."
+                placeholder="Search name or paste address"
+                className="pl-10 h-12 rounded-lg"
                 value={searchToken}
-                onChange={e => setSearchToken(e.target.value)}
-                className="mb-2"
+                onChange={(e) => setSearchToken(e.target.value)}
               />
-              <div className="max-h-64 overflow-y-auto space-y-1">
-                {isLoadingTokens ? (
-                  <div>Loading tokens...</div>
-                ) : (
-                  tokens
-                    .filter(token =>
-                      token.name.toLowerCase().includes(searchToken.toLowerCase())
-                    )
-                    .map(token => (
-                      <Card
-                        key={token.id}
-                        className="flex items-center gap-3 p-2 cursor-pointer hover:bg-accent"
-                        onClick={() => {
-                          setSelectedToken(token);
-                          setOpen(false);
-                        }}
-                      >
-                        <img src={token.iconUrl} alt={token.name} className="w-7 h-7 rounded-full" />
-                        <span>{token.name}</span>
-                      </Card>
-                    ))
-                )}
+            </div>
+
+            {/* Most Popular Section */}
+            {selectedChain && !isLoadingTokens && tokens.length > 0 && (
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold">
+                  Most popular on {selectedChain.name}
+                </h3>
+                <div className="grid grid-cols-4 gap-3">
+                  {tokens.slice(0, 4).map(token => (
+                    <Card
+                      key={token.id}
+                      className="p-3 cursor-pointer hover:bg-accent flex flex-col items-center"
+                      onClick={() => {
+                        setSelectedToken(token);
+                        setOpen(false);
+                      }}
+                    >
+                      <img src={token.iconUrl} alt={token.name} className="w-8 h-8 mb-2" />
+                      <span className="text-sm text-center">{token.name}</span>
+                    </Card>
+                  ))}
+                </div>
               </div>
-            </>
-          )}
+            )}
+
+            {/* All Tokens List */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold">All Tokens</h3>
+              <div className="space-y-2 overflow-auto max-h-80">
+                {isLoadingTokens ? (
+                  <div className="text-center py-4">Loading tokens...</div>
+                ) : tokens
+                  .filter(token => 
+                    token.name.toLowerCase().includes(searchToken.toLowerCase()) ||
+                    token.address?.toLowerCase().includes(searchToken.toLowerCase())
+                  )
+                  .map(token => (
+                    <Card
+                      key={token.id}
+                      className="flex items-center gap-4 p-3 cursor-pointer hover:bg-accent"
+                      onClick={() => {
+                        setSelectedToken(token);
+                        setOpen(false);
+                      }}
+                    >
+                      <img src={token.iconUrl} alt={token.name} className="w-8 h-8 rounded-full" />
+                      <div>
+                        <div className="font-medium">{token.name}</div>
+                        {token.address && (
+                          <div className="text-sm text-muted-foreground">
+                            {token.address.slice(0, 6)}...{token.address.slice(-4)}
+                          </div>
+                        )}
+                      </div>
+                    </Card>
+                  ))}
+              </div>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
-      {showChart && selectedChain && selectedToken ? (
+
+      {showChart && selectedChain && selectedToken && (
         <TokenChart
           tokenId={selectedToken.id}
           tokenIconUrl={selectedToken.iconUrl}
@@ -281,7 +301,8 @@ export function ChainTokenSearch({
           chartColor={green[500]}
           delay={delay}
         />
-      ) : null}
+      )}
+      
       {error && <div className="text-red-500">{error}</div>}
     </div>
   );

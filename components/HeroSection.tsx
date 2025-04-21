@@ -1,11 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion"; // Updated import path
+import { motion } from "framer-motion";
+import { Globe } from "./Globe";
 
 export function HeroSection() {
   return (
-    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-start px-4 sm:px-0 lg:px-0 w-full">
-      <div className="pt-8 sm:pt-10 md:pt-20">
+    <div className="relative mx-auto my-0 flex max-w-full flex-col items-start justify-start px-4 sm:px-0 lg:px-0 w-full mt-20 mb-20">
+      {/* Globe background */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+        <Globe className="w-[350px] h-[350px] md:w-[600px] md:h-[600px] opacity-30" />
+      </div>
+      <div className="relative z-10 pt-8 sm:pt-10 md:pt-20 w-full">
         <h1 className="relative z-20 mx-auto max-w-3xl space-y-5 text-start text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium text-black dark:text-white">
           {"Trade and explore over 7 million tokens"
             .split(" ")

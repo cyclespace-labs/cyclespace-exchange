@@ -13,6 +13,26 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
         port: "",
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: "",
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.discordapp.com',
+        port: "",
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: "",
+      },
+      {
+        protocol: 'https',
+        hostname: 'assets.aceternity.com',
+        port: "",
+      }
     ]
   }
 }

@@ -60,17 +60,6 @@ export function NavBar() {
           </div>
         </NavigationMenuList>
 
-          <div>
-          <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline">Select Chain/Token</Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80">
-                <ChainTokenSearch showChart={false} />
-              </PopoverContent>
-            </Popover>
-          </div>
-
         <div className="flex gap-2 md:gap-4 items-center">
           <Button className="rounded-full text-black bg-[#BAFD02] px-3 md:px-4 text-sm md:text-base">
             Sign up
