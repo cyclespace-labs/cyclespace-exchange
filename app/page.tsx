@@ -23,7 +23,7 @@ export default function Home() {
 
         <div className='justify-center items-center flex flex-col bg-none w-[1400px] gap-5'> 
 
-          <div className='w-full h-full'>
+          <div className='w-full h-full mt-20 mb-20'>
             <HeroSection/>
           </div>
 

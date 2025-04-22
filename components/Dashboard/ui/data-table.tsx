@@ -44,7 +44,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { z } from "zod"
-import { ChainType, getTokens } from '@lifi/sdk'
+import { ChainType, getTokens,  } from '@lifi/sdk'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
