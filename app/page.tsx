@@ -1,15 +1,10 @@
 import React from 'react';
 import { NavBar } from '@/components/Navigation/NavBar'
 import { HeroSection } from '@/components/HeroSection';
-import TokenSection from '@/components/TokenSection';
-import ChainSection from '../components/ChainSection';
 import Footer from '@/components/Footer';
 import GridView from '@/components/GridView';
-import { DataTable } from '@/components/Dashboard/ui/data-table';
 import { ChainFilter } from '@/components/ChainFilter';
-import { ChainTokenSearch } from '@/components/ChainTokenSearch';
-import { GlobeTest } from '@/components/GlobeTest';
-import { Globe } from '@/components/Globe';
+
 
 
 
@@ -41,10 +36,6 @@ export default function Home() {
               {/*<ChainSection/>*/}
             </div>
 
-          </div>
-
-          <div className='w-full'>
-            <DataTable />
           </div>
 
           <div className='w-full'>

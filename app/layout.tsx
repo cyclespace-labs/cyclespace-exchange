@@ -13,7 +13,7 @@ import { Roboto } from 'next/font/google'
 
 const roboto = Roboto({
   subsets: ['latin'],
-  weight: '600',
+  weight: ['100', '300', '400', '500', '700', '900'],
   
 })
 
@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased bg-gray-100 dark:bg-gray-900`}>
+      <body className={`${roboto.className} antialiased bg-gray-100 dark:bg-black`}>
 
  
             <ThemeProvider>
