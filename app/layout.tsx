@@ -10,6 +10,8 @@ import { ThemeProvider } from './../context/ThemeContext';
 import { Lato } from 'next/font/google'
 import { Roboto } from 'next/font/google'
 
+import "@rainbow-me/rainbowkit/styles.css";
+
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -31,10 +33,13 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className} antialiased bg-gray-100 dark:bg-black`}>
 
- 
+            <Providers>
+
             <ThemeProvider>
-              {children}
+                {children}
             </ThemeProvider>
+
+            </Providers>
 
 
 

@@ -1,0 +1,71 @@
+import { Input } from "@/components/ui/input";
+import { TokenPicker } from "./tokenPicker";
+import { TokenUSDValue } from "./TokenUSDValue";
+import { ChangeEvent } from "react";
+import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+
+interface TokenInputSectionProps {
+  label: "sell" | "buy";
+  token: string;
+  amount: string;
+  chainId: number;
+  onTokenChange: (token: string) => void;
+  onAmountChange: (amount: string) => void;
+  disabled?: boolean;
+}
+
+export const TokenInputSection = ({
+  label,
+  token,
+  amount,
+  chainId,
+  onTokenChange,
+  onAmountChange,
+  disabled = false
+}: TokenInputSectionProps) => {
+  
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const sanitizeDecimalPlaces = (value: string, decimals: number): string => {
+      const [integerPart, decimalPart] = value.split('.');
+      if (!decimalPart) return value;
+      return `${integerPart}.${decimalPart.slice(0, decimals)}`;
+    };
+
+    // Get the token's decimal places from constants
+    const tokenDecimals = MAINNET_TOKENS_BY_SYMBOL[token]?.decimals || 18; // Default to 18 if not found
+    
+    // Sanitize the input value based on token decimals
+    const sanitizedValue = sanitizeDecimalPlaces(e.target.value, tokenDecimals);
+    
+    // Pass the sanitized value to the parent component
+    onAmountChange(sanitizedValue);
+  };
+
+  return (
+    <section className="mt-2 items-start justify-center flex-row w-full">
+      <div className="h-fit w-full sm:mr-2 rounded-full font-semibold">
+        <TokenPicker
+          value={token}
+          onValueChange={onTokenChange}
+        />
+      </div>
+
+      <div className="w-full flex flex-row items-center justify-between h-fit">
+        <Input
+          id={`${label}-amount`}
+          value={amount}
+          className="h-9 bg-transparent border-none text-4xl font-semibold my-8 focus:outline-none active:outline-none"
+          type="string"
+          placeholder="0.0"
+          onChange={handleAmountChange}
+          disabled={disabled}
+        />
+        <TokenUSDValue 
+          amount={amount}
+          tokenSymbol={token}
+          chainId={chainId}
+        />
+      </div>
+    </section>
+  );
+};

@@ -46,59 +46,58 @@ export default function Page() {
           
         </header>
 
-        <div className="w-full overflow-hidden justify-center items-center flex h-20">
-            <div className="w-full justify-center items-center flex">
-            <Ticker/> 
-            </div>
+        <div className="">
+          <div className="relative w-px h-15 mt-4">
+            <Ticker/>
           </div>
-
         <div className="flex flex-row w-full">
 
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+              <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
+              <div className="grid auto-rows-min gap-4 md:grid-cols-4">
 
-            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-              <GlobalData />
-            </div>
+                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
+                  <GlobalData />
+                </div>
 
-            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-              <TrendingTokens />
-            </div>
+                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
+                  <TrendingTokens />
+                </div>
 
-            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-              <TopGainers />
-            </div>
+                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
+                  <TopGainers />
+                </div>
 
-            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-              <TopLosers />
-          </div>
-
-          </div>
-
-          <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min " >
-            <div className="w-full h-full flex flex-row gap-4">
-              <div className="w-full h-full bg-muted/30 rounded-xl ">
-                <ChartAreaInteractive />
+                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
+                  <TopLosers />
               </div>
-              <div className="w-full h-full bg-muted/30 rounded-xl">
-                <BarChartData/>
+
               </div>
-            </div>
-          </div>
-          <DataTable data={data}/>
-          </div>
 
-          <div className="max-w-[400px] w-full gap-4 flex flex-col mr-3">
+              <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min " >
+                <div className="w-full h-full flex flex-row gap-4">
+                  <div className="w-full h-full bg-muted/30 rounded-xl ">
+                    <ChartAreaInteractive />
+                  </div>
+                  <div className="w-full h-full bg-muted/30 rounded-xl">
+                    <BarChartData/>
+                  </div>
+                </div>
+              </div>
+              <DataTable data={data}/>
+              </div>
 
-            <Piechart/>
+              <div className="max-w-[400px] w-full gap-4 flex flex-col mr-3">
+                <div>
+                    <Piechart/>
 
-            <div className="max-h-[600px] w-full">
-              <NewsSection/>
-            </div>
-            
-          </div>
+                    <div className="max-h-[600px] w-full">
+                      <NewsSection/>
+                    </div>
+                </div>
+              </div>
 
 
+              </div>
         </div>
 
       </SidebarInset>

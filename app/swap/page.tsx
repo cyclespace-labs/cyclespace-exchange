@@ -1,64 +1,47 @@
-"use client"
+"use client";
 
-import { NavBar } from '@/components/Navigation/NavBar'
-import { Ticker} from '@/components/Ticker'
-import { Widget } from '@/components/Widget/Widget'
-import { WidgetEvents } from '@/components/Widget/WidgetEvents'
-import React from 'react'
-import { motion } from 'motion/react';
-import { FullChart } from '@/components/FullChart'
-import { TokenDashboard } from '@/components/Widget/TokenDashboard'
-import { Providers } from '../providers'
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import PriceView from "@/components/Swap/price";
+import QuoteView from "@/components/Swap/quote";
 
+import { useState } from "react";
+import { useAccount, useChainId } from "wagmi";
 
+import type { PriceResponse } from "@/utils/types";
 
-export default function Swap() {
+function Swap() {
+  const { address } = useAccount();
+
+  const chainId = useChainId() || 1;
+  console.log("chainId: ", chainId);
+
+  const [finalize, setFinalize] = useState(false);
+  const [price, setPrice] = useState<PriceResponse | undefined>();
+  const [quote, setQuote] = useState();
+
   return (
-    <Providers>
-      <AppRouterCacheProvider>
-        
-        <main className='justify-center items-center h-full w-full flex flex-col'>
-            
-            <div className='w-full flex md:mt-2'>
-                <NavBar/>
-            </div>
-
-          <motion.div
-            initial={{ opacity: 0.0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{
-              delay: 0.3,
-              duration: 0.8,
-              ease: "easeInOut",
-            }}
-            className="w-[1400px] items-center justify-center h-full flex flex-col"
-          >
-            <div className='justify-center items-center h-full w-full flex flex-col'> 
-
-              <div className='mt-6 mb-8 h-full w-full justify-center items-center'>
-                <Ticker/>
-              </div>
-              
-              <div className='h-full w-full grid grid-flow-col justify-center items-center gap-3'>
-
-                {/*<div className='min-h-[567px] h-full min-w-[1000px] w-full'>
-                  <FullChart tokenId="bitcoin" delay={500}/>
-                </div>*/}
-
-                <div className='h-full w-fit'>
-                  <Widget />
-                  <WidgetEvents />
-                </div>
-
-              </div>
-
-            </div>
-
-          </motion.div>
-        </main>
-
-      </AppRouterCacheProvider>
-    </Providers>
-  )
+    <div
+      className={`flex min-h-screen flex-col items-center justify-between p-0 bg-transparent`}
+    >
+      {finalize && price ? (
+        <QuoteView
+          taker={address}
+          price={price}
+          quote={quote}
+          setQuote={setQuote}
+          chainId={chainId}
+        />
+      ) : (
+        <PriceView
+          taker={address}
+          price={price}
+          setPrice={setPrice}
+          setFinalize={setFinalize}
+          chainId={chainId}
+        />
+      )}
+    </div>
+  );
 }
+
+export default Swap;
