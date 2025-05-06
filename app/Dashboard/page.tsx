@@ -25,54 +25,51 @@ import { DataTable } from "@/components/dashboard/ui/data-table"
 import data from "./data.json"
 import { BarChartData } from "@/components/dashboard/Bar-Chart"
 import { Piechart } from "@/components/dashboard/Pie-Chart"
+import NewsSection from "@/components/dashboard/News-Section"
+import { NavBar } from "@/components/Navigation/NavBar"
+import { Ticker } from "@/components/Ticker"
 
 export default function Page() {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
+    <SidebarProvider className="bg-black">
+      <AppSidebar className="bg-black" />
+      <SidebarInset className="bg-black">
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-black">
+          <div className="flex items-center gap-2 px-4  bg-black">
+            <SidebarTrigger className="-ml-1 bg-black" />
             <Separator
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            
           </div>
+          
         </header>
+
+        <div className="w-full overflow-hidden justify-center items-center flex h-20">
+            <div className="w-full justify-center items-center flex">
+            <Ticker/> 
+            </div>
+          </div>
 
         <div className="flex flex-row w-full">
 
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
-
           <div className="grid auto-rows-min gap-4 md:grid-cols-4">
 
-            <div className="bg-muted/50 aspect-video rounded-xl h-full w-full">
+            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
               <GlobalData />
             </div>
 
-            <div className="bg-muted/50 aspect-video rounded-xl h-full w-full">
+            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
               <TrendingTokens />
             </div>
 
-            <div className="bg-muted/50 aspect-video rounded-xl h-full w-full">
+            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
               <TopGainers />
             </div>
 
-            <div className="bg-muted/50 aspect-video rounded-xl h-full w-full">
+            <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
               <TopLosers />
           </div>
 
@@ -80,10 +77,10 @@ export default function Page() {
 
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min " >
             <div className="w-full h-full flex flex-row gap-4">
-              <div className="w-full h-full bg-muted/50 rounded-xl ">
+              <div className="w-full h-full bg-muted/30 rounded-xl ">
                 <ChartAreaInteractive />
               </div>
-              <div className="w-full h-full bg-muted/50 rounded-xl">
+              <div className="w-full h-full bg-muted/30 rounded-xl">
                 <BarChartData/>
               </div>
             </div>
@@ -91,9 +88,16 @@ export default function Page() {
           <DataTable data={data}/>
           </div>
 
-          <div className="max-w-[400px] w-full">
+          <div className="max-w-[400px] w-full gap-4 flex flex-col mr-3">
+
             <Piechart/>
+
+            <div className="max-h-[600px] w-full">
+              <NewsSection/>
+            </div>
+            
           </div>
+
 
         </div>
 

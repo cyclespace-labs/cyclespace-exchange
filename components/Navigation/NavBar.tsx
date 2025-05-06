@@ -35,7 +35,7 @@ export function NavBar() {
             </Link>
           </NavigationMenuItem>
 
-          <div className="hidden md:flex gap-4 lg:gap-8 text-gray-600 dark:text-white/80 font-semibold">
+          <div className="hidden md:flex gap-4 lg:gap-8 text-gray-600 dark:text-white/80 font-semibold w-full">
             <NavigationMenuItem>
               <Link href="Swap"  passHref>
                 <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "text-sm lg:text-base")}>
@@ -60,7 +60,7 @@ export function NavBar() {
           </div>
         </NavigationMenuList>
 
-        <div className="flex gap-2 md:gap-4 items-center">
+        <div className="flex gap-2 md:gap-4 items-center w-full">
           <Button className="rounded-full text-black bg-[#BAFD02] px-3 md:px-4 text-sm md:text-base">
             Sign up
           </Button>

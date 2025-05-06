@@ -28,6 +28,7 @@ import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/components/ui/toggle-group"
+import { theme } from "@/tailwind.config"
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
   { date: "2024-04-02", desktop: 97, mobile: 180 },
@@ -161,7 +162,7 @@ export function ChartAreaInteractive() {
   })
 
   return (
-    <Card className="@container/card w-full h-full">
+    <Card className="@container/card w-full h-full bg-zinc-950 border-none">
       <CardHeader className="relative">
         <CardTitle>Total Visitors</CardTitle>
         <CardDescription>
@@ -209,34 +210,34 @@ export function ChartAreaInteractive() {
           </Select>
         </div>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 w-full h-full">
+      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 w-full h-full ">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto h-[250px] w-full h-full"
+          className="aspect-auto  w-full h-full"
         >
           <AreaChart data={filteredData} className="w-full h-full">
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="green"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-desktop)"
+                  stopColor="green"
                   stopOpacity={0.1}
                 />
               </linearGradient>
               <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="blue"
                   stopOpacity={0.8}
                 />
                 <stop
                   offset="95%"
-                  stopColor="var(--color-mobile)"
+                  stopColor="blue"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -274,14 +275,14 @@ export function ChartAreaInteractive() {
               dataKey="mobile"
               type="natural"
               fill="url(#fillMobile)"
-              stroke="var(--color-mobile)"
+              stroke="blue"
               stackId="a"
             />
             <Area
               dataKey="desktop"
               type="natural"
               fill="url(#fillDesktop)"
-              stroke="var(--color-desktop)"
+              stroke="green"
               stackId="a"
             />
           </AreaChart>

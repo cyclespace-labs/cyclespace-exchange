@@ -39,7 +39,7 @@ const chartConfig = {
 
 export function BarChartData() {
   return (
-    <Card>
+    <Card className="bg-zinc-950 border-none">
       <CardHeader>
         <CardTitle>Bar Chart - Multiple</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
@@ -59,8 +59,8 @@ export function BarChartData() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="desktop" fill="green" radius={4} />
+            <Bar dataKey="mobile" fill="blue" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>

@@ -31,29 +31,29 @@ const chartConfig = {
   },
   chrome: {
     label: "Chrome",
-    color: "hsl(var(--chart-1))",
+    color: "green",
   },
   safari: {
     label: "Safari",
-    color: "hsl(var(--chart-2))",
+    color: "blue",
   },
   firefox: {
     label: "Firefox",
-    color: "hsl(var(--chart-3))",
+    color: "white",
   },
   edge: {
     label: "Edge",
-    color: "hsl(var(--chart-4))",
+    color: "orange",
   },
   other: {
     label: "Other",
-    color: "hsl(var(--chart-5))",
+    color: "teal",
   },
 } satisfies ChartConfig
 
 export function Piechart() {
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col bg-zinc-950 border-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>Pie Chart - Label</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
