@@ -3,6 +3,7 @@ import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
 import qs from "qs";
 import { formatUnits, parseUnits } from "viem";
 import { Badge } from '@/components/ui/badge';
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TokenEquivalentValueProps {
   sellToken: string;
@@ -75,9 +76,15 @@ export const TokenEquivalentValue = ({
     <div className=" text-gray-950  mt-1 flex bg-transparent ">
       <Badge className="p-1 rounded-full px-2 bg-transparent dark:text-gray-500 text-gray-950">
       {loading ? (
-        <span className="text-xs">Loading conversion rate...</span>
+        <span className="text-xs">
+
+          </span>
       ) : error ? (
-        <span className="text-xs text-red-500">{error}</span>
+        <span className="text-xs text-red-500">
+        <div className="w-full h-full gap-3 p-3 flex flex-col ">
+            <Skeleton className="h-full w-1/2 bg-zinc-800" />
+          </div>
+        </span>
       ) : equivalentAmount ? (
         `1 ${sellToken.toUpperCase()} = ${equivalentAmount} ${buyToken.toUpperCase()}`
       ) : null}

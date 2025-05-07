@@ -2,7 +2,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 type SwapButtonProps = {
   sellToken: string;
@@ -17,6 +18,9 @@ type SwapButtonProps = {
   tokensByChain: (chainId: number) => any;
 };
 
+// Create a motion-wrapped version of the icon
+const MotionArrow = motion(ArrowUpDown);
+
 export const SwapButton = ({
   sellToken,
   buyToken,
@@ -29,6 +33,8 @@ export const SwapButton = ({
   setBuyAmount,
   tokensByChain
 }: SwapButtonProps) => {
+  const [isRotated, setIsRotated] = useState(false);
+
   const sanitizeDecimalPlaces = (value: string, decimals: number): string => {
     const [integerPart, decimalPart] = value.split('.');
     if (!decimalPart) return value;
@@ -39,31 +45,34 @@ export const SwapButton = ({
     const newSellToken = buyToken;
     const newBuyToken = sellToken;
     
-    // Get decimals for new token pair
     const newSellDecimals = tokensByChain(chainId)[newSellToken].decimals;
     const newBuyDecimals = tokensByChain(chainId)[newBuyToken].decimals;
     
-    // Sanitize amounts with new decimals
     const sanitizedSell = sanitizeDecimalPlaces(buyAmount, newSellDecimals);
     const sanitizedBuy = sanitizeDecimalPlaces(sellAmount, newBuyDecimals);
 
-    // Update state with swapped values
     setSellToken(newSellToken);
     setBuyToken(newBuyToken);
     setSellAmount(sanitizedSell);
     setBuyAmount(sanitizedBuy);
+    
+    setIsRotated(!isRotated);
   };
 
   return (
     <div className="relative my-8">
-      <div className="h-1 bg-slate-200 dark:bg-zinc-800 rounded-xl" />
+      <div className="h-[1px] bg-slate-300 dark:bg-zinc-700 rounded-xl" />
       <Button
         variant="outline"
         size="icon"
-        className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 rounded-full w-14 h-14 shadow-lg dark:bg-blue-500 bg-blue-500 hover:bg-slate-100 items-center justify-center flex hover:border-blue-500 hover:shadow-blue-400"
+        className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 rounded-full w-14 h-14 shadow-lg dark:bg-blue-500 bg-blue-500 dark:hover:bg-blue-800 items-center justify-center flex hover:border-blue-500 hover:shadow-blue-400"
         onClick={handleSwapTokens}
       >
-        <ArrowUpDown className="h-8 w-6 text-white font-bold hover:text-blue-500" />
+        <MotionArrow
+          className="h-8 w-6 text-white font-bold hover:text-blue-500"
+          animate={{ rotate: isRotated ? 180 : 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+        />
       </Button>
     </div>
   );

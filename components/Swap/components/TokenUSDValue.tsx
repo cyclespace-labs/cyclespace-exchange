@@ -1,20 +1,11 @@
 import { useEffect, useState } from "react";
-import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
-
-
+import { MAINNET_TOKENS_BY_SYMBOL, COINGECKO_IDS } from "@/lib/constants";
 
 interface TokenUSDValueProps {
   amount: string;
   tokenSymbol: string;
   chainId: number;
 }
-
-const COINGECKO_IDS: { [key: string]: string } = {
-  weth: "ethereum",
-  usdc: "usd-coin",
-  dai: "dai",
-  floki: "floki",
-};
 
 export const TokenUSDValue = ({ amount, tokenSymbol, chainId }: TokenUSDValueProps) => {
   const [usdPrice, setUsdPrice] = useState<number | null>(null);
@@ -24,6 +15,8 @@ export const TokenUSDValue = ({ amount, tokenSymbol, chainId }: TokenUSDValuePro
   const token = MAINNET_TOKENS_BY_SYMBOL[tokenSymbol.toLowerCase()];
 
   useEffect(() => {
+    const abortController = new AbortController();
+    
     const fetchUsdPrice = async () => {
       if (!token || !amount || parseFloat(amount) <= 0) return;
       
@@ -31,42 +24,61 @@ export const TokenUSDValue = ({ amount, tokenSymbol, chainId }: TokenUSDValuePro
       setError(null);
       
       try {
+        const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
+        if (!apiKey) throw new Error("CoinGecko API key is missing");
+
         const coingeckoId = COINGECKO_IDS[token.symbol.toLowerCase()];
         if (!coingeckoId) {
-          setError("USD price not available");
+          setError("USD price not available for this token");
           return;
         }
 
         const response = await fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`
+          `https://api.coingecko.com/api/v3/simple/price?ids=${coingeckoId}&vs_currencies=usd`,
+          {
+            headers: { 
+              "x-cg-demo-api-key": apiKey 
+            },
+            signal: abortController.signal
+          }
         );
         
-        if (!response.ok) throw new Error("Failed to fetch price");
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const data = await response.json();
-        setUsdPrice(data[coingeckoId]?.usd);
+        const price = data[coingeckoId]?.usd;
+        
+        if (!price) throw new Error("No price data available");
+        
+        setUsdPrice(price);
       } catch (err) {
-        console.error("Failed to fetch USD price:", err);
-        setError("Error fetching price");
+        if (!abortController.signal.aborted) {
+          console.error("Failed to fetch USD price:", err);
+          setError(err instanceof Error ? err.message : "Failed to fetch price");
+        }
       } finally {
-        setLoading(false);
+        if (!abortController.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchUsdPrice();
+    return () => abortController.abort();
   }, [token?.symbol, amount, chainId]);
 
   if (!amount || parseFloat(amount) <= 0) return null;
 
   return (
-    <div className="text-sm text-gray-500 mt-1 flex">
+    <div className="text-sm text-muted-foreground mt-1 flex">
       {loading ? (
         <span className="text-xs">Loading USD value...</span>
       ) : error ? (
-        <span className="text-xs text-red-500">{error}</span>
+        <span className="text-xs text-destructive">{error}</span>
       ) : usdPrice ? (
         `$${(parseFloat(amount) * usdPrice).toLocaleString(undefined, {
           maximumFractionDigits: 2,
+          minimumFractionDigits: 2
         })}`
       ) : null}
     </div>

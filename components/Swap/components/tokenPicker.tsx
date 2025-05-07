@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { MAINNET_TOKENS, MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { ChevronLeft } from "lucide-react";
 
 interface TokenPickerProps {
@@ -62,14 +62,13 @@ export function TokenPicker({ value, onValueChange }: TokenPickerProps) {
                   variant="ghost"
                   size="sm"
                   onClick={() => setOpen(false)}
-                  className="text-white hover:bg-transparent px-2 bg-blue-600 w-fit h-fit flex p-2 font-semibold rounded-xl"
+                  className="text-white hover:bg-transparent px-2 bg-transparent w-fit h-fit flex p-2 font-semibold rounded-xl"
                 >
-                  <ChevronLeft color="white" className="h-4 w-4" />
-                  <p className="font-semibold">Back</p>
+                  <X color="white" className="h-4 w-4" />
                 </Button>
               </div>
 
-              <ScrollArea className="h-[60vh]">
+              <ScrollArea className="h-fit">
                 <CommandList>
                   <CommandEmpty>No token found.</CommandEmpty>
                   {filteredTokens.map((token) => (

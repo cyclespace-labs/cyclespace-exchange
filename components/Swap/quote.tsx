@@ -156,7 +156,7 @@ export default function QuoteView({
                     BigInt(quote.fees.integratorFee.amount),
                     buyTokenInfo(chainId).decimals
                   )
-                ) +
+                ).toFixed(3) + // Changed here
                 " " +
                 buyTokenInfo(chainId).symbol
               : null}

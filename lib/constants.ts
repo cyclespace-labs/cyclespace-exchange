@@ -17,7 +17,7 @@ export const MAINNET_EXCHANGE_PROXY =
 export const MAX_ALLOWANCE =
   Number(115792089237316195423570985008687907853269984665640564039457584007913129639935);
 
-interface Token {
+export interface Token {
   name: string;
   address: Address;
   symbol: string;

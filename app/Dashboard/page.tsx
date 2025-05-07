@@ -1,3 +1,5 @@
+"use client"
+
 import { AppSidebar } from "@/components/dashboard/ui/app-sidebar"
 import GlobalData from "@/components/dashboard/GlobalData"
 import { LinearChart } from "@/components/dashboard/Linear-Chart"
@@ -19,7 +21,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { ChartArea } from "lucide-react"
-import { ChartAreaInteractive } from "@/components/dashboard/ui/chart-area-interactive"
+import {  TradingChart } from "@/components/dashboard/ui/trading-chart"
 import { DataTable } from "@/components/dashboard/ui/data-table"
 
 import data from "./data.json"
@@ -29,29 +31,46 @@ import NewsSection from "@/components/dashboard/News-Section"
 import { NavBar } from "@/components/Navigation/NavBar"
 import { Ticker } from "@/components/Ticker"
 import Swap from "../Swap/page"
+import { useState } from "react"
+
+
+
 
 export default function Page() {
+
+  const [fromToken, setFromToken] = useState("weth");
+  const [toToken, setToToken] = useState("usdc");
+
   return (
     <SidebarProvider className="bg-black w-full">
       <AppSidebar className="bg-black" />
       <SidebarInset className="bg-black w-full">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-black">
+
           <div className="flex items-center gap-2 px-4  bg-black">
             <SidebarTrigger className="-ml-1 bg-black" />
             <Separator
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
-            
           </div>
           
         </header>
 
         <div className="w-full">
-
+            <div className="justify-center items-center w-[1850px] overflow-clip my-4">
+              <Ticker/>
+            </div>
         <div className="flex flex-row w-full h-full">
 
-              <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
+              <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
+
+              <div className="w-full h-fit bg-zinc-900 rounded-xl">
+                      <div className="mt-0 pt-0 h-fit w-fit justify-start items-start flex">
+                        <Swap/>
+                      </div>
+                    </div>
+
                 <div className="grid auto-rows-min gap-4 md:grid-cols-4">
 
                   <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
@@ -72,19 +91,7 @@ export default function Page() {
 
                 </div>
 
-              <div className="min-h-full flex-1 rounded-xl md:min-h-min " >
-                <div className="w-full h-full flex flex-row gap-4">
-                  <div className="w-full h-full bg-zinc-900 rounded-xl ">
-                    <ChartAreaInteractive />
-                  </div>
-                  <div className="w-fit h-fit bg-zinc-900 rounded-xl">
-                  <div className="mt-0 pt-0 h-fit w-fit justify-start items-start flex">
-                    <Swap/>
-                  </div>
-                  </div>
-                </div>
-              </div>
-              <DataTable data={data}/>
+                <DataTable data={data}/>
               </div>
           </div>
 

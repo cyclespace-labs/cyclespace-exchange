@@ -5,11 +5,11 @@ import { ChangeEvent } from "react";
 import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
 
 interface TokenInputSectionProps {
-  label: "sell" | "buy";
+  label: "sell" | "buy"
   token: string;
   amount: string;
   chainId: number;
-  onTokenChange: (token: string) => void;
+  onTokenChange: (token: string) => void
   onAmountChange: (amount: string) => void;
   disabled?: boolean;
 }
@@ -24,6 +24,7 @@ export const TokenInputSection = ({
   disabled = false
 }: TokenInputSectionProps) => {
   
+  const tokenInfo = MAINNET_TOKENS_BY_SYMBOL[token.toLowerCase()]
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sanitizeDecimalPlaces = (value: string, decimals: number): string => {
       const [integerPart, decimalPart] = value.split('.');
@@ -47,6 +48,8 @@ export const TokenInputSection = ({
         <TokenPicker
           value={token}
           onValueChange={onTokenChange}
+          label={label === 'sell' ? 'From' : 'To'}
+          
         />
       </div>
 
@@ -60,6 +63,11 @@ export const TokenInputSection = ({
           onChange={handleAmountChange}
           disabled={disabled}
         />
+                {tokenInfo && (
+          <div className="text-muted-foreground">
+            {tokenInfo.name}
+          </div>
+        )}
         <TokenUSDValue 
           amount={amount}
           tokenSymbol={token}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { formatUnits } from "ethers";
 import { MAINNET_TOKENS_BY_SYMBOL, AFFILIATE_FEE } from "@/lib/constants";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface FinalSwapValueProps {
   buyAmount: string;
@@ -49,12 +50,20 @@ export const FinalSwapValue = ({
   if (!buyAmount || parseFloat(buyAmount) <= 0) return null;
 
   return (
-    <div className="">
+    <div className="flex flex-col gap-4">
       <div className="text-sm text-gray-400 mt-1 font-normal flex">
       {loading ? (
-        <span className="text-xs">Calculating final amount...</span>
+        <span className="text-xs">
+          <div className="w-full h-full gap-3 p-3 flex flex-col ">
+            <Skeleton className="h-full w-1/2 bg-zinc-800" />
+          </div>
+      </span>
       ) : error ? (
-        <span className="text-xs text-red-500">{error}</span>
+      <span className="text-xs">
+        <div className="w-full h-full gap-3 p-3 flex flex-col ">
+          <Skeleton className="h-full w-1/2 bg-zinc-800" />
+        </div>
+      </span>
       ) : formattedNetAmount ? (
         `(incl. ${AFFILIATE_FEE/100}% fee) ${formattedNetAmount} ${buyTokenSymbol.toUpperCase()}`
       ) : null}

@@ -28,6 +28,8 @@ import { TaxInfo } from "./components/TaxInfo";
 import { SwapButton } from "./components/SwapButton";
 import { Settings } from "lucide-react";
 import { color } from "motion/react";
+import { TradingChart } from '@/components/dashboard/ui/trading-chart';
+import { TokenChart } from "../TokenChart";
  
 
 
@@ -55,6 +57,8 @@ export default function PriceView({
   const [sellAmount, setSellAmount] = useState("");
   const [buyAmount, setBuyAmount] = useState("");
   const [tradeDirection, setTradeDirection] = useState("sell");
+  const [fromToken, setFromToken] = useState("weth")
+  const [toToken, setToToken] = useState("usdc")
   const [error, setError] = useState([]);
   const [buyTokenTax, setBuyTokenTax] = useState({
     buyTaxBps: "0",
@@ -136,7 +140,10 @@ export default function PriceView({
     }
     
     if (data.buyAmount) {
-      setBuyAmount(formatUnits(data.buyAmount, buyTokenDecimals));
+      const formattedValue = formatUnits(data.buyAmount, buyTokenDecimals);
+      // Round to 6 decimal places
+      const roundedValue = parseFloat(formattedValue).toFixed(3);
+      setBuyAmount(roundedValue);
       setPrice(data);
     }
     
@@ -177,10 +184,22 @@ export default function PriceView({
   // Helper function to format tax basis points to percentage
   const formatTax = (taxBps: string) => (parseFloat(taxBps) / 100).toFixed(2);
 
+  const MAX_ALLOWANCE = BigInt(2 ** 256 - 1);
+
   return (
     
-    <div className="flex flex-row justify-between gap-2 h-fit w-full mt-0 pt-0">
-      <div className="container mx-auto p-5 pt-0 pb-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow">
+    <div className="flex flex-row justify-between  gap-2 h-full w-full">
+
+      {/* chart */}
+      <div className="w-full">
+      <TradingChart
+            buyTokenSymbol={toToken}
+            sellTokenSymbol={fromToken}
+          />
+      </div>
+
+      {/* swap */}
+      <div className="container w-fit p-5 pt-0 pb-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow">
         <div className="p-3 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">
             <h1 className="text-[18px] font-medium">Market</h1>
@@ -202,10 +221,10 @@ export default function PriceView({
             <label htmlFor="sell-amount" className="sr-only"></label>
             <TokenInputSection
               label="sell"
-              token={sellToken}
+              token={fromToken}
+              onTokenChange={setFromToken}
               amount={sellAmount}
               chainId={chainId}
-              onTokenChange={setSellToken}
               onAmountChange={(value) => {
                 const sanitizedValue = sanitizeDecimalPlaces(value, sellTokenDecimals);
                 setTradeDirection("sell");
@@ -256,10 +275,10 @@ export default function PriceView({
 
             <TokenInputSection
               label="buy"
-              token={buyToken}
+              token={toToken}
+              onTokenChange={setToToken}
               amount={buyAmount}
               chainId={chainId}
-              onTokenChange={setBuyToken}
               onAmountChange={(value) => {
                 // Changed from sellTokenDecimals to buyTokenDecimals
                 const sanitizedValue = sanitizeDecimalPlaces(value, buyTokenDecimals);
@@ -271,17 +290,21 @@ export default function PriceView({
 
               {/* Add FinalSwapValue here */}
               {price && (
-                <div className="flex flex-row justify-between items-center align-middle my-4">
-                  <h1 className="text-sm">You receive:</h1>
-                  <div className="">
-                  <FinalSwapValue 
-                    buyAmount={buyAmount}
-                    buyTokenSymbol={buyToken}
-                    chainId={chainId}
-                    feeAmount={price?.fees?.integratorFee?.amount || "0"}
-                  />
+                <div className="flex flex-col gap-2 mt-3">
+                  <div className="h-[1px] w-full bg-slate-300 dark:bg-zinc-700 rounded-xl" />
+                    <div className="flex flex-row justify-between items-center align-middle my-4">
+                    <h1 className="text-sm">You receive:</h1>
+                    <div className="">
+                    <FinalSwapValue 
+                      buyAmount={buyAmount}
+                      buyTokenSymbol={buyToken}
+                      chainId={chainId}
+                      feeAmount={price?.fees?.integratorFee?.amount || "0"}
+                    />
+                    </div>
                   </div>
                 </div>
+
               )}
 
           </section>
@@ -480,7 +503,7 @@ export default function PriceView({
       return <div>Something went wrong: {error.message}</div>;
     }
 
-    if (allowance === 0n) {
+    if (allowance === BigInt(0)) {
       return (
         <>
           <button
