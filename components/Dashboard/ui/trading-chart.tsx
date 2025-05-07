@@ -43,12 +43,16 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
   const [error, setError] = useState<string | null>(null)
   const [showBuyChart, setShowBuyChart] = useState(true)
 
+  
+
   // Get current token info from constants
   const currentTokenSymbol = showBuyChart ? buyTokenSymbol : sellTokenSymbol
   const tokenInfo: Token | undefined = currentTokenSymbol 
     ? MAINNET_TOKENS_BY_SYMBOL[currentTokenSymbol.toLowerCase()]
     : undefined
   const coingeckoId = tokenInfo ? COINGECKO_IDS[tokenInfo.symbol.toLowerCase()] : null
+
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -146,7 +150,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
   }
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 w-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-4">
           <img 
@@ -170,15 +174,15 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
         </button>
       </CardHeader>
       
-      <CardContent>
+      <CardContent className="w-full h-full">
         <AreaChart
-          width={1000}
-          height={600}
+          width={1200}
+          height={400}
           data={chartData}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
           className="w-full h-full"
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid stroke=""  vertical={false}/>
           <XAxis
             dataKey="timestamp"
             tickFormatter={(ts) => new Date(ts).toLocaleDateString()}

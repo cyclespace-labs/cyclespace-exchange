@@ -10,6 +10,7 @@ import { ChevronLeft } from "lucide-react";
 interface TokenPickerProps {
   value: string;
   onValueChange: (value: string) => void;
+  label?: string;
 }
 
 export function TokenPicker({ value, onValueChange }: TokenPickerProps) {

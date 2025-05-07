@@ -65,7 +65,7 @@ export default function Page() {
 
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
 
-              <div className="w-full h-fit bg-zinc-900 rounded-xl">
+              <div className="w-full h-fit">
                       <div className="mt-0 pt-0 h-fit w-fit justify-start items-start flex">
                         <Swap/>
                       </div>

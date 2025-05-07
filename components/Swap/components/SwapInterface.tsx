@@ -6,8 +6,8 @@ import { TokenInputSection } from "./TokenInputSection"
 import { TradingChart } from "@/components/dashboard/ui/trading-chart"
 
 export function SwapInterface() {
-  const [fromToken, setFromToken] = useState("weth")
-  const [toToken, setToToken] = useState("usdc")
+  const [fromToken, setFromToken] = useState("")
+  const [toToken, setToToken] = useState("")
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6">

@@ -30,6 +30,7 @@ import { Settings } from "lucide-react";
 import { color } from "motion/react";
 import { TradingChart } from '@/components/dashboard/ui/trading-chart';
 import { TokenChart } from "../TokenChart";
+import { TokenPicker } from "./components/tokenPicker";
  
 
 
@@ -52,13 +53,13 @@ export default function PriceView({
   setFinalize: (finalize: boolean) => void;
   chainId: number;
 }) {
-  const [sellToken, setSellToken] = useState("weth");
-  const [buyToken, setBuyToken] = useState("usdc");
+  const [sellToken, setSellToken] = useState("usdc");
+  const [buyToken, setBuyToken] = useState("weth");
   const [sellAmount, setSellAmount] = useState("");
   const [buyAmount, setBuyAmount] = useState("");
   const [tradeDirection, setTradeDirection] = useState("sell");
-  const [fromToken, setFromToken] = useState("weth")
-  const [toToken, setToToken] = useState("usdc")
+  const [fromToken, setFromToken] = useState("usdc")
+  const [toToken, setToToken] = useState("weth")
   const [error, setError] = useState([]);
   const [buyTokenTax, setBuyTokenTax] = useState({
     buyTaxBps: "0",
@@ -82,8 +83,8 @@ export default function PriceView({
     return MAINNET_TOKENS_BY_SYMBOL;
   };
 
-  const sellTokenObject = tokensByChain(chainId)[sellToken];
-  const buyTokenObject = tokensByChain(chainId)[buyToken];
+  const sellTokenObject = tokensByChain(chainId)[fromToken];
+  const buyTokenObject = tokensByChain(chainId)[toToken];
 
   const sellTokenDecimals = sellTokenObject.decimals;
   const buyTokenDecimals = buyTokenObject.decimals;
@@ -188,7 +189,7 @@ export default function PriceView({
 
   return (
     
-    <div className="flex flex-row justify-between  gap-2 h-full w-full">
+    <div className="flex flex-row justify-between gap-2 h-full w-full">
 
       {/* chart */}
       <div className="w-full">
@@ -219,6 +220,11 @@ export default function PriceView({
 
           <section className="gap-0">
             <label htmlFor="sell-amount" className="sr-only"></label>
+            <TokenPicker 
+              value={fromToken}
+              onValueChange={setFromToken}
+              label="From"
+            />
             <TokenInputSection
               label="sell"
               token={fromToken}
@@ -256,8 +262,8 @@ export default function PriceView({
         <div className="w-full items-end justify-end h-fit flex flex-row">
           
             <TokenEquivalentValue 
-              sellToken={sellToken}
-              buyToken={buyToken}
+              sellToken={fromToken}
+              buyToken={toToken}
               chainId={chainId}
             />
           
@@ -272,7 +278,11 @@ export default function PriceView({
             
 
             <label htmlFor="buy-amount" className="sr-only"></label>
-
+              <TokenPicker 
+              value={toToken}
+              onValueChange={setToToken}
+              label="To"
+            />
             <TokenInputSection
               label="buy"
               token={toToken}
@@ -297,7 +307,7 @@ export default function PriceView({
                     <div className="">
                     <FinalSwapValue 
                       buyAmount={buyAmount}
-                      buyTokenSymbol={buyToken}
+                      buyTokenSymbol={toToken}
                       chainId={chainId}
                       feeAmount={price?.fees?.integratorFee?.amount || "0"}
                     />

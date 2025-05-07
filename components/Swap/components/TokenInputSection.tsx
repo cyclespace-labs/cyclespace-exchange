@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { TokenPicker } from "./tokenPicker";
 import { TokenUSDValue } from "./TokenUSDValue";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
 
 interface TokenInputSectionProps {
@@ -14,6 +14,8 @@ interface TokenInputSectionProps {
   disabled?: boolean;
 }
 
+
+
 export const TokenInputSection = ({
   label,
   token,
@@ -23,6 +25,11 @@ export const TokenInputSection = ({
   onAmountChange,
   disabled = false
 }: TokenInputSectionProps) => {
+
+  const [fromToken, setFromToken] = useState("")
+  const [toToken, setToToken] = useState("")
+
+
   
   const tokenInfo = MAINNET_TOKENS_BY_SYMBOL[token.toLowerCase()]
   const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,11 +52,15 @@ export const TokenInputSection = ({
   return (
     <section className="mt-2 items-start justify-center flex flex-col w-full h-fit gap-3">
       <div className="h-fit w-full sm:mr-2 rounded-full font-semibold">
-        <TokenPicker
-          value={token}
-          onValueChange={onTokenChange}
-          label={label === 'sell' ? 'From' : 'To'}
-          
+      <TokenPicker 
+          value={fromToken}
+          onValueChange={setFromToken}
+          label="From"
+        />
+        <TokenPicker 
+          value={toToken}
+          onValueChange={setToToken}
+          label="To"
         />
       </div>
 
@@ -63,11 +74,7 @@ export const TokenInputSection = ({
           onChange={handleAmountChange}
           disabled={disabled}
         />
-                {tokenInfo && (
-          <div className="text-muted-foreground">
-            {tokenInfo.name}
-          </div>
-        )}
+
         <TokenUSDValue 
           amount={amount}
           tokenSymbol={token}
