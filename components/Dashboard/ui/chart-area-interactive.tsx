@@ -162,7 +162,7 @@ export function ChartAreaInteractive() {
   })
 
   return (
-    <Card className="@container/card w-full h-full bg-zinc-950 border-none">
+    <Card className="@container/card w-full h-fit dark:bg-zinc-900 border-none">
       <CardHeader className="relative">
         <CardTitle>Total Visitors</CardTitle>
         <CardDescription>
@@ -210,22 +210,22 @@ export function ChartAreaInteractive() {
           </Select>
         </div>
       </CardHeader>
-      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 w-full h-full ">
+      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6 w-full h-fit ">
         <ChartContainer
           config={chartConfig}
-          className="aspect-auto  w-full h-full"
+          className="aspect-auto  w-full h-fit"
         >
-          <AreaChart data={filteredData} className="w-full h-full">
+          <AreaChart data={filteredData} className="w-full h-fit">
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
                 <stop
                   offset="5%"
-                  stopColor="green"
+                  stopColor="cyan"
                   stopOpacity={1.0}
                 />
                 <stop
                   offset="95%"
-                  stopColor="green"
+                  stopColor="cyan"
                   stopOpacity={0.1}
                 />
               </linearGradient>
@@ -282,7 +282,7 @@ export function ChartAreaInteractive() {
               dataKey="desktop"
               type="natural"
               fill="url(#fillDesktop)"
-              stroke="green"
+              stroke="cyan"
               stackId="a"
             />
           </AreaChart>

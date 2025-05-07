@@ -42,7 +42,7 @@ export const TokenInputSection = ({
   };
 
   return (
-    <section className="mt-2 items-start justify-center flex-row w-full">
+    <section className="mt-2 items-start justify-center flex flex-col w-full h-fit gap-3">
       <div className="h-fit w-full sm:mr-2 rounded-full font-semibold">
         <TokenPicker
           value={token}
@@ -54,7 +54,7 @@ export const TokenInputSection = ({
         <Input
           id={`${label}-amount`}
           value={amount}
-          className="h-9 bg-transparent border-none text-4xl font-semibold my-8 focus:outline-none active:outline-none"
+          className="h-11 sm:h-11 md:h-11 lg-h-11 sm:text-2xl md:text-2xl lg:text-4xl dark:bg-zinc-900 border-transparent text-4xl font-medium focus:outline-0 active:outline-0"
           type="string"
           placeholder="0.0"
           onChange={handleAmountChange}

@@ -21,7 +21,7 @@ function Swap() {
 
   return (
     <div
-      className={`flex min-h-screen flex-col items-center justify-between p-0 bg-transparent`}
+      className={`flex min-h-fit flex-col items-center justify-between p-0 bg-transparent`}
     >
       {finalize && price ? (
         <QuoteView

@@ -39,14 +39,14 @@ const chartConfig = {
 
 export function BarChartData() {
   return (
-    <Card className="bg-zinc-950 border-none">
+    <Card className="bg-zinc-900 border-none h-fit flex w-full">
       <CardHeader>
         <CardTitle>Bar Chart - Multiple</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+      <CardContent className="h-fit">
+        <ChartContainer config={chartConfig} className="h-fit">
+          <BarChart accessibilityLayer data={chartData} className="h-fit">
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
@@ -59,7 +59,7 @@ export function BarChartData() {
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            <Bar dataKey="desktop" fill="green" radius={4} />
+            <Bar dataKey="desktop" fill="cyan" radius={4} />
             <Bar dataKey="mobile" fill="blue" radius={4} />
           </BarChart>
         </ChartContainer>

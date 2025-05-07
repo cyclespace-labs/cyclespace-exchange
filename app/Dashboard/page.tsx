@@ -28,12 +28,13 @@ import { Piechart } from "@/components/dashboard/Pie-Chart"
 import NewsSection from "@/components/dashboard/News-Section"
 import { NavBar } from "@/components/Navigation/NavBar"
 import { Ticker } from "@/components/Ticker"
+import Swap from "../Swap/page"
 
 export default function Page() {
   return (
-    <SidebarProvider className="bg-black">
+    <SidebarProvider className="bg-black w-full">
       <AppSidebar className="bg-black" />
-      <SidebarInset className="bg-black">
+      <SidebarInset className="bg-black w-full">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-black">
           <div className="flex items-center gap-2 px-4  bg-black">
             <SidebarTrigger className="-ml-1 bg-black" />
@@ -46,58 +47,47 @@ export default function Page() {
           
         </header>
 
-        <div className="">
-          <div className="relative w-px h-15 mt-4">
-            <Ticker/>
-          </div>
-        <div className="flex flex-row w-full">
+        <div className="w-full">
+
+        <div className="flex flex-row w-full h-full">
 
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full">
-              <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+                <div className="grid auto-rows-min gap-4 md:grid-cols-4">
 
-                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-                  <GlobalData />
+                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
+                    <GlobalData />
+                  </div>
+
+                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
+                    <TrendingTokens />
+                  </div>
+
+                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
+                    <TopGainers />
+                  </div>
+
+                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
+                    <TopLosers />
+                  </div>
+
                 </div>
 
-                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-                  <TrendingTokens />
-                </div>
-
-                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-                  <TopGainers />
-                </div>
-
-                <div className="bg-muted/30 aspect-video rounded-xl h-full w-full">
-                  <TopLosers />
-              </div>
-
-              </div>
-
-              <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min " >
+              <div className="min-h-full flex-1 rounded-xl md:min-h-min " >
                 <div className="w-full h-full flex flex-row gap-4">
-                  <div className="w-full h-full bg-muted/30 rounded-xl ">
+                  <div className="w-full h-full bg-zinc-900 rounded-xl ">
                     <ChartAreaInteractive />
                   </div>
-                  <div className="w-full h-full bg-muted/30 rounded-xl">
-                    <BarChartData/>
+                  <div className="w-fit h-fit bg-zinc-900 rounded-xl">
+                  <div className="mt-0 pt-0 h-fit w-fit justify-start items-start flex">
+                    <Swap/>
+                  </div>
                   </div>
                 </div>
               </div>
               <DataTable data={data}/>
               </div>
+          </div>
 
-              <div className="max-w-[400px] w-full gap-4 flex flex-col mr-3">
-                <div>
-                    <Piechart/>
-
-                    <div className="max-h-[600px] w-full">
-                      <NewsSection/>
-                    </div>
-                </div>
-              </div>
-
-
-              </div>
         </div>
 
       </SidebarInset>

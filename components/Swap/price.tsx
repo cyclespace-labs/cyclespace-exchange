@@ -26,6 +26,8 @@ import { FinalSwapValue } from "./components/FinalSwapValue";
 import { AffiliateFeeBadge } from "./components/SwapFee";
 import { TaxInfo } from "./components/TaxInfo";
 import { SwapButton } from "./components/SwapButton";
+import { Settings } from "lucide-react";
+import { color } from "motion/react";
  
 
 
@@ -177,16 +179,26 @@ export default function PriceView({
 
   return (
     
-    <div className="flex flex-row justify-between gap-2 h-fit w-[500px] ">
-      <div className="container mx-auto p-5 bg-white mt-10 rounded-3xl my-6">
-        <div className="bg-transparent dark:bg-slate-800 p-4 rounded-md mb-0">
-          <div className="justify-between w-full gap-20 items-center h-fit mx-auto flex flex-row">
-            <label htmlFor="sell" className="text-black mb-2 mr-2 font-semibold items-start">
+    <div className="flex flex-row justify-between gap-2 h-fit w-full mt-0 pt-0">
+      <div className="container mx-auto p-5 pt-0 pb-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow">
+        <div className="p-3 gap-3 flex flex-col">
+          <div className="justify-between flex flex-row">
+            <h1 className="text-[18px] font-medium">Market</h1>
+            <Button variant="default" className=" h-fit w-fit bg-transparent shadow shadow-zinc-950">
+              <Settings width={35} height={35} color="white"/>
+            </Button>
+
+          </div>
+          <div className="w-full bg-zinc-700 h-[1px]"/>
+        </div>
+        <div className=" p-4 rounded-md mb-0">
+          <div className="justify-between w-full gap-10 items-center h-fit mx-auto flex flex-row">
+            <label htmlFor="sell" className="text-black text-[16px] dark:text-white mb-2 mr-2 font-normal items-start">
               Sell
             </label>
           </div>
 
-          <section className="">
+          <section className="gap-0">
             <label htmlFor="sell-amount" className="sr-only"></label>
             <TokenInputSection
               label="sell"
@@ -232,7 +244,7 @@ export default function PriceView({
           
         </div>
 
-          <label htmlFor="buy" className="text-black mb-4 mr-2 font-semibold">
+          <label htmlFor="buy" className="text-black dark:text-white text-[16px] mb-4 mr-2 font-normal">
             Buy
           </label>
 
@@ -259,12 +271,17 @@ export default function PriceView({
 
               {/* Add FinalSwapValue here */}
               {price && (
-                <FinalSwapValue 
-                  buyAmount={buyAmount}
-                  buyTokenSymbol={buyToken}
-                  chainId={chainId}
-                  feeAmount={price?.fees?.integratorFee?.amount || "0"}
-                />
+                <div className="flex flex-row justify-between items-center align-middle my-4">
+                  <h1 className="text-sm">You receive:</h1>
+                  <div className="">
+                  <FinalSwapValue 
+                    buyAmount={buyAmount}
+                    buyTokenSymbol={buyToken}
+                    chainId={chainId}
+                    feeAmount={price?.fees?.integratorFee?.amount || "0"}
+                  />
+                  </div>
+                </div>
               )}
 
           </section>

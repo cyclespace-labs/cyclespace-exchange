@@ -2,7 +2,7 @@ import React from 'react';
 
 const NewsSection = () => {
     return (
-        <div className='w-full h-full rounded-3xl bg-zinc-950 p-5 gap-5'>
+        <div className='w-full h-full rounded-3xl bg-zinc-950 p-5 gap-5 mt-5'>
             <div className="flex flex-col gap-4">
                 <h1 className="font-bold ">
                     Headlines
@@ -15,7 +15,9 @@ const NewsSection = () => {
                         how will this effect the crypto markets?
                     </p>
                 </div>
-                <div className=''>
+                <div className=' gap-2 flex flex-col'>
+                    <div className='bg-zinc-900 h-20 w-full'/>
+                    <div className='bg-zinc-900 h-20 w-full'/>
                     <div className='bg-zinc-900 h-20 w-full'/>
                 </div>
             </div>

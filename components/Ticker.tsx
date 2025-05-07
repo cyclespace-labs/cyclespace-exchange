@@ -110,7 +110,7 @@ export function Ticker() {
   return (
     <div className="relative flex h-12 w-fit overflow-hidden border-none border-y bg-muted/30">
       <motion.div 
-        className=" flex-none items-center flex"
+        className=" flex-none items-center flex w-f"
         animate={{
           translateX: '-50%',
         }}
@@ -123,7 +123,7 @@ export function Ticker() {
         {[...coins, ...coins].map((coin, idx) => (
           <div 
             key={`${coin.id}-${idx}`} 
-            className="flex-none gap-8 sm:gap-4 md:gap-4 pr-14 flex w-fit"
+            className="flex-none gap-8 sm:gap-4 md:gap-4 pr-14 flex w-fit aspect-auto"
           >
             <div className="flex items-center gap-2 w-fit">
               <img 
@@ -132,7 +132,7 @@ export function Ticker() {
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = '/fallback-coin.png' // Add a fallback image
                 }}
-                className="md:w-6 md:h-6 rounded-full object-contain w-6 h-6 sm:w-4 sm:h-4 text-1xl md:text-2xl sm:text-1xl"
+                className="md:w-6 md:h-6 rounded-full object-contain w-6 h-6 sm:w-4 sm:h-4 text-1xl md:text-2xl sm:text-1xl aspect-auto"
               />
               <span className="font-semibold text-black dark:text-white uppercase">{coin.symbol}</span>
               <span className="text-sm font-medium text-black dark:text-white">

@@ -40,6 +40,16 @@ export default function TopGainers() {
             </div>
           </div>
 
+          <div className="flex flex-col gap-2 w-full h-full">
+            <div className='bg-zinc-800 w-full h-20 p-2 rounded-2xl items-center justify-center flex'>
+    
+            </div>
+            <div className='bg-zinc-800 w-full h-20 p-2 rounded-2xl items-center justify-center flex'>
+
+            </div>
+          </div>
+
+
         </div>
       
     </div>

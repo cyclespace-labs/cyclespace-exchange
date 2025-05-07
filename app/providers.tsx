@@ -60,7 +60,7 @@ const queryClient = new QueryClient();
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="bg-slate-100 p-0"
+      className="bg-slate-100 "
     >
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>

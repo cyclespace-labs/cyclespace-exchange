@@ -65,7 +65,7 @@ export const TokenUSDValue = ({ amount, tokenSymbol, chainId }: TokenUSDValuePro
       ) : error ? (
         <span className="text-xs text-red-500">{error}</span>
       ) : usdPrice ? (
-        `≈ $${(parseFloat(amount) * usdPrice).toLocaleString(undefined, {
+        `$${(parseFloat(amount) * usdPrice).toLocaleString(undefined, {
           maximumFractionDigits: 2,
         })}`
       ) : null}

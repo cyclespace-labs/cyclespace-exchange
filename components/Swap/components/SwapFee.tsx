@@ -10,9 +10,9 @@ export function AffiliateFeeBadge({
   buyToken: string;
 }) {
   return (
-    <Badge className="justify-end w-full items-center h-fit border-none flex">
-      <div className=" bg-slate-200 dark:bg-slate-800 p-2 px-4 rounded-3xl mb-3 flex w-fit">
-        <div className="text-slate-400 text-[11px] items-end ">
+    <Badge className="justify-end w-full items-center h-fit border-none flex bg-transparent">
+      <div className=" bg-zinc-800 dark:bg-zinc-800 p-2 px-4 rounded-3xl mb-3 flex w-fit">
+        <div className="text-slate-500 text-[11px] items-end ">
           {price && price.fees?.integratorFee?.amount
             ? "Affiliate Fee: " +
               Number(

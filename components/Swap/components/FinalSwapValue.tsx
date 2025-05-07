@@ -49,14 +49,14 @@ export const FinalSwapValue = ({
   if (!buyAmount || parseFloat(buyAmount) <= 0) return null;
 
   return (
-    <div className="flex flex-col items-start justify-center h-10 mb-4">
-      <div className="text-[12px] text-gray-400 mt-1 font-semibold flex">
+    <div className="">
+      <div className="text-sm text-gray-400 mt-1 font-normal flex">
       {loading ? (
         <span className="text-xs">Calculating final amount...</span>
       ) : error ? (
         <span className="text-xs text-red-500">{error}</span>
       ) : formattedNetAmount ? (
-        `You receive: ${formattedNetAmount} ${buyTokenSymbol.toUpperCase()} (includes ${AFFILIATE_FEE/100}% fee)`
+        `(incl. ${AFFILIATE_FEE/100}% fee) ${formattedNetAmount} ${buyTokenSymbol.toUpperCase()}`
       ) : null}
       </div>
     </div>

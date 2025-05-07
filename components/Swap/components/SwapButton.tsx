@@ -56,11 +56,11 @@ export const SwapButton = ({
 
   return (
     <div className="relative my-8">
-      <div className="h-1 bg-slate-200 rounded-xl" />
+      <div className="h-1 bg-slate-200 dark:bg-zinc-800 rounded-xl" />
       <Button
         variant="outline"
         size="icon"
-        className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 rounded-full w-14 h-14 shadow-lg bg-blue-500 hover:bg-slate-100 items-center justify-center flex hover:border-blue-500 hover:shadow-blue-400"
+        className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 rounded-full w-14 h-14 shadow-lg dark:bg-blue-500 bg-blue-500 hover:bg-slate-100 items-center justify-center flex hover:border-blue-500 hover:shadow-blue-400"
         onClick={handleSwapTokens}
       >
         <ArrowUpDown className="h-8 w-6 text-white font-bold hover:text-blue-500" />
