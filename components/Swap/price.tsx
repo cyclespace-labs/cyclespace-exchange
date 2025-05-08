@@ -194,9 +194,8 @@ export default function PriceView({
       {/* chart */}
       <div className="w-full">
       <TradingChart
-            buyTokenSymbol={toToken}
-            sellTokenSymbol={fromToken}
-          />
+          buyTokenSymbol={toToken}
+          sellTokenSymbol={fromToken} price={0}          />
       </div>
 
       {/* swap */}
@@ -243,13 +242,13 @@ export default function PriceView({
           {/* Swap Button Container */}
             <div className="relative my-8">
               <SwapButton
-                sellToken={sellToken}
-                buyToken={buyToken}
+                sellToken={fromToken}
+                buyToken={toToken}
                 sellAmount={sellAmount}
                 buyAmount={buyAmount}
                 chainId={chainId}
-                setSellToken={setSellToken}
-                setBuyToken={setBuyToken}
+                setSellToken={setFromToken}
+                setBuyToken={setToToken}
                 setSellAmount={setSellAmount}
                 setBuyAmount={setBuyAmount}
                 tokensByChain={tokensByChain}
@@ -322,7 +321,7 @@ export default function PriceView({
         </div>
 
           {/* Affiliate Fee Display */}
-          <AffiliateFeeBadge price={price} buyToken={buyToken} />
+          <AffiliateFeeBadge price={price} buyToken={toToken} />
 
           {/* Tax Information Display */}
           <TaxInfo

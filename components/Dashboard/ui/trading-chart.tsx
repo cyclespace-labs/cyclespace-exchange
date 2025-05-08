@@ -152,40 +152,41 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
     : undefined
 
   return (
-    <Card className="w-full flex flex-col justify-between">
+    <Card className="w-full flex flex-col justify-between border-none bg-zinc-900">
       <CardHeader className="flex flex-row items-center justify-between mt-0">
         <div className="flex items-center gap-4 flex-row">
-          <img 
-            src={tokenInfo.logoURI} 
-            alt={tokenInfo.name}
-            className="h-10 w-10 rounded-full"
-          />
-          <div>
+            <img 
+              src={tokenInfo.logoURI} 
+              alt={tokenInfo.name}
+              className="h-12 w-12 rounded-full bg-zinc-800"
+            />
+          <div className="flex flex-col gap-1">
+          <div className="flex flex-row items-center gap-2">
             <CardTitle>{tokenInfo.symbol.toUpperCase()}</CardTitle>
             <div className="text-muted-foreground">
               {tokenInfo.name}
             </div>
           </div>
-        </div>
-
-        {marketData && (
-          <div className="grid grid-cols-2 gap-4 mt-6 items-center bg-zinc-950 p-3 rounded-lg">
+          {marketData && (
+          <div className="flex flex-row gap-4 items-center">
             <div className="space-y-1">
               <div className="text-[18px] font-semibold">
                 ${marketData.currentPrice.toLocaleString()}
               </div>
-              <div className="text-muted-foreground">Price</div>
             </div>
-            <div className="space-y-1">
-              <div className={`text-[18px] ${
+
+            <div className={`bg-auto px-2 py-[2px] rounded-md ${marketData.priceChange24h >= 0 ? 'bg-green-700/50' : 'text-red-700/50'}`}>
+              <div className={`text-[15px] ${
                 marketData.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'
               }`}>
                 {marketData.priceChange24h.toFixed(2)}%
               </div>
-              <div className="text-muted-foreground">24h Change</div>
             </div>
+
           </div>
         )}
+          </div>
+        </div>
 
         <button 
           onClick={() => setShowBuyChart(!showBuyChart)}
