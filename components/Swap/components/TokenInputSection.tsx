@@ -51,18 +51,6 @@ export const TokenInputSection = ({
 
   return (
     <section className="mt-2 items-start justify-center flex flex-col w-full h-fit gap-3">
-      <div className="h-fit w-full sm:mr-2 rounded-full font-semibold">
-      <TokenPicker 
-          value={fromToken}
-          onValueChange={setFromToken}
-          label="From"
-        />
-        <TokenPicker 
-          value={toToken}
-          onValueChange={setToToken}
-          label="To"
-        />
-      </div>
 
       <div className="w-full flex flex-row items-center justify-between h-fit">
         <Input

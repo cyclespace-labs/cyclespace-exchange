@@ -1,4 +1,3 @@
-// trading-chart.tsx
 "use client"
 
 import { useEffect, useState } from "react"
@@ -15,6 +14,7 @@ import {
   COINGECKO_IDS,
   Token 
 } from "@/lib/constants"
+import Image from "next/image"
 
 interface TradingChartProps {
   buyTokenSymbol?: string
@@ -22,6 +22,7 @@ interface TradingChartProps {
   delay?: number
   days?: number
   chartColor?: string
+  price: number
 }
 
 interface ChartDataPoint {
@@ -36,14 +37,12 @@ interface TokenMarketData {
   volume24h: number
 }
 
-export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "green",   delay = 0, }: TradingChartProps) {
+export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColor = "green", delay = 0 }: TradingChartProps) {
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
   const [marketData, setMarketData] = useState<TokenMarketData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showBuyChart, setShowBuyChart] = useState(true)
-
-  
 
   // Get current token info from constants
   const currentTokenSymbol = showBuyChart ? buyTokenSymbol : sellTokenSymbol
@@ -51,8 +50,6 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
     ? MAINNET_TOKENS_BY_SYMBOL[currentTokenSymbol.toLowerCase()]
     : undefined
   const coingeckoId = tokenInfo ? COINGECKO_IDS[tokenInfo.symbol.toLowerCase()] : null
-
-  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +106,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
     }
 
     fetchData()
-  }, [coingeckoId, tokenInfo])
+  }, [coingeckoId, tokenInfo, price])
 
   const getPriceRange = () => {
     if (chartData.length === 0) return { min: 0, max: 0 }
@@ -117,7 +114,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
     const minPrice = Math.min(...prices)
     const maxPrice = Math.max(...prices)
     const range = maxPrice - minPrice
-    const padding = range * 0.1
+    const padding = range * 0.05
     return { min: minPrice - padding, max: maxPrice + padding }
   }
 
@@ -125,7 +122,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
 
   if (isLoading) {
     return (
-      <Card className="p-6">
+      <Card className="p-6 w-full h-full">
         <CardHeader>
           <Skeleton className="h-6 w-1/2" />
         </CardHeader>
@@ -138,7 +135,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
 
   if (error || !tokenInfo) {
     return (
-      <Card className="p-6">
+      <Card className="p-6 w-full h-full">
         <CardHeader>
           <CardTitle>Error</CardTitle>
         </CardHeader>
@@ -149,10 +146,15 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
     )
   }
 
+  const otherTokenSymbol = showBuyChart ? sellTokenSymbol : buyTokenSymbol
+  const otherTokenInfo: Token | undefined = otherTokenSymbol 
+    ? MAINNET_TOKENS_BY_SYMBOL[otherTokenSymbol.toLowerCase()]
+    : undefined
+
   return (
-    <Card className="p-6 w-full">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div className="flex items-center gap-4">
+    <Card className="w-full flex flex-col justify-between">
+      <CardHeader className="flex flex-row items-center justify-between mt-0">
+        <div className="flex items-center gap-4 flex-row">
           <img 
             src={tokenInfo.logoURI} 
             alt={tokenInfo.name}
@@ -165,29 +167,67 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
             </div>
           </div>
         </div>
+
+        {marketData && (
+          <div className="grid grid-cols-2 gap-4 mt-6 items-center bg-zinc-950 p-3 rounded-lg">
+            <div className="space-y-1">
+              <div className="text-[18px] font-semibold">
+                ${marketData.currentPrice.toLocaleString()}
+              </div>
+              <div className="text-muted-foreground">Price</div>
+            </div>
+            <div className="space-y-1">
+              <div className={`text-[18px] ${
+                marketData.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'
+              }`}>
+                {marketData.priceChange24h.toFixed(2)}%
+              </div>
+              <div className="text-muted-foreground">24h Change</div>
+            </div>
+          </div>
+        )}
+
         <button 
           onClick={() => setShowBuyChart(!showBuyChart)}
-          className="text-sm hover:bg-accent p-2 rounded-lg"
+          className="text-sm hover:bg-accent p-2 rounded-lg flex items-center gap-2"
           disabled={!buyTokenSymbol || !sellTokenSymbol}
         >
-          Show {showBuyChart ? sellTokenSymbol : buyTokenSymbol}
+          Show {otherTokenSymbol}
+          {otherTokenInfo && (
+            <img 
+              src={otherTokenInfo.logoURI} 
+              alt={otherTokenInfo.name}
+              className="h-5 w-5 rounded-full"
+            />
+          )}
         </button>
       </CardHeader>
       
       <CardContent className="w-full h-full">
         <AreaChart
-          width={1200}
+          accessibilityLayer
+          layout="horizontal"
+          width={1400}
           height={400}
           data={chartData}
           margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
           className="w-full h-full"
         >
-          <CartesianGrid stroke=""  vertical={false}/>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.2} />
           <XAxis
             dataKey="timestamp"
             tickFormatter={(ts) => new Date(ts).toLocaleDateString()}
+            axisLine={false}
+            tickLine={false}
           />
-          <YAxis />
+          <YAxis
+            domain={[min, max]}
+            tickFormatter={(value) => `$${value.toFixed(2)}`}
+            tick={{ fill: "#888", fontSize: 10 }}
+            axisLine={true}
+            tickLine={true}
+            hide={false}
+          />
           <Tooltip />
           <Area
             type="monotone"
@@ -197,25 +237,6 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, chartColor = "gr
             fillOpacity={0.2}
           />
         </AreaChart>
-        
-        {marketData && (
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="space-y-1">
-              <div className="text-muted-foreground">Price</div>
-              <div className="text-2xl font-semibold">
-                ${marketData.currentPrice.toLocaleString()}
-              </div>
-            </div>
-            <div className="space-y-1">
-              <div className="text-muted-foreground">24h Change</div>
-              <div className={`text-2xl ${
-                marketData.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'
-              }`}>
-                {marketData.priceChange24h.toFixed(2)}%
-              </div>
-            </div>
-          </div>
-        )}
       </CardContent>
     </Card>
   )
