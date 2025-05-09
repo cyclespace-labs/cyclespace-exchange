@@ -16,6 +16,7 @@ import {
   Token 
 } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
+import { Widget } from './../../Widget/Widget';
 
 interface TradingChartProps {
   buyTokenSymbol?: string
@@ -294,31 +295,31 @@ useEffect(() => {
         <div className="flex flex-row gap-2">
           <Button 
             onClick={() => setSelectedTimeframe('1D')}
-            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
-          >
+            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            >
             1D
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('7D')}
-            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
           >
             7D
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('3M')}
-            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
           >
             3M
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('1Y')}
-            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
           >
             1Y
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('All')}
-            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
           >
             All
           </Button>
@@ -327,13 +328,13 @@ useEffect(() => {
         <div className="flex flex-row gap-2">
           <Button 
             onClick={() => setChartType('line')}
-            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
           >
             Line
           </Button>
           <Button 
             onClick={() => setChartType('candle')}
-            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
           >
             Candle
           </Button>
@@ -352,16 +353,18 @@ useEffect(() => {
                 <XAxis
                   dataKey="timestamp"
                   tickFormatter={(ts) => new Date(ts).toLocaleDateString()}
+                  tick={{ fill: "#888", fontSize: 11 }}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
                   domain={[min, max]}
                   tickFormatter={(value) => `$${value.toFixed(2)}`}
-                  tick={{ fill: "#888", fontSize: 10 }}
+                  tick={{ fill: "#888", fontSize: 11 }}
                   axisLine={false}
                   tickLine={true}
                   hide={false}
+                  orientation="right"
                 />
                 <Tooltip />
                 <Area
