@@ -5,7 +5,7 @@ import GlobalData from "@/components/dashboard/GlobalData"
 import { LinearChart } from "@/components/dashboard/Linear-Chart"
 import TopGainers from "@/components/dashboard/TopGainers"
 import TopLosers from "@/components/dashboard/TopLosers"
-import TrendingTokens from "@/components/dashboard/TrendingToken"
+import TrendingTokens from "@/components/dashboard/MarketStats"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -32,7 +32,7 @@ import { NavBar } from "@/components/Navigation/NavBar"
 import { Ticker } from "@/components/Ticker"
 import Swap from "../Swap/page"
 import { useState } from "react"
-
+import MarketStats from './../../components/dashboard/MarketStats';
 
 
 
@@ -58,18 +58,23 @@ export default function Page() {
         </header>
 
         <div className="w-full">
-            <div className="justify-center items-center w-[1850px] overflow-clip my-4">
+          
+           {/*} <div className="justify-center items-center w-[1850px] overflow-clip my-4">
               <Ticker/>
-            </div>
+            </div> */}
+
         <div className="flex flex-row w-full h-full">
 
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
 
-              <div className="w-full h-fit">
-                  <div className="mt-0 pt-0 h-fit w-fit justify-start items-start flex">
+                  <div className="mt-0 pt-0 h-[715px] w-full justify-start items-start flex gap-2">
+                    <div className="w-lg h-full container flex flex-col gap-2">
+                      <MarketStats/>
+                      <TopGainers/>
+                      <TopGainers/>
+                    </div>
                     <Swap/>
                   </div>
-                </div>
 
                 <div className="grid auto-rows-min gap-4 md:grid-cols-4">
 
@@ -78,7 +83,7 @@ export default function Page() {
                   </div>
 
                   <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <TrendingTokens />
+                    <MarketStats />
                   </div>
 
                   <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts"
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { 
   Card,
   CardContent,
@@ -15,6 +15,7 @@ import {
   Token 
 } from "@/lib/constants"
 import Image from "next/image"
+import { Button } from "@/components/ui/button"
 
 interface TradingChartProps {
   buyTokenSymbol?: string
@@ -114,7 +115,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
     const minPrice = Math.min(...prices)
     const maxPrice = Math.max(...prices)
     const range = maxPrice - minPrice
-    const padding = range * 0.05
+    const padding = range * 0.1
     return { min: minPrice - padding, max: maxPrice + padding }
   }
 
@@ -153,12 +154,12 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
 
   return (
     <Card className="w-full flex flex-col justify-between border-none bg-zinc-900">
-      <CardHeader className="flex flex-row items-center justify-between mt-0">
-        <div className="flex items-center gap-4 flex-row">
+      <CardHeader className="flex flex-row items-center justify-between mt-0 ">
+        <div className="flex items-center gap-4 flex-row justify-center">
             <img 
               src={tokenInfo.logoURI} 
               alt={tokenInfo.name}
-              className="h-12 w-12 rounded-full bg-zinc-800"
+              className="h-12 w-12 rounded-full bg-zinc-800 justify-center"
             />
           <div className="flex flex-col gap-1">
           <div className="flex flex-row items-center gap-2">
@@ -185,9 +186,8 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
 
           </div>
         )}
-          </div>
         </div>
-
+        </div>
         <button 
           onClick={() => setShowBuyChart(!showBuyChart)}
           className="text-sm hover:bg-accent p-2 rounded-lg flex items-center gap-2"
@@ -203,41 +203,57 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
           )}
         </button>
       </CardHeader>
+          
+      <div className="flex flex-row px-6 justify-between">
+          <div className="flex flex-row gap-2">
+          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="1D"><p>1D</p></Button>
+          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="7D"><p>7D</p></Button>
+          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="3M"><p>3M</p></Button>
+          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="1Y"><p>1Y</p></Button>
+          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="All"><p>All</p></Button>
+        </div>
+
+        <div className="flex flex-row gap-2" >
+          <Button className="bg-blue-600" variant={"secondary"} title="1Y"><p>Line</p></Button>
+          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="All"><p>Candle</p></Button>
+        </div>
+      </div>    
       
-      <CardContent className="w-full h-full">
-        <AreaChart
-          accessibilityLayer
-          layout="horizontal"
-          width={1400}
-          height={400}
-          data={chartData}
-          margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-          className="w-full h-full"
-        >
-          <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.2} />
-          <XAxis
-            dataKey="timestamp"
-            tickFormatter={(ts) => new Date(ts).toLocaleDateString()}
-            axisLine={false}
-            tickLine={false}
-          />
-          <YAxis
-            domain={[min, max]}
-            tickFormatter={(value) => `$${value.toFixed(2)}`}
-            tick={{ fill: "#888", fontSize: 10 }}
-            axisLine={true}
-            tickLine={true}
-            hide={false}
-          />
-          <Tooltip />
-          <Area
-            type="monotone"
-            dataKey="price"
-            stroke="#2563eb"
-            fill="#3b82f6"
-            fillOpacity={0.2}
-          />
-        </AreaChart>
+      <CardContent className="h-[400px] sm:h-[525px]">
+        <div className="w-full h-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              accessibilityLayer
+              layout="horizontal"
+              data={chartData}
+              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.2} />
+              <XAxis
+                dataKey="timestamp"
+                tickFormatter={(ts) => new Date(ts).toLocaleDateString()}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                domain={[min, max]}
+                tickFormatter={(value) => `$${value.toFixed(2)}`}
+                tick={{ fill: "#888", fontSize: 10 }}
+                axisLine={false}
+                tickLine={true}
+                hide={false}
+              />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="price"
+                stroke="#2563eb"
+                fill="#3b82f6"
+                fillOpacity={0.2}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   )

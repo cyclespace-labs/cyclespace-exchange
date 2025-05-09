@@ -189,29 +189,31 @@ export default function PriceView({
 
   return (
     
-    <div className="flex flex-row justify-between gap-2 h-full w-full">
+    <div className="flex flex-row justify-between gap-2 h-full w-full ">
 
       {/* chart */}
       <div className="w-full">
-      <TradingChart
+        <TradingChart
           buyTokenSymbol={toToken}
-          sellTokenSymbol={fromToken} price={0}          />
+          sellTokenSymbol={fromToken} price={0}          
+        />
       </div>
 
       {/* swap */}
-      <div className="container w-fit p-5 pt-0 pb-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow">
+      <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">
         <div className="p-3 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">
             <h1 className="text-[18px] font-medium">Market</h1>
             <Button variant="default" className=" h-fit w-fit bg-transparent shadow shadow-zinc-950">
               <Settings width={35} height={35} color="white"/>
             </Button>
-
           </div>
+
           <div className="w-full bg-zinc-700 h-[1px]"/>
         </div>
-        <div className=" p-4 rounded-md mb-0">
-          <div className="justify-between w-full gap-10 items-center h-fit mx-auto flex flex-row">
+        
+        <div className=" p-4 rounded-md h-fit mb-0">
+          <div className="justify-between w-full gap-10 items-center h-full mx-auto flex flex-row">
             <label htmlFor="sell" className="text-black text-[16px] dark:text-white mb-2 mr-2 font-normal items-start">
               Sell
             </label>
