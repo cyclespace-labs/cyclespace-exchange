@@ -247,6 +247,17 @@
   --chart-5: oklch(0.645 0.246 16.439);
 }
 
+.lightweight-charts {
+  z-index: 0 !important;
+}
+
+/* Maintain aspect ratio for chart container */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

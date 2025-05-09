@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { createChart as createLwChart, IChartApi, CandlestickSeries, createChart, PriceScaleMode, UTCTimestamp } from 'lightweight-charts'
 import { 
   Card,
   CardContent,
@@ -14,7 +15,6 @@ import {
   COINGECKO_IDS,
   Token 
 } from "@/lib/constants"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
 
 interface TradingChartProps {
@@ -31,6 +31,14 @@ interface ChartDataPoint {
   price: number
 }
 
+interface CandleData {
+  time: UTCTimestamp;
+  open: number
+  high: number
+  low: number
+  close: number
+}
+
 interface TokenMarketData {
   currentPrice: number
   priceChange24h: number
@@ -38,14 +46,20 @@ interface TokenMarketData {
   volume24h: number
 }
 
-export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColor = "green", delay = 0 }: TradingChartProps) {
+export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColor = "green", delay = 0  }: TradingChartProps) {
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
+  const [candleData, setCandleData] = useState<CandleData[]>([])
   const [marketData, setMarketData] = useState<TokenMarketData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showBuyChart, setShowBuyChart] = useState(true)
+  const [selectedTimeframe, setSelectedTimeframe] = useState<'1D' | '7D' | '3M' | '1Y' | 'All'>('1D')
+  const [chartType, setChartType] = useState<'line' | 'candle'>('line')
+  const [chartInstance, setChartInstance] = useState<IChartApi | null>(null)
+  const chartContainerRef = useRef<HTMLDivElement>(null)
 
-  // Get current token info from constants
+  
+
   const currentTokenSymbol = showBuyChart ? buyTokenSymbol : sellTokenSymbol
   const tokenInfo: Token | undefined = currentTokenSymbol 
     ? MAINNET_TOKENS_BY_SYMBOL[currentTokenSymbol.toLowerCase()]
@@ -66,14 +80,22 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
 
         const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY
         const headers: Record<string, string> = {}
-        if (apiKey) {
-          headers["x-cg-demo-api-key"] = apiKey
-        }
+        if (apiKey) headers["x-cg-demo-api-key"] = apiKey
 
-        // Fetch market data
+        const daysMap = {
+          '1D': 1,
+          '7D': 7,
+          '3M': 90,
+          '1Y': 365,
+          'All': 'max'
+        }
+        
+
         const [marketRes, chartRes] = await Promise.all([
           fetch(`https://api.coingecko.com/api/v3/coins/${coingeckoId}`, { headers }),
-          fetch(`https://api.coingecko.com/api/v3/coins/${coingeckoId}/market_chart?vs_currency=usd&days=30`, { headers })
+          chartType === 'line'
+            ? fetch(`https://api.coingecko.com/api/v3/coins/${coingeckoId}/market_chart?vs_currency=usd&days=${daysMap[selectedTimeframe]}`, { headers })
+            : fetch(`https://api.coingecko.com/api/v3/coins/${coingeckoId}/ohlc?vs_currency=usd&days=${daysMap[selectedTimeframe]}`, { headers })
         ])
 
         if (!marketRes.ok || !chartRes.ok) throw new Error('Failed to fetch data')
@@ -81,7 +103,25 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
         const marketData = await marketRes.json()
         const chartData = await chartRes.json()
 
-        // Transform market data
+        if (chartType === 'line') {
+          const transformedChart: ChartDataPoint[] = chartData.prices.map(
+            ([timestamp, price]: [number, number]) => ({
+              timestamp,
+              price: Number(price.toFixed(4))
+            })
+          )
+          setChartData(transformedChart)
+        } else {
+          const transformedCandles: CandleData[] = chartData.map((d: [number, number, number, number, number]) => ({
+            time: Math.floor(d[0] / 1000) as UTCTimestamp,
+            open: d[1],
+            high: d[2],
+            low: d[3],
+            close: d[4]
+          }));
+          setCandleData(transformedCandles)
+        }
+
         const transformedMarket: TokenMarketData = {
           currentPrice: marketData.market_data.current_price.usd,
           priceChange24h: marketData.market_data.price_change_percentage_24h,
@@ -89,16 +129,7 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
           volume24h: marketData.market_data.total_volume.usd
         }
 
-        // Transform chart data
-        const transformedChart: ChartDataPoint[] = chartData.prices.map(
-          ([timestamp, price]: [number, number]) => ({
-            timestamp,
-            price: Number(price.toFixed(4))
-          })
-        )
-
         setMarketData(transformedMarket)
-        setChartData(transformedChart)
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load data")
       } finally {
@@ -107,9 +138,66 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
     }
 
     fetchData()
-  }, [coingeckoId, tokenInfo, price])
+  }, [coingeckoId, tokenInfo, price, selectedTimeframe, chartType])
+useEffect(() => {
+  if (chartType === 'candle' && chartContainerRef.current && candleData.length > 0) {
+    const chart = createChart(chartContainerRef.current, {
+      width: chartContainerRef.current.clientWidth,
+      height: chartContainerRef.current.clientHeight,
+      layout: {
+        background: { color: '#18181b' },
+        textColor: '#71717a'
+      },
+      grid: {
+        vertLines: { color: '#27272a' },
+        horzLines: { color: '#27272a' }
+      },
+
+    });
+
+    const candleSeries = chart.addSeries(CandlestickSeries, {
+      upColor: '#16a34a',
+      downColor: '#dc2626',
+      borderVisible: false,
+      wickUpColor: '#16a34a',
+      wickDownColor: '#dc2626',
+      
+    });
+
+    candleSeries.setData(candleData);
+    setChartInstance(chart);
+
+    return () => {
+      chart.remove();
+      setChartInstance(null);
+    };
+  }
+}, [chartType, candleData]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (chartInstance && chartContainerRef.current) {
+        chartInstance.resize(
+          chartContainerRef.current.clientWidth,
+          chartContainerRef.current.clientHeight
+        )
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [chartInstance])
 
   const getPriceRange = () => {
+    if (chartType === 'candle' && candleData.length > 0) {
+      const prices = candleData.flatMap(d => [d.high, d.low])
+      const minPrice = Math.min(...prices)
+      const maxPrice = Math.max(...prices)
+      const range = maxPrice - minPrice
+      const padding = range * 0.1
+      return { min: minPrice - padding, max: maxPrice + padding }
+    }
+    
     if (chartData.length === 0) return { min: 0, max: 0 }
     const prices = chartData.map((point) => point.price)
     const minPrice = Math.min(...prices)
@@ -154,39 +242,37 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
 
   return (
     <Card className="w-full flex flex-col justify-between border-none bg-zinc-900">
-      <CardHeader className="flex flex-row items-center justify-between mt-0 ">
-        <div className="flex items-center gap-4 flex-row justify-center">
-            <img 
-              src={tokenInfo.logoURI} 
-              alt={tokenInfo.name}
-              className="h-12 w-12 rounded-full bg-zinc-800 justify-center"
-            />
+      <CardHeader className="flex flex-row items-center justify-between mt-0">
+        <div className="flex items-center gap-4 flex-row">
+          <img 
+            src={tokenInfo.logoURI} 
+            alt={tokenInfo.name}
+            className="h-12 w-12 rounded-full bg-zinc-800"
+          />
           <div className="flex flex-col gap-1">
-          <div className="flex flex-row items-center gap-2">
-            <CardTitle>{tokenInfo.symbol.toUpperCase()}</CardTitle>
-            <div className="text-muted-foreground">
-              {tokenInfo.name}
-            </div>
-          </div>
-          {marketData && (
-          <div className="flex flex-row gap-4 items-center">
-            <div className="space-y-1">
-              <div className="text-[18px] font-semibold">
-                ${marketData.currentPrice.toLocaleString()}
+            <div className="flex flex-row items-center gap-2">
+              <CardTitle>{tokenInfo.symbol.toUpperCase()}</CardTitle>
+              <div className="text-muted-foreground">
+                {tokenInfo.name}
               </div>
             </div>
-
-            <div className={`bg-auto px-2 py-[2px] rounded-md ${marketData.priceChange24h >= 0 ? 'bg-green-700/50' : 'text-red-700/50'}`}>
-              <div className={`text-[15px] ${
-                marketData.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'
-              }`}>
-                {marketData.priceChange24h.toFixed(2)}%
+            {marketData && (
+              <div className="flex flex-row gap-4 items-center">
+                <div className="space-y-1">
+                  <div className="text-[18px] font-semibold">
+                    ${marketData.currentPrice.toLocaleString()}
+                  </div>
+                </div>
+                <div className={`bg-auto px-2 py-[2px] rounded-md ${marketData.priceChange24h >= 0 ? 'bg-green-700/50' : 'text-red-700/50'}`}>
+                  <div className={`text-[15px] ${
+                    marketData.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'
+                  }`}>
+                    {marketData.priceChange24h.toFixed(2)}%
+                  </div>
+                </div>
               </div>
-            </div>
-
+            )}
           </div>
-        )}
-        </div>
         </div>
         <button 
           onClick={() => setShowBuyChart(!showBuyChart)}
@@ -203,57 +289,94 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
           )}
         </button>
       </CardHeader>
-          
+
       <div className="flex flex-row px-6 justify-between">
-          <div className="flex flex-row gap-2">
-          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="1D"><p>1D</p></Button>
-          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="7D"><p>7D</p></Button>
-          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="3M"><p>3M</p></Button>
-          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="1Y"><p>1Y</p></Button>
-          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="All"><p>All</p></Button>
+        <div className="flex flex-row gap-2">
+          <Button 
+            onClick={() => setSelectedTimeframe('1D')}
+            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            1D
+          </Button>
+          <Button 
+            onClick={() => setSelectedTimeframe('7D')}
+            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            7D
+          </Button>
+          <Button 
+            onClick={() => setSelectedTimeframe('3M')}
+            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            3M
+          </Button>
+          <Button 
+            onClick={() => setSelectedTimeframe('1Y')}
+            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            1Y
+          </Button>
+          <Button 
+            onClick={() => setSelectedTimeframe('All')}
+            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            All
+          </Button>
         </div>
 
-        <div className="flex flex-row gap-2" >
-          <Button className="bg-blue-600" variant={"secondary"} title="1Y"><p>Line</p></Button>
-          <Button className="bg-transparent border-[1px] border-zinc-800" variant={"secondary"} title="All"><p>Candle</p></Button>
+        <div className="flex flex-row gap-2">
+          <Button 
+            onClick={() => setChartType('line')}
+            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            Line
+          </Button>
+          <Button 
+            onClick={() => setChartType('candle')}
+            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800`}
+          >
+            Candle
+          </Button>
         </div>
-      </div>    
-      
-      <CardContent className="h-[400px] sm:h-[525px]">
-        <div className="w-full h-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart
-              accessibilityLayer
-              layout="horizontal"
-              data={chartData}
-              margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.2} />
-              <XAxis
-                dataKey="timestamp"
-                tickFormatter={(ts) => new Date(ts).toLocaleDateString()}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                domain={[min, max]}
-                tickFormatter={(value) => `$${value.toFixed(2)}`}
-                tick={{ fill: "#888", fontSize: 10 }}
-                axisLine={false}
-                tickLine={true}
-                hide={false}
-              />
-              <Tooltip />
-              <Area
-                type="monotone"
-                dataKey="price"
-                stroke="#2563eb"
-                fill="#3b82f6"
-                fillOpacity={0.2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
+      </div>
+
+      <CardContent className="h-[400px] sm:h-[525px] w-full">
+        {chartType === 'line' ? (
+          <div className="w-full h-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart
+                data={chartData}
+                margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} strokeOpacity={0.2} />
+                <XAxis
+                  dataKey="timestamp"
+                  tickFormatter={(ts) => new Date(ts).toLocaleDateString()}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  domain={[min, max]}
+                  tickFormatter={(value) => `$${value.toFixed(2)}`}
+                  tick={{ fill: "#888", fontSize: 10 }}
+                  axisLine={false}
+                  tickLine={true}
+                  hide={false}
+                />
+                <Tooltip />
+                <Area
+                  type="monotone"
+                  dataKey="price"
+                  stroke="#2563eb"
+                  fill="#3b82f6"
+                  fillOpacity={0.2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+              <div ref={chartContainerRef} className="w-full h-full" />
+        )}
       </CardContent>
     </Card>
   )
