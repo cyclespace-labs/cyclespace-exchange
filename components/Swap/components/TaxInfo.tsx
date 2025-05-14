@@ -1,4 +1,5 @@
 import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+import { useState } from "react";
 
 interface TaxInfoProps {
   buyTokenTax: {
@@ -21,8 +22,11 @@ export function TaxInfo({
 }: TaxInfoProps) {
   const formatTax = (taxBps: string) => (parseFloat(taxBps) / 100).toFixed(2);
 
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  
   return (
-    <div className="text-slate-400">
+    <div className="text-slate-400 bg-zinc-800 w-26 h-6 ">
       {buyTokenTax.buyTaxBps !== "0" && (
         <p>
           {MAINNET_TOKENS_BY_SYMBOL[buyToken].symbol +

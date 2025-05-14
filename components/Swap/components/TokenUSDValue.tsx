@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { MAINNET_TOKENS_BY_SYMBOL, COINGECKO_IDS } from "@/lib/constants";
+import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TokenUSDValueProps {
   amount: string;
@@ -72,9 +74,13 @@ export const TokenUSDValue = ({ amount, tokenSymbol, chainId }: TokenUSDValuePro
   return (
     <div className="text-sm text-muted-foreground mt-1 flex">
       {loading ? (
-        <span className="text-xs">Loading USD value...</span>
+        <Skeleton>
+          <span className="text-xs">Loading USD value...</span>
+        </Skeleton>
       ) : error ? (
-        <span className="text-xs text-destructive">{error}</span>
+        <Skeleton>
+            <span className="text-xs text-destructive w-full">Error Reload</span>
+        </Skeleton>
       ) : usdPrice ? (
         `$${(parseFloat(amount) * usdPrice).toLocaleString(undefined, {
           maximumFractionDigits: 2,

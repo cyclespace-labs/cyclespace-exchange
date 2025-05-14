@@ -33,6 +33,7 @@ import { Ticker } from "@/components/Ticker"
 import Swap from "../Swap/page"
 import { useState } from "react"
 import MarketStats from './../../components/dashboard/MarketStats';
+import { NavMenu } from "@/components/NavMenu/NavMenu"
 
 
 
@@ -45,15 +46,16 @@ export default function Page() {
     <SidebarProvider className="bg-black w-full">
       <AppSidebar className="bg-black" />
       <SidebarInset className="bg-black w-full">
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 bg-black">
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 bg-black px-4">
 
-          <div className="flex items-center gap-2 px-4  bg-black">
+          <div className="flex items-center gap-2 px-4  bg-black mt-2 mb-2">
             <SidebarTrigger className="-ml-1 bg-black" />
             <Separator
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
             />
           </div>
+          <NavMenu/>
           
         </header>
 
@@ -68,12 +70,12 @@ export default function Page() {
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
 
                   <div className="mt-0 pt-0 h-[715px] w-full justify-start items-start flex gap-2">
-                    <div className="w-lg h-full container flex flex-col gap-2">
-                      <MarketStats/>
+                    <div className="max-w-[400px] h-full container flex flex-col gap-2">
+                      <MarketStats/> 
                       <TopGainers/>
                       <TopGainers/>
                     </div>
-                    <Swap/>
+                      <Swap/>
                   </div>
 
                 <div className="grid auto-rows-min gap-4 md:grid-cols-4">

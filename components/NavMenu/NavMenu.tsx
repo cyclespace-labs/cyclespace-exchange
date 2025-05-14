@@ -15,9 +15,11 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { ConnectButton } from "@rainbow-me/rainbowkit"
-import Image from "next/image"
-import ZeroExLogo from "@/images/white-0x-logo.png"; // Adjust the path as necessary
-import { TokenPicker } from "../Swap/components/tokenPicker"
+import { TokenPicker } from './../Swap/components/tokenPicker';
+import { useState } from "react"
+import { ThemeToggle } from "../ThemeToggle"
+
+
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -26,6 +28,7 @@ const components: { title: string; href: string; description: string }[] = [
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
   },
+
   {
     title: "Hover Card",
     href: "/docs/primitives/hover-card",
@@ -59,6 +62,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function NavMenu() {
   const [token, setToken] = React.useState<string | null>(null);
+  const [fromToken, setFromToken] = useState("usdc")
 
   const onTokenChange = (newToken: string) => {
     setToken(newToken);
@@ -68,25 +72,23 @@ export function NavMenu() {
     <NavigationMenu className="w-full flex justify-between items-center gap-8 h-fit">
     
         <div className="h-fit w-fit">
-          <a href="https://0x.org/" target="_blank" rel="noopener noreferrer">
-             <Image src={ZeroExLogo} alt="Icon" width={50} height={50} />
-          </a>
+
         </div>
 
       <NavigationMenuList className="w-full justify-between h-fit items-center">
 
         <NavigationMenuItem className="">
           <div className="h-fit sm:w-full sm:mr-2 rounded-full font-semibold">
-          <TokenPicker
-            value={token || ""}
-            onValueChange={onTokenChange}
-
-          />
+            <TokenPicker
+              value={fromToken}
+              onValueChange={setFromToken}
+              label="From"
+            />
         </div>
         </NavigationMenuItem>
 
         <NavigationMenuItem >
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/docs" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Documentation
             </NavigationMenuLink>
@@ -94,6 +96,9 @@ export function NavMenu() {
         </NavigationMenuItem>
 
       </NavigationMenuList>
+                  <div className="rounded-full text-black bg-white px-3 md:px-4 text-sm md:text-base">
+                      <ThemeToggle />
+                  </div>
 
         <ConnectButton />
 

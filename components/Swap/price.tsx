@@ -192,7 +192,7 @@ export default function PriceView({
     <div className="flex flex-row justify-between gap-2 h-full w-full ">
 
       {/* chart */}
-      <div className="w-full">
+      <div className="w-full h-full flex">
         <TradingChart
           buyTokenSymbol={toToken}
           sellTokenSymbol={fromToken} price={0}          

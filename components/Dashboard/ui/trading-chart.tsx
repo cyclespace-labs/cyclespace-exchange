@@ -17,6 +17,7 @@ import {
 } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { Widget } from './../../Widget/Widget';
+import { CandlestickChart, LineChart } from "lucide-react"
 
 interface TradingChartProps {
   buyTokenSymbol?: string
@@ -212,12 +213,49 @@ useEffect(() => {
 
   if (isLoading) {
     return (
-      <Card className="p-6 w-full h-full">
-        <CardHeader>
-          <Skeleton className="h-6 w-1/2" />
+      <Card className="p-6 px-2 h-[712px] border-0 bg-zinc-900 w-full flex">
+        
+        <CardHeader className="flex flex-row items-center justify-between mt-0 w-full">
+          <div className="flex items-center gap-1 flex-row w-full">
+            <Skeleton className="h-12 w-12 rounded-full" />
+              <CardContent className="flex flex-col gap-1 w-full">
+                <div className="flex flex-row items-center gap-2 w-full">
+                  <Skeleton className="h-6 w-20 rounded-md" />
+                  <Skeleton className="h-6 w-20 rounded-md" />
+                </div>
+                <div className="flex flex-row gap-2 items-center w-full">
+                  <div className="space-y-1">
+                    <Skeleton className="h-4 w-20 rounded-md"/>
+                  </div>
+                    <Skeleton className="h-4 w-20 rounded-md"/>
+                </div>
+              </CardContent>
+          </div>
+            <Skeleton className="h-10 w-24 rounded-md"/>
         </CardHeader>
-        <CardContent>
-          <Skeleton className="h-[300px] w-full" />
+
+        <CardContent className="flex flex-row justify-between w-full">
+
+          <div className="flex flex-row gap-2 w-full">
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+          </div>
+
+          <div className="flex flex-row gap-2">
+              <Skeleton className="h-8 w-18 rounded-md" />
+              <Skeleton className="h-8 w-18 rounded-md" />
+          </div>
+
+        </CardContent>
+
+        <CardContent className="text-center text-muted-foreground h-full w-full justify-center items-center">
+          <Skeleton className="rounded-md h-full justify-center items-center flex w-full">
+            <LineChart width={100} height={100} className="justify-center items-center"/>
+            {isLoading}
+          </Skeleton>
         </CardContent>
       </Card>
     )
@@ -225,12 +263,49 @@ useEffect(() => {
 
   if (error || !tokenInfo) {
     return (
-      <Card className="p-6 w-full h-full">
-        <CardHeader>
-          <CardTitle>Error</CardTitle>
+      <Card className="p-6 px-2 h-[712px] border-0 bg-zinc-900 w-full flex">
+        
+        <CardHeader className="flex flex-row items-center justify-between mt-0 w-full">
+          <div className="flex items-center gap-1 flex-row w-full">
+            <Skeleton className="h-12 w-12 rounded-full" />
+              <CardContent className="flex flex-col gap-1 w-full">
+                <div className="flex flex-row items-center gap-2 w-full">
+                  <Skeleton className="h-6 w-20 rounded-md" />
+                  <Skeleton className="h-6 w-20 rounded-md" />
+                </div>
+                <div className="flex flex-row gap-2 items-center w-full">
+                  <div className="space-y-1">
+                    <Skeleton className="h-4 w-20 rounded-md"/>
+                  </div>
+                    <Skeleton className="h-4 w-20 rounded-md"/>
+                </div>
+              </CardContent>
+          </div>
+            <Skeleton className="h-10 w-24 rounded-md"/>
         </CardHeader>
-        <CardContent className="text-center text-muted-foreground">
-          {error || "Select tokens to view chart"}
+
+        <CardContent className="flex flex-row justify-between w-full">
+
+          <div className="flex flex-row gap-2 w-full">
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+              <Skeleton className="h-8 w-20 rounded-md" />
+          </div>
+
+          <div className="flex flex-row gap-2">
+              <Skeleton className="h-8 w-18 rounded-md" />
+              <Skeleton className="h-8 w-18 rounded-md" />
+          </div>
+
+        </CardContent>
+
+        <CardContent className="text-center text-muted-foreground h-full w-full justify-center items-center">
+          <Skeleton className="rounded-md h-full justify-center items-center flex w-full">
+            <LineChart width={100} height={100} className="justify-center items-center"/>
+            {error || "Select tokens to view chart"}
+          </Skeleton>
         </CardContent>
       </Card>
     )
