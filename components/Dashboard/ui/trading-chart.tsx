@@ -334,7 +334,7 @@ useEffect(() => {
           <img 
             src={tokenInfo.logoURI} 
             alt={tokenInfo.name}
-            className="h-12 w-12 rounded-full bg-zinc-800"
+            className="h-12 w-12 rounded-full dark:bg-zinc-800 bg-zinc-100"
           />
           <div className="flex flex-col gap-1">
             <div className="flex flex-row items-center gap-8">

@@ -210,7 +210,7 @@ export default function PriceView({
       </div>
 
       {/* swap */}
-      <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">
+      <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg- dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">
         <div className="p-3 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">
             <h1 className="text-[18px] font-medium">Market</h1>

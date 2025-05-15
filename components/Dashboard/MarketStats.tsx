@@ -6,6 +6,7 @@ import { COINGECKO_IDS } from "@/lib/constants";
 
 interface MarketStatsProps {
   tokenSymbol: string;
+  chainId?: number;
 }
 
 interface MarketData {
@@ -13,7 +14,10 @@ interface MarketData {
   marketCap: number;
   fdv: number;
   circulatingSupply: number;
+  holders?: number;
+  liquidity?: number;
 }
+
 
 export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
   const [marketData, setMarketData] = useState<MarketData | null>(null);
@@ -25,6 +29,8 @@ export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
       setIsLoading(true);
       setError(null);
 
+      
+
       const coingeckoId = COINGECKO_IDS[tokenSymbol.toLowerCase()];
       if (!coingeckoId) {
         setError('Token not supported');
@@ -33,6 +39,8 @@ export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
       }
 
       try {
+
+        
         const apiKey = process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
         const headers: HeadersInit = {};
         if (apiKey) {
@@ -56,6 +64,8 @@ export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
       } finally {
         setIsLoading(false);
       }
+
+
     };
 
     fetchMarketData();
@@ -108,10 +118,6 @@ export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
         <div className="flex flex-col gap-1 w-full h-full">
           <StatItem title="FDV" value={marketData?.fdv} isCurrency={true} />
           <StatItem title="Circulating Supply" value={marketData?.circulatingSupply} isCurrency={false} />
-        </div>
-        <div className="flex flex-col gap-1 w-full h-full">
-          <StatItem title="Holders" value={undefined} isCurrency={false} />
-          <StatItem title="Liquidity" value={undefined} isCurrency={true} />
         </div>
       </div>
     </div>

@@ -316,7 +316,7 @@ useEffect(() => {
     : undefined
 
   return (
-    <Card className="w-full flex flex-col justify-between border-none bg-zinc-900">
+    <Card className="w-full flex flex-col justify-between border-none dark:bg-zinc-900 bg-white ">
       <CardHeader className="flex flex-row items-center justify-between mt-0">
         <div>
           <h1 className="text-sm font-semibold text-zinc-200">Pair Index</h1>
