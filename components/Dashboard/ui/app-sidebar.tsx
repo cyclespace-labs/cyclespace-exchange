@@ -8,10 +8,12 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  icons,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
+  Sun,
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/ui/nav-main"
@@ -25,9 +27,19 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
+import { theme } from "@/tailwind.config"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 // This is sample data.
+
+
+
 const data = {
+  theme: {
+    icon: Sun,
+    iconActive: Sun,
+    items: [],
+  },
   user: {
     name: "shadcn",
     email: "m@example.com",
@@ -158,7 +170,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="icon" {...props} className="bg-transparent">
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>

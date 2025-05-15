@@ -108,9 +108,9 @@ export function Ticker() {
   }
 
   return (
-    <div className="relative flex h-12 w-fit overflow-hidden border-none border-y bg-muted/30">
+    <div className="flex h-12 w-full overflow-hidden border-none border-y dark:bg-zinc-900 bg-white shadow-sm justify-center items-center">
       <motion.div 
-        className=" flex-none items-center flex w-f"
+        className=" flex-none items-center flex w-fit "
         animate={{
           translateX: '-50%',
         }}
@@ -123,7 +123,7 @@ export function Ticker() {
         {[...coins, ...coins].map((coin, idx) => (
           <div 
             key={`${coin.id}-${idx}`} 
-            className="flex-none gap-8 sm:gap-4 md:gap-4 pr-14 flex w-fit aspect-auto"
+            className="flex-none gap-8 sm:gap-4 md:gap-4 pr-14 flex w-fit "
           >
             <div className="flex items-center gap-2 w-fit">
               <img 

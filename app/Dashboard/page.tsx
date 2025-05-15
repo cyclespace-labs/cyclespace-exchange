@@ -56,7 +56,7 @@ const [fromToken, setFromToken] = useState("link");
 
   return (
     <SidebarProvider className="dark:bg-zinc-950 bg-zinc-200  w-full">
-      <AppSidebar className="" />
+      <AppSidebar className="bg-transparent border-none" />
       <SidebarInset className=" w-full">
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 px-4">
 
@@ -70,16 +70,15 @@ const [fromToken, setFromToken] = useState("link");
           <NavMenu/>
         </header>
         <div className="w-full">
-            <div className=" relative justify-center items-center w-[1850px] overflow-clip mb-2">
-              <Ticker/>
-            </div> 
         <div className="flex flex-row w-full h-full">
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
+                      <div className=" mb-2">
+                                  <Ticker/>
+                                </div> 
                   <div className="h-[715px] w-full justify-start items-start flex gap-2 overflow">
-                    
                         <div className="max-w-[400px] h-[715px] flex flex-col"> {/* Fixed parent height */}
                           <Command className="h-full flex flex-col bg-transparent p-0"> {/* Full height */}
-                              <CommandList className=" h-full flex flex-col gap-4 pr-2 bg-transparent p-0"> {/* Add bottom padding */}
+                              <CommandList className=" h-full flex flex-col gap-4 pr-2 bg-transparent p-0 rounded-xl"> {/* Add bottom padding */}
                                 <div className="my-2">
                                     <MarketStats tokenSymbol={currentChartToken} />
                                 </div>
