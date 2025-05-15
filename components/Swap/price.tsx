@@ -53,13 +53,13 @@ export default function PriceView({
   setFinalize: (finalize: boolean) => void;
   chainId: number;
 }) {
-  const [sellToken, setSellToken] = useState("usdc");
-  const [buyToken, setBuyToken] = useState("weth");
+  const [sellToken, setSellToken] = useState("");
+  const [buyToken, setBuyToken] = useState("");
   const [sellAmount, setSellAmount] = useState("");
   const [buyAmount, setBuyAmount] = useState("");
   const [tradeDirection, setTradeDirection] = useState("sell");
-  const [fromToken, setFromToken] = useState("usdc")
-  const [toToken, setToToken] = useState("weth")
+  const [fromToken, setFromToken] = useState("link")
+  const [toToken, setToToken] = useState("busd")
   const [error, setError] = useState([]);
   const [buyTokenTax, setBuyTokenTax] = useState({
     buyTaxBps: "0",

@@ -317,7 +317,7 @@ useEffect(() => {
     : undefined
 
   return (
-    <Card className="w-full flex flex-col justify-between border-none bg-zinc-900">
+    <Card className="w-full flex flex-col justify-between border-none dark:bg-zinc-900 bg-white">
       <CardHeader className="flex flex-row items-center justify-between mt-0">
         <div className="flex items-center gap-4 flex-row">
           <img 
@@ -326,9 +326,9 @@ useEffect(() => {
             className="h-12 w-12 rounded-full bg-zinc-800"
           />
           <div className="flex flex-col gap-1">
-            <div className="flex flex-row items-center gap-2">
+            <div className="flex flex-row items-center gap-8">
               <CardTitle>{tokenInfo.symbol.toUpperCase()}</CardTitle>
-              <div className="text-muted-foreground">
+              <div className="text-zinc-700 dark:text-zinc-300 text-sm">
                 {tokenInfo.name}
               </div>
             </div>
@@ -367,34 +367,34 @@ useEffect(() => {
       </CardHeader>
 
       <div className="flex flex-row px-6 justify-between">
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-2 text-zinc-100 dark:text-zinc-900 ">
           <Button 
             onClick={() => setSelectedTimeframe('1D')}
-            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px]  border-zinc-100  dark:border-zinc-800 text-accent-foreground dark:text-accent-foreground `}
             >
             1D
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('7D')}
-            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800 text-accent-foreground dark:text-accent-foreground`}
           >
             7D
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('3M')}
-            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800  text-accent-foreground dark:text-accent-foreground`}
           >
             3M
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('1Y')}
-            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800 text-accent-foreground dark:text-accent-foreground`}
           >
             1Y
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('All')}
-            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800  text-accent-foreground dark:text-accent-foreground`}
           >
             All
           </Button>
@@ -403,13 +403,13 @@ useEffect(() => {
         <div className="flex flex-row gap-2">
           <Button 
             onClick={() => setChartType('line')}
-            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-100 dark:text-zinc-900`}
           >
             Line
           </Button>
           <Button 
             onClick={() => setChartType('candle')}
-            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800 text-white`}
+            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-100 dark:text-zinc-900`}
           >
             Candle
           </Button>

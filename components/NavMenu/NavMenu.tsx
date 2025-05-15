@@ -69,38 +69,43 @@ export function NavMenu() {
   };
 
   return (
-    <NavigationMenu className="w-full flex justify-between items-center gap-8 h-fit">
-    
-        <div className="h-fit w-fit">
-
-        </div>
-
-      <NavigationMenuList className="w-full justify-between h-fit items-center">
-
+    <NavigationMenu className="w-full flex justify-between items-center gap-8 h-full">
+      <NavigationMenuList className="w-full justify-between h-full items-center">
         <NavigationMenuItem className="">
-          <div className="h-fit sm:w-full sm:mr-2 rounded-full font-semibold">
+
+          {/* <div className="h-fit sm:w-full sm:mr-2 rounded-full font-semibold">
             <TokenPicker
               value={fromToken}
               onValueChange={setFromToken}
               label="From"
             />
-        </div>
+          </div> */}
+
         </NavigationMenuItem>
 
         <NavigationMenuItem >
           <Link href="/docs" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Documentation
+              Trade
+            </NavigationMenuLink>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Sentiment
+            </NavigationMenuLink>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Analysis
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
 
       </NavigationMenuList>
-                  <div className="rounded-full text-black bg-white px-3 md:px-4 text-sm md:text-base">
-                      <ThemeToggle />
-                  </div>
+      <NavigationMenuList className="w-full gap-3">
 
+        <div className="">
+          <ThemeToggle />
+        </div>
         <ConnectButton />
+
+      </NavigationMenuList>
 
     </NavigationMenu>
   )

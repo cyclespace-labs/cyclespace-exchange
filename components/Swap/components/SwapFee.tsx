@@ -16,7 +16,7 @@ export function AffiliateFeeBadge({
       <div className=" bg-zinc-800 dark:bg-zinc-800 p-2 px-4 rounded-3xl mb-3 flex w-fit">
         <div className="text-slate-500 text-[11px] items-end ">
           {price && price.fees?.integratorFee?.amount
-            ? "Affiliate Fee: " +
+            ? "Swap Fee: " +
               Number(
                 formatUnits(
                   BigInt(price.fees.integratorFee.amount),

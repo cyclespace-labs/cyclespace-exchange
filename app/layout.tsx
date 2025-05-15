@@ -31,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased bg-gray-100 dark:bg-black`}>
+      <body className={`${roboto.className} antialiased bg-zinc-100 dark:bg-black`}>
 
             <Providers>
               <ThemeProvider>

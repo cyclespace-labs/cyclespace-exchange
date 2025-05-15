@@ -3,7 +3,6 @@
 import { AppSidebar } from "@/components/dashboard/ui/app-sidebar"
 import GlobalData from "@/components/dashboard/GlobalData"
 import { LinearChart } from "@/components/dashboard/Linear-Chart"
-import TopGainers from "@/components/dashboard/TopGainers"
 import TopLosers from "@/components/dashboard/TopLosers"
 import TrendingTokens from "@/components/dashboard/MarketStats"
 import {
@@ -34,22 +33,29 @@ import Swap from "../Swap/page"
 import { useState } from "react"
 import MarketStats from './../../components/dashboard/MarketStats';
 import { NavMenu } from "@/components/NavMenu/NavMenu"
+import BarIndex from "@/components/dashboard/BarIndex"
+import { PairIndex } from './../../components/dashboard/PairIndex';
 
-
+const token = {
+  symbol: 'WETH',
+  address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+  chainId: 1,
+  coingeckoId: 'weth',
+};
 
 export default function Page() {
 
-  const [fromToken, setFromToken] = useState("weth");
-  const [toToken, setToToken] = useState("usdc");
+  const [fromToken, setFromToken] = useState("link");
+  const [toToken, setToToken] = useState("busd");
 
   return (
-    <SidebarProvider className="bg-black w-full">
-      <AppSidebar className="bg-black" />
-      <SidebarInset className="bg-black w-full">
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 bg-black px-4">
+    <SidebarProvider className="dark:bg-zinc-950 bg-zinc-200  w-full">
+      <AppSidebar className="" />
+      <SidebarInset className=" w-full">
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 px-4">
 
-          <div className="flex items-center gap-2 px-4  bg-black mt-2 mb-2">
-            <SidebarTrigger className="-ml-1 bg-black" />
+          <div className="flex items-center gap-2 px- mt-2 mb-2">
+            <SidebarTrigger className="-ml-1 dark:bg-zinc-950 bg-zinc-200" />
             <Separator
               orientation="vertical"
               className="mr-2 data-[orientation=vertical]:h-4"
@@ -71,9 +77,11 @@ export default function Page() {
 
                   <div className="mt-0 pt-0 h-[715px] w-full justify-start items-start flex gap-2">
                     <div className="max-w-[400px] h-full container flex flex-col gap-2">
-                      <MarketStats/> 
-                      <TopGainers/>
-                      <TopGainers/>
+                      <MarketStats tokenSymbol={"busd"} /> 
+                      <PairIndex           
+                          buyTokenSymbol={toToken}
+                          sellTokenSymbol={fromToken} price={0} />
+                      <BarIndex/>
                     </div>
                       <Swap/>
                   </div>
@@ -85,11 +93,11 @@ export default function Page() {
                   </div>
 
                   <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <MarketStats />
+                    <MarketStats tokenSymbol={"busd"} />
                   </div>
 
                   <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <TopGainers />
+                    <BarIndex />
                   </div>
 
                   <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
