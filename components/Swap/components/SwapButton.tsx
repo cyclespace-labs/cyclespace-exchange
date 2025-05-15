@@ -31,11 +31,9 @@ export const SwapButton = ({
   setBuyToken,
   setSellAmount,
   setBuyAmount,
-  tokensByChain,
+  tokensByChain
 }: SwapButtonProps) => {
   const [isRotated, setIsRotated] = useState(false);
-
-  const isSwapDisabled = !sellToken || !buyToken || sellToken === buyToken;
 
   const sanitizeDecimalPlaces = (value: string, decimals: number): string => {
     const [integerPart, decimalPart] = value.split('.');
@@ -44,21 +42,17 @@ export const SwapButton = ({
   };
 
   const handleSwapTokens = () => {
-    if (isSwapDisabled) return;
-    setSellToken(buyToken);
-    setBuyToken(sellToken);
-    setSellAmount("");
-    setBuyAmount("");
-    setIsRotated(!isRotated);
+    const newSellToken = buyToken;
+    const newBuyToken = sellToken;
     
-    const newSellDecimals = tokensByChain(chainId)[sellToken].decimals;
-    const newBuyDecimals = tokensByChain(chainId)[buyToken].decimals;
+    const newSellDecimals = tokensByChain(chainId)[newSellToken]?.decimals || 18;
+    const newBuyDecimals = tokensByChain(chainId)[newBuyToken]?.decimals || 18;
     
     const sanitizedSell = sanitizeDecimalPlaces(buyAmount, newSellDecimals);
     const sanitizedBuy = sanitizeDecimalPlaces(sellAmount, newBuyDecimals);
 
-    setSellToken(sellToken);
-    setBuyToken(buyToken);
+    setSellToken(newSellToken);
+    setBuyToken(newBuyToken);
     setSellAmount(sanitizedSell);
     setBuyAmount(sanitizedBuy);
     

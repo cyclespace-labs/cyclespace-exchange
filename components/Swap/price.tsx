@@ -254,18 +254,17 @@ export default function PriceView({
           {/* Swap Button Container */}
             <div className="relative my-8">
               <SwapButton
-                sellToken={fromToken}
-                buyToken={toToken}
-                sellAmount={sellAmount}
-                buyAmount={buyAmount}
-                chainId={chainId}
-                setSellAmount={setSellAmount}
-                setBuyAmount={setBuyAmount}
-                tokensByChain={tokensByChain} setSellToken={function (value: SetStateAction<string>): void {
-                  throw new Error("Function not implemented.");
-                } } setBuyToken={function (value: SetStateAction<string>): void {
-                  throw new Error("Function not implemented.");
-                } }              />
+                  sellToken={fromToken}
+                  buyToken={toToken}
+                  sellAmount={sellAmount}
+                  buyAmount={buyAmount}
+                  chainId={chainId}
+                  setSellToken={setFromToken} // Corrected: Maps to setFromToken
+                  setBuyToken={setToToken}    // Corrected: Maps to setToToken
+                  setSellAmount={setSellAmount}
+                  setBuyAmount={setBuyAmount}
+                  tokensByChain={tokensByChain}          
+                />
             </div>
         </div>
 

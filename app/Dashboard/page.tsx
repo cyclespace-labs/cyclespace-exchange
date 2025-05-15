@@ -35,6 +35,8 @@ import MarketStats from './../../components/dashboard/MarketStats';
 import { NavMenu } from "@/components/NavMenu/NavMenu"
 import BarIndex from "@/components/dashboard/BarIndex"
 import { PairIndex } from './../../components/dashboard/PairIndex';
+import { ScrollArea } from "@radix-ui/react-scroll-area"
+import { XAxis } from 'recharts';
 
 const token = {
   symbol: 'WETH',
@@ -47,7 +49,7 @@ export default function Page() {
 
 const [fromToken, setFromToken] = useState("link");
   const [toToken, setToToken] = useState("busd");
-  const [currentChartToken, setCurrentChartToken] = useState(toToken);
+  const [currentChartToken, setCurrentChartToken] = useState(fromToken);
 
   return (
     <SidebarProvider className="dark:bg-zinc-950 bg-zinc-200  w-full">
@@ -77,15 +79,16 @@ const [fromToken, setFromToken] = useState("link");
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
 
                   <div className="mt-0 pt-0 h-[715px] w-full justify-start items-start flex gap-2">
-                    <div className="max-w-[400px] h-full container flex flex-col gap-2">
-                      <MarketStats tokenSymbol={currentChartToken} /> 
-                      <PairIndex           
-                          buyTokenSymbol={toToken}
-                          sellTokenSymbol={fromToken} price={0} />
-                      <BarIndex/>
-                    </div>
+                        <div className="max-w-[400px] h-full container flex flex-col gap-2  ">
+                          <MarketStats tokenSymbol={currentChartToken} /> 
+                          <PairIndex           
+                              buyTokenSymbol={toToken}
+                              sellTokenSymbol={fromToken} price={0} />
+                          <BarIndex/>
+                        </div>
+
                       <Swap
-                      
+
                         fromToken={fromToken}
                         setFromToken={setFromToken}
                         toToken={toToken}
