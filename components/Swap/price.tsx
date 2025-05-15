@@ -1,5 +1,5 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useEffect, useState, ChangeEvent } from "react";
+import { useEffect, useState, ChangeEvent, SetStateAction } from "react";
 import { formatUnits, parseUnits } from "ethers";
 import {
   useReadContract,
@@ -32,7 +32,18 @@ import { TradingChart } from '@/components/dashboard/ui/trading-chart';
 import { TokenChart } from "../TokenChart";
 import { TokenPicker } from "./components/tokenPicker";
  
-
+interface PriceViewProps {
+  taker: Address | undefined;
+  price: any;
+  setPrice: (price: any) => void;
+  setFinalize: (finalize: boolean) => void;
+  chainId: number;
+  fromToken: string;
+  setFromToken: (token: string) => void;
+  toToken: string;
+  setToToken: (token: string) => void;
+  setCurrentChartToken: (token: string) => void;
+}
 
 export const DEFAULT_BUY_TOKEN = (chainId: number) => {
   if (chainId === 1) {
@@ -41,25 +52,22 @@ export const DEFAULT_BUY_TOKEN = (chainId: number) => {
 };
 
 export default function PriceView({
-  price,
   taker,
+  price,
   setPrice,
   setFinalize,
   chainId,
-}: {
-  price: any;
-  taker: Address | undefined;
-  setPrice: (price: any) => void;
-  setFinalize: (finalize: boolean) => void;
-  chainId: number;
-}) {
+  fromToken,
+  setFromToken,
+  toToken,
+  setToToken,
+  setCurrentChartToken,
+}: PriceViewProps) {
   const [sellToken, setSellToken] = useState("");
   const [buyToken, setBuyToken] = useState("");
   const [sellAmount, setSellAmount] = useState("");
   const [buyAmount, setBuyAmount] = useState("");
   const [tradeDirection, setTradeDirection] = useState("sell");
-  const [fromToken, setFromToken] = useState("link")
-  const [toToken, setToToken] = useState("busd")
   const [error, setError] = useState([]);
   const [buyTokenTax, setBuyTokenTax] = useState({
     buyTaxBps: "0",
@@ -195,7 +203,9 @@ export default function PriceView({
       <div className="w-full h-full flex">
         <TradingChart
           buyTokenSymbol={toToken}
-          sellTokenSymbol={fromToken} price={0}          
+          sellTokenSymbol={fromToken}
+          price={0}
+          setCurrentChartToken={setCurrentChartToken}
         />
       </div>
 
@@ -249,12 +259,13 @@ export default function PriceView({
                 sellAmount={sellAmount}
                 buyAmount={buyAmount}
                 chainId={chainId}
-                setSellToken={setFromToken}
-                setBuyToken={setToToken}
                 setSellAmount={setSellAmount}
                 setBuyAmount={setBuyAmount}
-                tokensByChain={tokensByChain}
-              />
+                tokensByChain={tokensByChain} setSellToken={function (value: SetStateAction<string>): void {
+                  throw new Error("Function not implemented.");
+                } } setBuyToken={function (value: SetStateAction<string>): void {
+                  throw new Error("Function not implemented.");
+                } }              />
             </div>
         </div>
 

@@ -9,7 +9,22 @@ import { useAccount, useChainId } from "wagmi";
 
 import type { PriceResponse } from "@/utils/types";
 
-function Swap() {
+interface SwapProps {
+  fromToken: string;
+  setFromToken: (token: string) => void;
+  toToken: string;
+  setToToken: (token: string) => void;
+  setCurrentChartToken: (token: string) => void;
+  // ... other existing props (e.g., address, chainId)
+}
+
+export default function Swap({
+  fromToken,
+  setFromToken,
+  toToken,
+  setToToken,
+  setCurrentChartToken,
+}: SwapProps) {
   const { address } = useAccount();
 
   const chainId = useChainId() || 1;
@@ -38,11 +53,16 @@ function Swap() {
           setPrice={setPrice}
           setFinalize={setFinalize}
           chainId={chainId}
-        />
+          fromToken={fromToken}
+          setFromToken={setFromToken}
+          toToken={toToken}
+          setToToken={setToToken}
+          setCurrentChartToken={setCurrentChartToken}
+            />
       )}
     </div>
   );
 }
 
-export default Swap;
+
 

@@ -45,8 +45,9 @@ const token = {
 
 export default function Page() {
 
-  const [fromToken, setFromToken] = useState("link");
+const [fromToken, setFromToken] = useState("link");
   const [toToken, setToToken] = useState("busd");
+  const [currentChartToken, setCurrentChartToken] = useState(toToken);
 
   return (
     <SidebarProvider className="dark:bg-zinc-950 bg-zinc-200  w-full">
@@ -77,13 +78,21 @@ export default function Page() {
 
                   <div className="mt-0 pt-0 h-[715px] w-full justify-start items-start flex gap-2">
                     <div className="max-w-[400px] h-full container flex flex-col gap-2">
-                      <MarketStats tokenSymbol={"busd"} /> 
+                      <MarketStats tokenSymbol={currentChartToken} /> 
                       <PairIndex           
                           buyTokenSymbol={toToken}
                           sellTokenSymbol={fromToken} price={0} />
                       <BarIndex/>
                     </div>
-                      <Swap/>
+                      <Swap
+                      
+                        fromToken={fromToken}
+                        setFromToken={setFromToken}
+                        toToken={toToken}
+                        setToToken={setToToken}
+                        setCurrentChartToken={setCurrentChartToken}
+                      
+                      />
                   </div>
 
                 <div className="grid auto-rows-min gap-4 md:grid-cols-4">

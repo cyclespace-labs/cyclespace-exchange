@@ -20,12 +20,13 @@ import { Widget } from './../../Widget/Widget';
 import { CandlestickChart, LineChart } from "lucide-react"
 
 interface TradingChartProps {
-  buyTokenSymbol?: string
-  sellTokenSymbol?: string
-  delay?: number
-  days?: number
-  chartColor?: string
-  price: number
+  buyTokenSymbol?: string;
+  sellTokenSymbol?: string;
+  delay?: number;
+  days?: number;
+  chartColor?: string;
+  price: number;
+  setCurrentChartToken: (token: string) => void;
 }
 
 interface ChartDataPoint {
@@ -48,7 +49,12 @@ interface TokenMarketData {
   volume24h: number
 }
 
-export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColor = "green", delay = 0  }: TradingChartProps) {
+export function TradingChart({   buyTokenSymbol,
+  sellTokenSymbol,
+  price,
+  chartColor = "green",
+  delay = 0,
+  setCurrentChartToken,  }: TradingChartProps) {
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
   const [candleData, setCandleData] = useState<CandleData[]>([])
   const [marketData, setMarketData] = useState<TokenMarketData | null>(null)
@@ -60,7 +66,12 @@ export function TradingChart({ buyTokenSymbol, sellTokenSymbol, price, chartColo
   const [chartInstance, setChartInstance] = useState<IChartApi | null>(null)
   const chartContainerRef = useRef<HTMLDivElement>(null)
 
-  
+    useEffect(() => {
+    const currentToken = showBuyChart ? buyTokenSymbol : sellTokenSymbol;
+    if (currentToken) {
+      setCurrentChartToken(currentToken);
+    }
+  }, [showBuyChart, buyTokenSymbol, sellTokenSymbol, setCurrentChartToken]);
 
   const currentTokenSymbol = showBuyChart ? buyTokenSymbol : sellTokenSymbol
   const tokenInfo: Token | undefined = currentTokenSymbol 

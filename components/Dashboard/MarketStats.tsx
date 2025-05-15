@@ -15,7 +15,6 @@ interface MarketData {
   circulatingSupply: number;
 }
 
-
 export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
   const [marketData, setMarketData] = useState<MarketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
