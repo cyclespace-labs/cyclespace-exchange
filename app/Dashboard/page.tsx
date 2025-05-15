@@ -35,8 +35,11 @@ import MarketStats from './../../components/dashboard/MarketStats';
 import { NavMenu } from "@/components/NavMenu/NavMenu"
 import BarIndex from "@/components/dashboard/BarIndex"
 import { PairIndex } from './../../components/dashboard/PairIndex';
-import { ScrollArea } from "@radix-ui/react-scroll-area"
+import { ScrollArea, ScrollAreaThumb } from "@radix-ui/react-scroll-area"
 import { XAxis } from 'recharts';
+import TechnicalSpecs from "@/components/dashboard/BarIndex"
+import { ScrollBar } from "@/components/ui/scroll-area"
+import { Command, CommandList } from "@/components/ui/command"
 
 const token = {
   symbol: 'WETH',
@@ -65,59 +68,44 @@ const [fromToken, setFromToken] = useState("link");
             />
           </div>
           <NavMenu/>
-          
         </header>
-
         <div className="w-full">
-          
-           {/*} <div className="justify-center items-center w-[1850px] overflow-clip my-4">
+            <div className=" relative justify-center items-center w-[1850px] overflow-clip mb-2">
               <Ticker/>
-            </div> */}
-
+            </div> 
         <div className="flex flex-row w-full h-full">
-
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
-
-                  <div className="mt-0 pt-0 h-[715px] w-full justify-start items-start flex gap-2">
-                        <div className="max-w-[400px] h-full container flex flex-col gap-2  ">
-                          <MarketStats tokenSymbol={currentChartToken} /> 
-                          <PairIndex           
-                              buyTokenSymbol={toToken}
-                              sellTokenSymbol={fromToken} price={0} />
-                          <BarIndex/>
+                  <div className="h-[715px] w-full justify-start items-start flex gap-2 overflow-clip">
+                    
+                        <div className="max-w-[400px] h-[715px] flex flex-col"> {/* Fixed parent height */}
+                          <Command className="h-full flex flex-col bg-transparent p-0"> {/* Full height */}
+                              <CommandList className=" h-full flex flex-col gap-4 pr-2 bg-transparent p-0"> {/* Add bottom padding */}
+                                <div className="my-2">
+                                    <MarketStats tokenSymbol={currentChartToken} />
+                                </div>
+                                <div className="my-2">
+                                    <TechnicalSpecs tokenSymbol={currentChartToken}/>
+                                </div>
+                                <div className="my-2">
+                                  <PairIndex 
+                                    buyTokenSymbol={toToken}
+                                    sellTokenSymbol={fromToken} 
+                                    price={0} 
+                                  />
+                                </div>
+                              </CommandList>
+                          </Command>
                         </div>
 
                       <Swap
-
                         fromToken={fromToken}
                         setFromToken={setFromToken}
                         toToken={toToken}
                         setToToken={setToToken}
                         setCurrentChartToken={setCurrentChartToken}
-                      
+                    
                       />
                   </div>
-
-                <div className="grid auto-rows-min gap-4 md:grid-cols-4">
-
-                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <GlobalData />
-                  </div>
-
-                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <MarketStats tokenSymbol={"busd"} />
-                  </div>
-
-                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <BarIndex />
-                  </div>
-
-                  <div className="bg-zinc-900 aspect-video rounded-xl h-full w-full">
-                    <TopLosers />
-                  </div>
-
-                </div>
-
                 <DataTable data={data}/>
               </div>
           </div>

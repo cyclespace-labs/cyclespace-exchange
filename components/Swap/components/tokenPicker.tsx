@@ -70,7 +70,7 @@ export function TokenPicker({ value, onValueChange }: TokenPickerProps) {
               </div>
 
               <ScrollArea className="h-fit">
-                <CommandList>
+                <CommandList className="max-h-[400px] ">
                   <CommandEmpty>No token found.</CommandEmpty>
                   {filteredTokens.map((token) => (
                     <CommandItem
