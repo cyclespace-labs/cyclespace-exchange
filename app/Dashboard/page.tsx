@@ -97,6 +97,16 @@ const [fromToken, setFromToken] = useState("link");
                           </Command>
                         </div>
 
+                                {/* chart */}
+                                <div className="w-full h-full flex">
+                                  <TradingChart
+                                    buyTokenSymbol={toToken}
+                                    sellTokenSymbol={fromToken}
+                                    price={0}
+                                    setCurrentChartToken={setCurrentChartToken}
+                                  />
+                                </div>
+
                       <Swap
                         fromToken={fromToken}
                         setFromToken={setFromToken}

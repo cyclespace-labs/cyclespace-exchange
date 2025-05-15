@@ -199,18 +199,10 @@ export default function PriceView({
     
     <div className="flex flex-row justify-between gap-2 h-full w-full ">
 
-      {/* chart */}
-      <div className="w-full h-full flex">
-        <TradingChart
-          buyTokenSymbol={toToken}
-          sellTokenSymbol={fromToken}
-          price={0}
-          setCurrentChartToken={setCurrentChartToken}
-        />
-      </div>
+
 
       {/* swap */}
-      <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg- dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">
+      <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">
         <div className="p-3 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">
             <h1 className="text-[18px] font-medium">Market</h1>
@@ -254,16 +246,16 @@ export default function PriceView({
           {/* Swap Button Container */}
             <div className="relative my-8">
               <SwapButton
-                  sellToken={fromToken}
-                  buyToken={toToken}
-                  sellAmount={sellAmount}
-                  buyAmount={buyAmount}
-                  chainId={chainId}
-                  setSellToken={setFromToken} // Corrected: Maps to setFromToken
-                  setBuyToken={setToToken}    // Corrected: Maps to setToToken
-                  setSellAmount={setSellAmount}
-                  setBuyAmount={setBuyAmount}
-                  tokensByChain={tokensByChain}          
+                sellToken={fromToken}
+                buyToken={toToken}
+                sellAmount={sellAmount}
+                buyAmount={buyAmount}
+                chainId={chainId}
+                setSellToken={setFromToken} // Corrected: Maps to setFromToken
+                setBuyToken={setToToken}    // Corrected: Maps to setToToken
+                setSellAmount={setSellAmount}
+                setBuyAmount={setBuyAmount}
+                tokensByChain={tokensByChain}          
                 />
             </div>
         </div>
