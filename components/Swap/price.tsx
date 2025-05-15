@@ -197,9 +197,7 @@ export default function PriceView({
 
   return (
     
-    <div className="flex flex-row justify-between gap-2 h-full w-full ">
-
-
+    <div className="flex flex-row justify-between gap-2 h-full w-[400px]"> 
 
       {/* swap */}
       <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">

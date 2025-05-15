@@ -75,7 +75,7 @@ const [fromToken, setFromToken] = useState("link");
             </div> 
         <div className="flex flex-row w-full h-full">
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
-                  <div className="h-[715px] w-full justify-start items-start flex gap-2 overflow-clip">
+                  <div className="h-[715px] w-full justify-start items-start flex gap-2 overflow">
                     
                         <div className="max-w-[400px] h-[715px] flex flex-col"> {/* Fixed parent height */}
                           <Command className="h-full flex flex-col bg-transparent p-0"> {/* Full height */}
@@ -86,35 +86,29 @@ const [fromToken, setFromToken] = useState("link");
                                 <div className="my-2">
                                     <TechnicalSpecs tokenSymbol={currentChartToken}/>
                                 </div>
-                                <div className="my-2">
-                                  <PairIndex 
-                                    buyTokenSymbol={toToken}
-                                    sellTokenSymbol={fromToken} 
-                                    price={0} 
-                                  />
-                                </div>
                               </CommandList>
                           </Command>
                         </div>
 
-                                {/* chart */}
-                                <div className="w-full h-full flex">
-                                  <TradingChart
-                                    buyTokenSymbol={toToken}
-                                    sellTokenSymbol={fromToken}
-                                    price={0}
-                                    setCurrentChartToken={setCurrentChartToken}
-                                  />
-                                </div>
-
-                      <Swap
-                        fromToken={fromToken}
-                        setFromToken={setFromToken}
-                        toToken={toToken}
-                        setToToken={setToToken}
-                        setCurrentChartToken={setCurrentChartToken}
-                    
-                      />
+                        {/* chart */}
+                        <div className="w-full h-full flex">
+                            <TradingChart
+                            buyTokenSymbol={toToken}
+                            sellTokenSymbol={fromToken}
+                            price={0}
+                            setCurrentChartToken={setCurrentChartToken}
+                          />
+                        </div>
+                        <div className="">
+                        <Swap
+                            fromToken={fromToken}
+                            setFromToken={setFromToken}
+                            toToken={toToken}
+                            setToToken={setToToken}
+                            setCurrentChartToken={setCurrentChartToken}
+                        
+                          />
+                        </div>
                   </div>
                 <DataTable data={data}/>
               </div>
