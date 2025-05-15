@@ -197,10 +197,11 @@ export default function PriceView({
 
   return (
     
-    <div className="flex flex-row justify-between gap-2 h-full w-[400px]"> 
+    <div className=" justify-start items-center gap-2 w-[400px] h-[715px]"> 
 
       {/* swap */}
-      <div className=" w-[550px] h-full flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-6 shadow justify-center">
+      <div className="w-[400px] h-[715px] flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-0 shadow justify-start ">
+
         <div className="p-3 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">
             <h1 className="text-[18px] font-medium">Market</h1>
@@ -208,12 +209,11 @@ export default function PriceView({
               <Settings width={35} height={35} color="white"/>
             </Button>
           </div>
-
           <div className="w-full bg-zinc-700 h-[1px]"/>
         </div>
         
-        <div className=" p-4 rounded-md h-fit mb-0">
-          <div className="justify-between w-full gap-10 items-center h-full mx-auto flex flex-row">
+        <div className=" p-4 rounded-md h-full">
+          <div className="justify-between w-full items-center h-fit mx-auto flex flex-row">
             <label htmlFor="sell" className="text-black text-[16px] dark:text-white mb-2 mr-2 font-normal items-start">
               Sell
             </label>
