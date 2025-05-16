@@ -160,7 +160,7 @@ useEffect(() => {
       width: chartContainerRef.current.clientWidth,
       height: chartContainerRef.current.clientHeight,
       layout: {
-        background: { color: '#18181b' },
+        background: { color: 'transparent' },
         textColor: '#71717a'
       },
       grid: {
@@ -230,7 +230,7 @@ useEffect(() => {
 
   if (isLoading) {
     return (
-      <Card className="p-6 px-2 h-[712px] border-0 bg-zinc-900 w-full flex">
+      <Card className="p-6 px-2 h-[713px] border-0 bg-zinc-900 w-full flex">
         
         <CardHeader className="flex flex-row items-center justify-between mt-0 w-full">
           <div className="flex items-center gap-1 flex-row w-full">
@@ -334,7 +334,7 @@ useEffect(() => {
     : undefined
 
   return (
-    <Card className="w-full flex flex-col justify-start border-none dark:bg-zinc-900 bg-white rounded-none pt-0 mt-0">
+    <Card className="w-full flex flex-col justify-start border-none  bg-transparent rounded-none pt-0 mt-0 h-full">
       <div className="w-full h-[1px] mb-2 bg-zinc-800"/>
       <CardHeader className="flex flex-row items-center justify-between h-[18px]">
         <div className="flex items-center gap-4 flex-row justify-start">
@@ -457,7 +457,7 @@ useEffect(() => {
         </div>
       </div>
 
-      <CardContent className="h-[400px] sm:h-[525px] w-full">
+      <CardContent className="h-[410px] sm:h-[530px] w-full bg-transparent">
         {chartType === 'line' ? (
           <div className="w-full h-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -494,7 +494,7 @@ useEffect(() => {
             </ResponsiveContainer>
           </div>
         ) : (
-              <div ref={chartContainerRef} className="w-full h-full" />
+              <div ref={chartContainerRef} className="w-full h-full bg-transparent" />
         )}
       </CardContent>
     </Card>

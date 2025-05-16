@@ -13,7 +13,7 @@ import {
 
 export function BentoGridDemo() {
   return (
-    <BentoGrid className="max-w-full w-full h-full">
+    <BentoGrid className="max-w-full w-full h-full gap-0 rounded-0 bg-none">
       {items.map((item, i) => (
         <BentoGridItem
           key={i}
@@ -21,14 +21,14 @@ export function BentoGridDemo() {
           description={item.description}
           header={item.header}
           icon={item.icon}
-          className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+          className={i === 3 || i === 6 ? "md:col-span-2" : "rounded-none"}
         />
       ))}
     </BentoGrid>
   );
 }
 const Skeleton = () => (
-  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
+  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-none bg-none "></div>
 );
 const items = [
   {

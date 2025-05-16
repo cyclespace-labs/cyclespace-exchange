@@ -70,7 +70,7 @@ export function NavMenu() {
   };
 
   return (
-    <NavigationMenu className="w-full flex justify-between items-center gap-8 h-ful px-3">
+    <NavigationMenu className="w-full flex justify-between items-center gap-8 h-ful px-3 bg-transparent">
       <NavigationMenuList className="w-full justify-between h-full items-center font-normal">
                   <NavigationMenuItem>
             <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold text-gray-800 dark:text-blue-400`}>

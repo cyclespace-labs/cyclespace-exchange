@@ -34,7 +34,7 @@ export default function RootLayout({
       <body className={`${roboto.className} antialiased bg-zinc-100 dark:bg-black w-full m-0 p-0`}>
 
             <Providers >
-              <ThemeProvider >
+              <ThemeProvider>
                   {children}
               </ThemeProvider>
             </Providers>

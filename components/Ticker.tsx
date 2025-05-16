@@ -105,7 +105,7 @@ export function Ticker() {
   }
 
   return (
-    <div className="flex h-10 sm:h-12 w-full overflow-hidden border-none border-y dark:bg-zinc-900 bg-white shadow-sm justify-center items-center">
+    <div className="flex h-10 sm:h-12 w-full overflow-hidden border-none border-y  bg-transparent shadow-sm justify-center items-center">
       <motion.div 
         className="flex-none items-center flex w-fit"
         animate={{

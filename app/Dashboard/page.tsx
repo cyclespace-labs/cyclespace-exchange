@@ -41,6 +41,7 @@ import TechnicalSpecs from "@/components/dashboard/BarIndex"
 import { ScrollBar } from "@/components/ui/scroll-area"
 import { Command, CommandList } from "@/components/ui/command"
 import { BentoGridDemo } from './../../components/Section2';
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation"
 
 const token = {
   symbol: 'WETH',
@@ -56,10 +57,11 @@ const [fromToken, setFromToken] = useState("link");
   const [currentChartToken, setCurrentChartToken] = useState(fromToken);
 
   return (
-    <div className="dark:bg-zinc-950 bg-zinc-200 w-full m-0 p-0">
+    <BackgroundGradientAnimation>
+          <div className=" bg-transparent w-full m-0 p-0">
       <div className=" w-full bg-transparent px-0">
 
-        <header className="flex h-fit p-1 shrink-0 items-center gap-2 bg-zinc-900 border-t-2 border-b-2  border-zinc-800">
+        <header className="flex h-fit p-1 shrink-0 items-center gap-2 bg-transparent border-t-2 border-b-2  border-zinc-800">
           <NavMenu/>
         </header>
       
@@ -108,13 +110,19 @@ const [fromToken, setFromToken] = useState("link");
                           </Command>
                         </div>
                   </div>
+
                   <div className="flex flex-col gap-4 w-full h-full">
                     <BentoGridDemo/>
-
                   </div>
-                  {/*<div>
+
+                  {/*
+                  
+                  <div>
                       <DataTable data={data}/>
-                  </div>*/}
+                  </div>
+                  
+                  */}
+
               </div>
           </div>
 
@@ -122,5 +130,7 @@ const [fromToken, setFromToken] = useState("link");
 
       </div>
     </div>
+      
+    </BackgroundGradientAnimation>
   )
 }
