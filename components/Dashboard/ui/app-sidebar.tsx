@@ -5,15 +5,19 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  ChartBarBig,
   Command,
   Frame,
   GalleryVerticalEnd,
   icons,
   Map,
   PieChart,
+  PieChartIcon,
   Settings2,
+  Settings2Icon,
   SquareTerminal,
   Sun,
+  Wallet,
 } from "lucide-react"
 
 import { NavMain } from "@/components/dashboard/ui/nav-main"
@@ -29,6 +33,7 @@ import {
 } from "@/components/ui/sidebar"
 import { theme } from "@/tailwind.config"
 import { ThemeToggle } from "@/components/ThemeToggle"
+// import { IconSettingsBolt } from "@tabler/icons-react"
 
 // This is sample data.
 
@@ -66,7 +71,7 @@ const data = {
     {
       title: "Playground",
       url: "#",
-      icon: SquareTerminal,
+      icon: Wallet,
       isActive: true,
       items: [
         {
@@ -86,7 +91,7 @@ const data = {
     {
       title: "Models",
       url: "#",
-      icon: Bot,
+      icon: ChartBarBig,
       items: [
         {
           title: "Genesis",
@@ -105,7 +110,7 @@ const data = {
     {
       title: "Documentation",
       url: "#",
-      icon: BookOpen,
+      icon: PieChartIcon,
       items: [
         {
           title: "Introduction",
@@ -170,11 +175,11 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props} className="bg-transparent">
+    <Sidebar collapsible="offcanvas" variant="sidebar" {...props} className="bg-transparent border-none outline-none">
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent >
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>

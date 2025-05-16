@@ -20,7 +20,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { ChartArea } from "lucide-react"
-import {  TradingChart } from "@/components/dashboard/ui/trading-chart"
+import {  TradingChart } from "@/components/dashboard/tradingChart/trading-chart"
 import { DataTable } from "@/components/dashboard/ui/data-table"
 
 import data from "./data.json"
@@ -40,6 +40,7 @@ import { XAxis } from 'recharts';
 import TechnicalSpecs from "@/components/dashboard/BarIndex"
 import { ScrollBar } from "@/components/ui/scroll-area"
 import { Command, CommandList } from "@/components/ui/command"
+import { BentoGridDemo } from './../../components/Section2';
 
 const token = {
   symbol: 'WETH',
@@ -55,30 +56,23 @@ const [fromToken, setFromToken] = useState("link");
   const [currentChartToken, setCurrentChartToken] = useState(fromToken);
 
   return (
-    <SidebarProvider className="dark:bg-zinc-950 bg-zinc-200  w-full">
-      <AppSidebar className="bg-transparent border-none" />
-      <SidebarInset className=" w-full">
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-16 px-4">
-
-          <div className="flex items-center gap-2 px- mt-2 mb-2">
-            <SidebarTrigger className="-ml-1 dark:bg-zinc-950 bg-zinc-200" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
-          </div>
+    <div className="dark:bg-zinc-950 bg-zinc-200 w-full m-0 p-0">
+      <div className=" w-full bg-transparent px-0">
+        <header className="flex h-16 shrink-0 items-center gap-2 bg-zinc-900">
           <NavMenu/>
         </header>
-        <div className="w-full">
-        <div className="flex flex-row w-full h-full">
-              <div className="flex flex-1 flex-col gap-4 p-4 pt-0 w-full h-fit">
-                      <div className=" mb-2">
-                                  <Ticker/>
-                                </div> 
-                  <div className="h-[715px] w-full justify-start items-start flex gap-2 overflow">
-                        <div className="max-w-[400px] h-[715px] flex flex-col"> {/* Fixed parent height */}
-                          <Command className="h-full flex flex-col bg-transparent p-0"> {/* Full height */}
-                              <CommandList className=" h-full flex flex-col gap-4 pr-2 bg-transparent p-0 rounded-xl"> {/* Add bottom padding */}
+      
+        <div className="w-full px-0">
+          <div className="flex flex-row w-full h-full">
+              <div className="flex flex-1 flex-col gap-0 p-4 pt-0 w-full h-fit">
+                <div className=" ">
+                  <Ticker/>
+                </div> 
+                  <div className="h-full w-full justify-start items-start flex gap-0 overflow">
+                    {/*
+                        <div className="max-w-[400px] h-[715px] flex flex-col"> 
+                          <Command className="h-full flex flex-col bg-transparent p-0"> 
+                              <CommandList className=" h-full w-full flex flex-col gap-4 pr-2 bg-transparent p-0 rounded-xl"> 
                                 <div className="my-2">
                                     <MarketStats tokenSymbol={currentChartToken} />
                                 </div>
@@ -88,34 +82,44 @@ const [fromToken, setFromToken] = useState("link");
                               </CommandList>
                           </Command>
                         </div>
+                    */}
 
                         {/* chart */}
-                        <div className="w-full h-full flex">
-                            <TradingChart
-                            buyTokenSymbol={toToken}
-                            sellTokenSymbol={fromToken}
-                            price={0}
-                            setCurrentChartToken={setCurrentChartToken}
-                          />
-                        </div>
-                        <div className="">
-                        <Swap
-                            fromToken={fromToken}
-                            setFromToken={setFromToken}
-                            toToken={toToken}
-                            setToToken={setToToken}
-                            setCurrentChartToken={setCurrentChartToken}
-                        
-                          />
+                      <div className="w-full h-full flex">
+                        <TradingChart
+                          buyTokenSymbol={toToken}
+                          sellTokenSymbol={fromToken}
+                          price={0}
+                          setCurrentChartToken={setCurrentChartToken}
+                        />
+                      </div>
+                        <div className="max-w-[400px] h-[715px] flex flex-col">
+                          <Command className="h-full flex flex-col bg-transparent p-0 rounded-none">
+                            <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none">
+                              <Swap
+                                fromToken={fromToken}
+                                setFromToken={setFromToken}
+                                toToken={toToken}
+                                setToToken={setToToken}
+                                setCurrentChartToken={setCurrentChartToken}
+                              />
+                            </CommandList>
+                          </Command>
                         </div>
                   </div>
-                <DataTable data={data}/>
+                  <div className="flex flex-col gap-4 w-full h-full">
+                    <BentoGridDemo/>
+
+                  </div>
+                  {/*<div>
+                      <DataTable data={data}/>
+                  </div>*/}
               </div>
           </div>
 
         </div>
 
-      </SidebarInset>
-    </SidebarProvider>
+      </div>
+    </div>
   )
 }

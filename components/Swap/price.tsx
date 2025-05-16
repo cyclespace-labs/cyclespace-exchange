@@ -28,7 +28,7 @@ import { TaxInfo } from "./components/TaxInfo";
 import { SwapButton } from "./components/SwapButton";
 import { Settings } from "lucide-react";
 import { color } from "motion/react";
-import { TradingChart } from '@/components/dashboard/ui/trading-chart';
+import { TradingChart } from '@/components/dashboard/tradingChart/trading-chart';
 import { TokenChart } from "../TokenChart";
 import { TokenPicker } from "./components/tokenPicker";
  
@@ -197,10 +197,10 @@ export default function PriceView({
 
   return (
     
-    <div className=" justify-start items-center gap-2 w-[400px] h-[715px]"> 
+    <div className=" justify-start items-center gap-2 w-[400px] h-[715px]  border-1 border-zinc-800"> 
 
       {/* swap */}
-      <div className="w-[400px] h-[715px] flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 rounded-2xl my-0 shadow justify-start ">
+      <div className="w-[400px] h-[715px] flex flex-col p-5  mt-0 bg-zinc-200 dark:bg-zinc-900 my-0 shadow justify-start ">
 
         <div className="p-3 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">

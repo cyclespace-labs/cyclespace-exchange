@@ -173,14 +173,14 @@ export default function TechnicalSpecs({ tokenSymbol }: TechnicalSpecsProps) {
         </div>
 
         {/* Expandable Description */}
-        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+        <Collapsible open={isOpen} onOpenChange={setIsOpen} className='w-full'>
           <CollapsibleTrigger className="w-full">
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Description</span>
               <ChevronDownIcon className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </div>
           </CollapsibleTrigger>
-          <CollapsibleContent>
+          <CollapsibleContent className='w-full'>
             <p className="text-sm text-muted-foreground mt-2 whitespace-pre-line">
               {specsData?.description}
             </p>

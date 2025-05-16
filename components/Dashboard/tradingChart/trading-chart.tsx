@@ -16,8 +16,10 @@ import {
   Token 
 } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
-import { Widget } from './../../Widget/Widget';
-import { CandlestickChart, LineChart } from "lucide-react"
+import { Widget } from '../../Widget/Widget';
+import { CandlestickChart, CandlestickChartIcon, LineChart, LineChartIcon } from "lucide-react"
+import chartStats from './ui/chart-stats';
+import ChartStats from "./ui/chart-stats"
 
 interface TradingChartProps {
   buyTokenSymbol?: string;
@@ -222,6 +224,10 @@ useEffect(() => {
 
   const { min, max } = getPriceRange()
 
+  const [fromToken, setFromToken] = useState("link");
+  const [toToken, setToToken] = useState("busd");
+  const [currentChartToken] = useState(fromToken);
+
   if (isLoading) {
     return (
       <Card className="p-6 px-2 h-[712px] border-0 bg-zinc-900 w-full flex">
@@ -328,30 +334,31 @@ useEffect(() => {
     : undefined
 
   return (
-    <Card className="w-full flex flex-col justify-between border-none dark:bg-zinc-900 bg-white">
-      <CardHeader className="flex flex-row items-center justify-between mt-0">
-        <div className="flex items-center gap-4 flex-row">
+    <Card className="w-full flex flex-col justify-start border-none dark:bg-zinc-900 bg-white rounded-none pt-0 mt-0">
+      <div className="w-full h-[1px] mb-2 bg-zinc-800"/>
+      <CardHeader className="flex flex-row items-center justify-between h-[18px]">
+        <div className="flex items-center gap-4 flex-row justify-start">
           <img 
             src={tokenInfo.logoURI} 
             alt={tokenInfo.name}
-            className="h-12 w-12 rounded-full dark:bg-zinc-800 bg-zinc-100"
+            className="h-8 w-8 rounded-full dark:bg-zinc-800 bg-zinc-100 items-start"
           />
-          <div className="flex flex-col gap-1">
-            <div className="flex flex-row items-center gap-8">
-              <CardTitle>{tokenInfo.symbol.toUpperCase()}</CardTitle>
-              <div className="text-zinc-700 dark:text-zinc-300 text-sm">
-                {tokenInfo.name}
-              </div>
+          <div className="flex flex-col justify-between h-full">
+            <div className="flex flex-row items-center gap-3 w-full justify-between">
+                <div className="text-zinc-700 dark:text-zinc-100 font-medium text-sm h-full" >
+                  {tokenInfo.name}
+                </div>
+              <CardTitle ><div className="text-sm text-zinc-700 dark:text-zinc-400 font-normal">{tokenInfo.symbol.toUpperCase()}</div></CardTitle>
             </div>
             {marketData && (
-              <div className="flex flex-row gap-4 items-center">
+              <div className="flex flex-row gap-4 justify-center items-center">
                 <div className="space-y-1">
-                  <div className="text-[18px] font-semibold">
+                  <div className="text-[16px] font-semibold">
                     ${marketData.currentPrice.toLocaleString()}
                   </div>
                 </div>
                 <div className={`bg-auto px-2 py-[2px] rounded-md ${marketData.priceChange24h >= 0 ? 'bg-green-700/50' : 'text-red-700/50'}`}>
-                  <div className={`text-[15px] ${
+                  <div className={`text-[13px] ${
                     marketData.priceChange24h >= 0 ? 'text-green-500' : 'text-red-500'
                   }`}>
                     {marketData.priceChange24h.toFixed(2)}%
@@ -361,51 +368,72 @@ useEffect(() => {
             )}
           </div>
         </div>
+
+        <div className="w-full h-full items-center justify-center">
+            <ChartStats  tokenSymbol={currentChartToken}/>
+        </div>
+
         <button 
           onClick={() => setShowBuyChart(!showBuyChart)}
-          className="text-sm hover:bg-accent p-2 rounded-lg flex items-center gap-2"
+          className="text-sm hover:bg-accent p-3 py-2 rounded-md flex items-center gap-2 shadow-md shadow-1 shadow-zinc-950 justify-center"
           disabled={!buyTokenSymbol || !sellTokenSymbol}
         >
-          Show {otherTokenSymbol}
+          <div className="flex flex-row gap-2 items-center">
+            <span className="text-zinc-700 dark:text-zinc-100 font-medium uppercase text-sm">
+              {otherTokenSymbol}
+            </span>
           {otherTokenInfo && (
             <img 
               src={otherTokenInfo.logoURI} 
               alt={otherTokenInfo.name}
-              className="h-5 w-5 rounded-full"
+              className="h-6 w-6 rounded-full"
             />
           )}
+          </div>
         </button>
       </CardHeader>
 
-      <div className="flex flex-row px-6 justify-between">
-        <div className="flex flex-row gap-2 text-zinc-100 dark:text-zinc-900 ">
+      <div className="w-full h-[1px] m-0 bg-zinc-800"/>
+
+      <div className="flex flex-row px-6 justify-between font m-0 h-fit p-0 w-full">
+        <div className="flex flex-row gap-2 text-zinc-100 dark:text-zinc-900 h-fit w-full p-0">
           <Button 
             onClick={() => setSelectedTimeframe('1D')}
-            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px]  border-zinc-100  dark:border-zinc-800 text-accent-foreground dark:text-accent-foreground `}
+            className={`${selectedTimeframe === '1D' ? 'bg-blue-600' : 'bg-transparent'} border-[0px] 
+              dark:hover:bg-zinc-800 hover:bg-zinc-100  border-zinc-100  dark:border-zinc-800 
+              text-accent-foreground dark:text-accent-foreground p-1 px-2`}
             >
             1D
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('7D')}
-            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800 text-accent-foreground dark:text-accent-foreground`}
+            className={`${selectedTimeframe === '7D' ? 'bg-blue-600' : 'bg-transparent'} border-[0px]
+               dark:hover:bg-zinc-800 hover:bg-zinc-100 border-zinc-100 dark:border-zinc-800 
+               text-accent-foreground dark:text-accent-foreground p-1 px-2`}
           >
             7D
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('3M')}
-            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800  text-accent-foreground dark:text-accent-foreground`}
+            className={`${selectedTimeframe === '3M' ? 'bg-blue-600' : 'bg-transparent'} border-[0px] 
+              dark:hover:bg-zinc-800 hover:bg-zinc-100 border-zinc-100 dark:border-zinc-800  
+              text-accent-foreground dark:text-accent-foreground p-1 px-2`}
           >
             3M
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('1Y')}
-            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800 text-accent-foreground dark:text-accent-foreground`}
+            className={`${selectedTimeframe === '1Y' ? 'bg-blue-600' : 'bg-transparent'} border-[0px] 
+              dark:hover:bg-zinc-800 hover:bg-zinc-100 border-zinc-100 dark:border-zinc-800 
+              text-accent-foreground dark:text-accent-foreground p-1 px-2`}
           >
             1Y
           </Button>
           <Button 
             onClick={() => setSelectedTimeframe('All')}
-            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-100 dark:border-zinc-800  text-accent-foreground dark:text-accent-foreground`}
+            className={`${selectedTimeframe === 'All' ? 'bg-blue-600' : 'bg-transparent'} border-[0px] 
+              dark:hover:bg-zinc-800 hover:bg-zinc-100 border-zinc-100 dark:border-zinc-800 
+              text-accent-foreground dark:text-accent-foreground p-1 px-2`}
           >
             All
           </Button>
@@ -414,15 +442,17 @@ useEffect(() => {
         <div className="flex flex-row gap-2">
           <Button 
             onClick={() => setChartType('line')}
-            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-100 dark:text-zinc-900`}
+            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-900 dark:text-zinc-100`}
           >
             Line
+            <LineChart stroke="white" strokeWidth={2} className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
           </Button>
           <Button 
             onClick={() => setChartType('candle')}
-            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-100 dark:text-zinc-900`}
+            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-900 dark:text-zinc-100`}
           >
             Candle
+            <CandlestickChartIcon stroke="white" strokeWidth={2} className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
           </Button>
         </div>
       </div>

@@ -42,7 +42,7 @@ export function Ticker() {
       )
 
       if (!response.ok) {
-        if (response.status === 429) { // Too Many Requests
+        if (response.status === 429) {
           setIsRateLimited(true)
           setError('Rate limit exceeded. Please wait...')
           setTimeout(() => setIsRateLimited(false), API_RATE_LIMIT_WAIT)
@@ -53,7 +53,6 @@ export function Ticker() {
 
       const data: CoinData[] = await response.json()
       
-      // Validate data structure
       if (!Array.isArray(data) || !data.every(coin => coin.id && coin.symbol)) {
         throw new Error('Invalid data format received from API')
       }
@@ -72,7 +71,7 @@ export function Ticker() {
         setTimeout(() => {
           setRetryCount(prev => prev + 1)
           fetchCoins()
-        }, RETRY_DELAY * (retryCount + 1)) // Exponential backoff
+        }, RETRY_DELAY * (retryCount + 1))
       }
     }
   }, [isMounted, retryCount, isRateLimited])
@@ -86,20 +85,18 @@ export function Ticker() {
     }
   }, [fetchCoins])
 
-  // Loading state
   if (!isMounted && !error) {
     return (
-      <div className="flex h-12 w-full items-center justify-center bg-muted/30">
-        <span className="text-white/80">Loading cryptocurrency data...</span>
+      <div className="flex h-10 sm:h-12 w-full items-center justify-center bg-muted/30">
+        <span className="text-white/80 text-sm sm:text-base">Loading cryptocurrency data...</span>
       </div>
     )
   }
 
-  // Error state
   if (error) {
     return (
-      <div className="flex h-12 w-full items-center justify-center bg-muted/30">
-        <span className="text-red-500">
+      <div className="flex h-10 sm:h-12 w-full items-center justify-center bg-muted/30">
+        <span className="text-red-500 text-xs sm:text-sm">
           {error}
           {retryCount < MAX_RETRY_ATTEMPTS && ` (Retrying ${retryCount + 1}/${MAX_RETRY_ATTEMPTS}...)`}
         </span>
@@ -108,14 +105,14 @@ export function Ticker() {
   }
 
   return (
-    <div className="flex h-12 w-full overflow-hidden border-none border-y dark:bg-zinc-900 bg-white shadow-sm justify-center items-center">
+    <div className="flex h-10 sm:h-12 w-full overflow-hidden border-none border-y dark:bg-zinc-900 bg-white shadow-sm justify-center items-center">
       <motion.div 
-        className=" flex-none items-center flex w-fit "
+        className="flex-none items-center flex w-fit"
         animate={{
-          translateX: '-50%',
+          translateX: ['0%', '-50%'],
         }}
         transition={{
-          duration: 30,
+          duration: 40,
           repeat: Infinity,
           ease: "linear",
           repeatType: "loop",
@@ -123,28 +120,30 @@ export function Ticker() {
         {[...coins, ...coins].map((coin, idx) => (
           <div 
             key={`${coin.id}-${idx}`} 
-            className="flex-none gap-8 sm:gap-4 md:gap-4 pr-14 flex w-fit "
+            className="flex-none gap-4 sm:gap-6 md:gap-8 pr-8 sm:pr-10 md:pr-14 flex w-fit"
           >
-            <div className="flex items-center gap-2 w-fit">
+            <div className="flex items-center gap-1 sm:gap-2 w-fit">
               <img 
                 src={coin.image} 
                 alt={coin.name}
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/fallback-coin.png' // Add a fallback image
+                  (e.target as HTMLImageElement).src = '/fallback-coin.png'
                 }}
-                className="md:w-6 md:h-6 rounded-full object-contain w-6 h-6 sm:w-4 sm:h-4 text-1xl md:text-2xl sm:text-1xl aspect-auto"
+                className="rounded-full object-contain w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 aspect-auto"
               />
-              <span className="font-semibold text-black dark:text-white uppercase">{coin.symbol}</span>
-              <span className="text-sm font-medium text-black dark:text-white">
+              <span className="font-semibold text-black dark:text-white uppercase text-xs sm:text-sm">
+                {coin.symbol}
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-black dark:text-white">
                 ${coin.current_price.toLocaleString(undefined, {
                   minimumFractionDigits: 2,
-                  maximumFractionDigits: 4
+                  maximumFractionDigits: window.innerWidth < 640 ? 2 : 4
                 })}
               </span>
               <Badge
                 variant="outline"
                 className={cn(
-                  'text-xs',
+                  'text-[10px] xs:text-xs',
                   coin.price_change_percentage_24h >= 0
                     ? 'text-green-500'
                     : 'text-red-500'
@@ -153,7 +152,7 @@ export function Ticker() {
                 {coin.price_change_percentage_24h.toFixed(2)}%
               </Badge>
             </div>
-            <div className="h-6 w-px bg-border" />
+            <div className="h-4 sm:h-6 w-px bg-border" />
           </div>
         ))}
       </motion.div>

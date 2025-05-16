@@ -3,7 +3,7 @@
 
 import { useState } from "react"
 import { TokenInputSection } from "./TokenInputSection"
-import { TradingChart } from "@/components/dashboard/ui/trading-chart"
+import { TradingChart } from "@/components/dashboard/tradingChart/trading-chart"
 
 export function SwapInterface() {
   const [fromToken, setFromToken] = useState("")
