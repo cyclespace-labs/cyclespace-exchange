@@ -348,7 +348,7 @@ useEffect(() => {
                 <div className="text-zinc-700 dark:text-zinc-100 font-medium text-sm h-full" >
                   {tokenInfo.name}
                 </div>
-              <CardTitle ><div className="text-sm text-zinc-700 dark:text-zinc-400 font-normal">{tokenInfo.symbol.toUpperCase()}</div></CardTitle>
+              <CardTitle ><div className="text-[12px] text-zinc-700 dark:text-zinc-400 font-normal">{tokenInfo.symbol.toUpperCase()}</div></CardTitle>
             </div>
             {marketData && (
               <div className="flex flex-row gap-4 justify-center items-center">

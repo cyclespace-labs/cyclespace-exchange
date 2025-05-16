@@ -18,8 +18,9 @@ import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { TokenPicker } from './../Swap/components/tokenPicker';
 import { useState } from "react"
 import { ThemeToggle } from "../ThemeToggle"
+import { Tourney } from "next/font/google"
 
-
+const _tourney = Tourney({ subsets: ['latin'] })
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -69,8 +70,13 @@ export function NavMenu() {
   };
 
   return (
-    <NavigationMenu className="w-full flex justify-between items-center gap-8 h-full">
-      <NavigationMenuList className="w-full justify-between h-full items-center">
+    <NavigationMenu className="w-full flex justify-between items-center gap-8 h-ful px-3">
+      <NavigationMenuList className="w-full justify-between h-full items-center font-normal">
+                  <NavigationMenuItem>
+            <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold text-gray-800 dark:text-blue-400`}>
+              CYCLESPACE
+            </Link>
+          </NavigationMenuItem>
         <NavigationMenuItem className="">
 
           {/* <div className="h-fit sm:w-full sm:mr-2 rounded-full font-semibold">
@@ -83,7 +89,7 @@ export function NavMenu() {
 
         </NavigationMenuItem>
 
-        <NavigationMenuItem >
+        <NavigationMenuItem className="font-light">
           <Link href="/docs" passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Trade
@@ -94,6 +100,9 @@ export function NavMenu() {
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Analysis
             </NavigationMenuLink>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Vault
+            </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
 
@@ -103,7 +112,10 @@ export function NavMenu() {
         <div className="">
           <ThemeToggle />
         </div>
-        <ConnectButton />
+
+        <div className="text-[12px] ">
+          <ConnectButton />
+        </div>
 
       </NavigationMenuList>
 
@@ -126,8 +138,8 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-sm font-normal leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground font-light">
             {children}
           </p>
         </a>
