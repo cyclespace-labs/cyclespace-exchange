@@ -28,14 +28,14 @@ export const ThemeToggle = () => {
         aria-haspopup="true"
         aria-expanded={isOpen}
         aria-label="Change theme"
-        className=" w-10 h-10 p-1 justify-center items-center flex rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 bg-zinc-800"
+        className=" w-10 h-10 p-1 justify-center items-center flex rounded-full hover:bg-gray-100 dark:hover:bg-gray-100 bg-zinc-100"
       >
         {theme === 'light' && <Sun className="h-5 w-5" />}
         {theme === 'dark' && <Moon className="h-5 w-5" />}
         {theme === 'system' && <Monitor className="h-5 w-5" />}
       </button>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800" role="menu">
+        <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-100" role="menu">
           <div className="py-1">
             <button
               onClick={() => { setTheme('light'); setIsOpen(false); }}

@@ -28,7 +28,7 @@ export function BentoGridDemo() {
   );
 }
 const Skeleton = () => (
-  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-none bg-none "></div>
+  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-none bg-transparent "></div>
 );
 const items = [
   {
