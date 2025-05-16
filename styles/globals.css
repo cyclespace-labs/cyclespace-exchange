@@ -33,7 +33,6 @@
 }
 
 
-@import "tailwindcss";
 
 @theme inline {
   --animate-first: moveVertical 30s ease infinite;
@@ -78,6 +77,7 @@
     }
   }
 }
+
 
 
 

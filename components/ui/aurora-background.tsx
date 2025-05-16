@@ -17,29 +17,29 @@ export const AuroraBackground = ({
     <main>
       <div
         className={cn(
-          "bg-none flex h-full w-full flex-col items-center bg-zinc-50 text-slate-950 dark:bg-zinc-900",
+          "transition-bg relative flex h-[100vh] flex-col items-center justify-center bg-zinc-50 text-slate-950 dark:bg-zinc-900",
           className,
         )}
         {...props}
       >
         <div
-          className="absolute inset-0 overflow-hidden bg-black"
+          className="absolute inset-0 overflow-hidden"
           style={
             {
               "--aurora":
-                "repeating-linear-gradient(100deg,#E3EF26_10%,#BAFD02_15%,#E3EF26_20%,#BAFD02_25%,#E3EF26_30%)",
+                "repeating-linear-gradient(100deg,#ef566a_10%,#ef566a_15%,#4400ff_20%,#4400ff_25%,#4400ff_30%)",
               "--dark-gradient":
                 "repeating-linear-gradient(100deg,#000_0%,#000_7%,transparent_10%,transparent_12%,#000_16%)",
               "--white-gradient":
-                "repeating-linear-gradient(100deg,#000_0%,#000_7%,transparent_10%,transparent_12%,#000_16%)",
+                "repeating-linear-gradient(100deg,#fff_0%,#fff_7%,transparent_10%,transparent_12%,#fff_16%)",
 
-              "--blue-300": "#BAFD02",
-              "--blue-400": "#BAFD02",
-              "--blue-500": "#BAFD02",
-              "--indigo-300": "#E3EF26",
-              "--violet-200": "#E3EF26",
+              "--blue-300": "#ef566a",
+              "--blue-400": "#ef566a",
+              "--blue-500": "#ef566a",
+              "--indigo-300": "#4400ff",
+              "--violet-200": "#4400ff",
               "--black": "#000",
-              "--white": "#fff",
+              "--white": "#4400ff",
               "--transparent": "transparent",
             } as React.CSSProperties
           }

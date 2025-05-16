@@ -71,7 +71,7 @@ export function NavMenu() {
 
   return (
     <NavigationMenu className="w-full flex justify-between items-center gap-8 h-ful px-3 bg-transparent">
-      <NavigationMenuList className="w-full justify-between h-full items-center font-normal">
+      <NavigationMenuList className="w-full justify-between h-full items-center font-normal text-foreground">
                   <NavigationMenuItem>
             <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold text-gray-800 dark:text-blue-400`}>
               CYCLESPACE
@@ -133,13 +133,13 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none space-y-1 text-zinc-100 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}
         >
-          <div className="text-sm font-normal leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground font-light">
+          <div className="text-sm font-normal leading-none text-zinc-100">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-zinc-100 font-light">
             {children}
           </p>
         </a>

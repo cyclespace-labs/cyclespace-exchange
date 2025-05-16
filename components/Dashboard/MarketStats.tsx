@@ -73,7 +73,7 @@ export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
 
   if (isLoading) {
     return (
-      <div className="grid grid-row-2 gap-1 p-3 px-5 py-5 w-full h-full overflow-hidden bg-zinc-900 rounded-2xl">
+      <div className="grid grid-row-2 gap-1 p-3 px-5 py-5 w-full h-full overflow-hidden bg-transparent rounded-2xl">
         <div className="w-full h-full rounded-2xl gap-1 flex flex-row justify-between items-center">
           <Skeleton className="h-6 w-32" />
         </div>
@@ -104,7 +104,7 @@ export default function MarketStats({ tokenSymbol }: MarketStatsProps) {
   }
 
   return (
-    <div className="grid grid-row-2 gap-1 p-3 px-5 py-5 w-full h-full overflow-hidden dark:bg-zinc-900 bg-white rounded-2x shadow rounded-2xl">
+    <div className="grid grid-row-2 gap-1 p-3 px-5 py-5 w-full h-full overflow-hidden bg-transparent">
       <div className="w-full h-full rounded-2xl gap-1 flex flex-row justify-between items-center">
         <h1 className="text-zinc-300 font-bold text-[16px]">
           Market stats for {tokenSymbol.toUpperCase()}

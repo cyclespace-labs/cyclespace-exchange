@@ -113,7 +113,7 @@ export default function TechnicalSpecs({ tokenSymbol }: TechnicalSpecsProps) {
   }
 
   return (
-    <Card className="w-full border-none bg-zinc-900">
+    <Card className="w-full border-none bg-transparent">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           Technical Specifications

@@ -20,6 +20,7 @@ import { Widget } from '../../Widget/Widget';
 import { CandlestickChart, CandlestickChartIcon, LineChart, LineChartIcon } from "lucide-react"
 import chartStats from './ui/chart-stats';
 import ChartStats from "./ui/chart-stats"
+import { set } from "lodash"
 
 interface TradingChartProps {
   buyTokenSymbol?: string;
@@ -224,9 +225,9 @@ useEffect(() => {
 
   const { min, max } = getPriceRange()
 
-  const [fromToken, setFromToken] = useState("link");
-  const [toToken, setToToken] = useState("busd");
-  const [currentChartToken] = useState(fromToken);
+  const [fromToken, setFromToken] = useState(marketData);
+  const [toToken, setToToken] = useState(marketData);
+  const [currentChartToken] = useState(fromToken || toToken);
 
   if (isLoading) {
     return (
@@ -370,7 +371,7 @@ useEffect(() => {
         </div>
 
         <div className="w-full h-full items-center justify-center">
-            <ChartStats  tokenSymbol={currentChartToken}/>
+            <ChartStats  tokenSymbol={currentTokenSymbol || ""}/>
         </div>
 
         <button 

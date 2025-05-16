@@ -13,7 +13,7 @@ import {
 
 export function BentoGridDemo() {
   return (
-    <BentoGrid className="max-w-full w-full h-full gap-0 rounded-0 bg-none">
+    <BentoGrid className="max-w-full w-full h-full gap-0 rounded-0  bg-transparent">
       {items.map((item, i) => (
         <BentoGridItem
           key={i}
@@ -21,7 +21,7 @@ export function BentoGridDemo() {
           description={item.description}
           header={item.header}
           icon={item.icon}
-          className={i === 3 || i === 6 ? "md:col-span-2" : "rounded-none"}
+          className={i === 3 || i === 6 ? "md:col-span-2 bg-transparent" : "rounded-none bg-transparent"}
         />
       ))}
     </BentoGrid>

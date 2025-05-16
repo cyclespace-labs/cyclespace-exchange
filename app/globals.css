@@ -55,7 +55,6 @@
   --radius-xl: calc(var(--radius) + 4px)
 }
 
-@import "tailwindcss";
 
 @theme inline {
   --animate-first: moveVertical 30s ease infinite;
@@ -100,6 +99,7 @@
     }
   }
 }
+
 
 
 @layer base {
