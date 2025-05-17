@@ -1,52 +1,23 @@
-import React from 'react';
-import { NavBar } from '@/components/Navigation/NavBar'
-import { HeroSection } from '@/components/HeroSection';
-import Footer from '@/components/Footer';
-import GridView from '@/components/GridView';
-import { ChainFilter } from '@/components/ChainFilter';
-
-
-
+import { Hero } from '@/components/landing/Hero';
+import { Features } from '@/components/landing/Features';
+import { HowItWorks } from '@/components/landing/HowItWorks';
+import { Pricing } from '@/components/landing/Pricing';
+import { Testimonials } from '@/components/landing/Testimonials';
+import { CTA } from '@/components/landing/CTA';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 export default function Home() {
-  
   return (
-    <main className='h-full w-full justify-center items-center flex flex-col bg-auto'>
-        <div className='w-full flex md:mt-2'>
-            <NavBar/>
-          </div>
-
-        <div className='justify-center items-center flex flex-col bg-none w-[1400px] gap-5'> 
-
-          <div className='w-full h-full mt-20 mb-20'>
-            <HeroSection/>
-          </div>
-
-          <div className='justify-center items-center flex flex-col w-full h-full'>
-
-              <div className='w-full h-full'>
-                <ChainFilter/>
-              </div>
-
-            <div className='w-full h-full'>
-              {/*<TokenSection/>*/}
-            </div>
-
-            <div className="w-full">
-              {/*<ChainSection/>*/}
-            </div>
-
-          </div>
-
-          <div className='w-full'>
-            <GridView/>
-          </div>
-
-          <div className='w-full'>
-            <Footer/>
-          </div>
-
-        </div> 
-    </main>
-  )
+    <div className="w-full h-full dark:bg-black bg-zinc-50">
+      <Header />
+      <Hero />
+      <Features />
+      <HowItWorks />
+      <Pricing />
+      <Testimonials />
+      <CTA />
+      <Footer />
+    </div>
+  );
 }

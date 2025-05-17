@@ -9,6 +9,10 @@ import { Titillium_Web } from 'next/font/google'
 import { ThemeProvider } from './../context/ThemeContext';
 import { Lato } from 'next/font/google'
 import { Roboto } from 'next/font/google'
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { Toaster } from '@/components/ui/toaster';
+
 
 import "@rainbow-me/rainbowkit/styles.css";
 
@@ -31,11 +35,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased bg-zinc-100 dark:bg-black w-full m-0 p-0`}>
+      <body className={`${roboto.className} antialiased w-full m-0 p-0`}>
 
             <Providers >
               <ThemeProvider>
                   {children}
+                <Toaster />
               </ThemeProvider>
             </Providers>
 
