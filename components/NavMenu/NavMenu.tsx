@@ -73,7 +73,7 @@ export function NavMenu() {
     <NavigationMenu className="w-full flex justify-between items-center gap-8 h-ful px-3 bg-transparent">
       <NavigationMenuList className="w-full justify-between h-full items-center font-normal text-foreground">
                   <NavigationMenuItem>
-            <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold text-gray-800 dark:text-blue-400`}>
+            <Link href="/" className={`${_tourney.className} antialiased text-xl md:text-2xl font-semibold bg-gradient-to-r from-[#4400FF] to-[#7E63F7] text-transparent bg-clip-text`}>
               CYCLESPACE
             </Link>
           </NavigationMenuItem>

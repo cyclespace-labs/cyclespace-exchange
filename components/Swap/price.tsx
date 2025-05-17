@@ -215,14 +215,11 @@ export default function PriceView({
         <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
 
         <div className="h-full">
+          <section className="p-5 flex flex-col gap-2">
 
-          <section className="gap-0 p-5">
-
-              <div className="justify-between w-full items-center h-fit mx-auto flex flex-row">
-                <label htmlFor="sell" className="text-black text-[16px] dark:text-white mb-2 mr-2 font-normal items-start">
-                  Sell
-                </label>
-              </div>
+            <label htmlFor="sell" className="text-black text-[16px] dark:text-white  font-normal items-start">
+               Sell
+            </label>
 
             <label htmlFor="sell-amount" className="sr-only"></label>
             <TokenPicker 
@@ -246,7 +243,7 @@ export default function PriceView({
 
         <div>
           {/* Swap Button Container */}
-            <div className="relative my-8">
+            <div className="relative ">
               <SwapButton
                 sellToken={fromToken}
                 buyToken={toToken}
@@ -264,26 +261,14 @@ export default function PriceView({
 
       <div>
 
-        <div className="w-full items-end justify-end h-fit flex flex-row">
-          
-            <TokenEquivalentValue 
-              sellToken={fromToken}
-              buyToken={toToken}
-              chainId={chainId}
-            />
-          
-        </div>
+        <section className="p-5 flex flex-col gap-2">
 
-          <label htmlFor="buy" className="text-black dark:text-white text-[16px] mb-4 mr-2 font-normal">
+          <label htmlFor="buy" className="text-black text-[16px] dark:text-white  font-normal items-start">
             Buy
           </label>
 
-          <section className="mt-4 items-start justify-center flex-row">
-
-            
-
             <label htmlFor="buy-amount" className="sr-only"></label>
-              <TokenPicker 
+            <TokenPicker 
               value={toToken}
               onValueChange={setToToken}
               label="To"
@@ -303,40 +288,61 @@ export default function PriceView({
               disabled
             />
 
-              {/* Add FinalSwapValue here */}
-              {price && (
-                <div className="flex flex-col gap-2 mt-3">
-                  <div className="h-[1px] w-full bg-slate-300 dark:bg-zinc-700 rounded-xl" />
-                    <div className="flex flex-row justify-between items-center align-middle my-4">
+            {/* Add FinalSwapValue here */}
+            {price && (
+              <div className="flex flex-col gap-2 mt-3 ">
+                  <div className="flex flex-row justify-between items-center align-middle my-4">
                     <h1 className="text-sm">You receive:</h1>
-                    <div className="">
-                    <FinalSwapValue 
-                      buyAmount={buyAmount}
-                      buyTokenSymbol={toToken}
-                      chainId={chainId}
-                      feeAmount={price?.fees?.integratorFee?.amount || "0"}
-                    />
-                    </div>
+                  <div className="">
+                  <FinalSwapValue 
+                    buyAmount={buyAmount}
+                    buyTokenSymbol={toToken}
+                    chainId={chainId}
+                    feeAmount={price?.fees?.integratorFee?.amount || "0"}
+                  />
                   </div>
                 </div>
-
+              </div>
               )}
-
           </section>
-
         </div>
 
+        {/* Separator */}
+        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
+
           {/* Affiliate Fee Display */}
-          <AffiliateFeeBadge price={price} buyToken={toToken} />
+          <div>
+            <AffiliateFeeBadge price={price} buyToken={toToken} />
+          </div>
+
+        {/* Separator */}
+        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
+
+          {/* Token Equivalent Value Display */}
+          <div className="w-full items-end justify-end h-fit flex flex-row">
+            <TokenEquivalentValue 
+              sellToken={fromToken}
+              buyToken={toToken}
+              chainId={chainId}
+            />
+          </div>
+
+        {/* Separator */}
+        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
 
           {/* Tax Information Display */}
+          <div>
           <TaxInfo
             buyTokenTax={buyTokenTax}
             sellTokenTax={sellTokenTax}
             buyToken={buyToken}
             sellToken={sellToken}
           />
- 
+          </div>
+
+        {/* Separator */}
+        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
+
         </div>
 
         {taker ? (
@@ -376,13 +382,15 @@ export default function PriceView({
                   {(() => {
                     if (!connected) {
                       return (
-                        <button
-                          className="w-full bg-blue-600 text-white font-semibold p-2 rounded-full hover:bg-blue-700"
-                          onClick={openConnectModal}
-                          type="button"
-                        >
-                          Connect Wallet
-                        </button>
+                        <div className="px-5 py-6">
+                          <button
+                            className="w-full bg-gradient-to-r from-[#4400FF] to-[#7E63F7] text-white font-semibold p-2 rounded-md hover:bg-blue-700 "
+                            onClick={openConnectModal}
+                            type="button"
+                          >
+                            Connect Wallet
+                          </button>
+                        </div>
                       );
                     }
 
@@ -467,7 +475,7 @@ export default function PriceView({
             // fetch data, when finished, show quote view
             onClick();
           }}
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-25"
+          className="w-full bg-blue-500 text-white p-2 rounded-2xl hover:bg-blue-700 disabled:opacity-25"
         >
           {disabled ? "Insufficient Balance" : "Review Trade"}
         </button>
@@ -523,7 +531,7 @@ export default function PriceView({
         <>
           <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full"
             onClick={async () => {
               await writeContract({
                 abi: erc20Abi,
@@ -550,7 +558,7 @@ export default function PriceView({
           // fetch data, when finished, show quote view
           onClick();
         }}
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-25"
+        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 disabled:opacity-25"
       >
         {disabled ? "Insufficient Balance" : "Review Trade"}
       </button>

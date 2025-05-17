@@ -26,7 +26,7 @@ export function TaxInfo({
   const [error, setError] = useState<string | null>(null)
   
   return (
-    <div className="text-slate-400 bg-zinc-800 w-26 h-6 ">
+    <div className="text-slate-400 w-26 h-6 " title="Tax Info">
       {buyTokenTax.buyTaxBps !== "0" && (
         <p>
           {MAINNET_TOKENS_BY_SYMBOL[buyToken].symbol +

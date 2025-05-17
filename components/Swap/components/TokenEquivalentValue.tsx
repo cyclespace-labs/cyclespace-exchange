@@ -73,7 +73,7 @@ export const TokenEquivalentValue = ({
   if (sellToken === buyToken) return null;
 
   return (
-    <div className=" text-gray-950  mt-1 flex bg-transparent ">
+    <div className=" text-gray-950  flex bg-transparent ">
       <Badge className="p-1 rounded-full px-2 bg-transparent dark:text-gray-500 text-gray-950">
       {loading ? (
         <span className="text-xs">
@@ -82,7 +82,7 @@ export const TokenEquivalentValue = ({
       ) : error ? (
         <span className="text-xs text-red-500">
         <div className="w-full h-full gap-3 p-3 flex flex-col ">
-            <Skeleton className="h-full w-1/2 bg-zinc-800" />
+            <Skeleton className="h-full w-1/2"/>
           </div>
         </span>
       ) : equivalentAmount ? (

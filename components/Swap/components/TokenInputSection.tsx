@@ -51,17 +51,21 @@ export const TokenInputSection = ({
   };
 
   return (
-    <section className="mt-2 items-start justify-center flex flex-col w-full h-fit gap-3">
+    <section className="items-start justify-center w-full h-fit">
 
-      <div className="w-full flex flex-row items-center justify-between h-fit">
+      <div className="w-full flex flex-row items-center justify-between h-fit ">
         <Input
           id={`${label}-amount`}
           value={amount}
-          className="h-11 sm:h-11 md:h-11 lg-h-11 sm:text-2xl md:text-2xl lg:text-4xl dark:bg-zinc-900 border-transparent text-4xl font-medium focus:outline-0 active:outline-0"
+          className="h-11 sm:h-11 md:h-11 lg-h-11 sm:text-2xl md:text-2xl lg:text-3xl bg-transparent  border-transparent text-4xl font-medium focus:outline-none active:outline-none active:bg-transparent focus:bg-transparent"
           type="string"
           placeholder="0.0"
           onChange={handleAmountChange}
           disabled={disabled}
+          style={{ 
+            width: "100%",
+            backgroundColor: "transparent",
+           }}
         />
 
         <TokenUSDValue 

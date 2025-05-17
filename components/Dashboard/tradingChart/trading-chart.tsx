@@ -442,14 +442,14 @@ useEffect(() => {
         <div className="flex flex-row gap-2">
           <Button 
             onClick={() => setChartType('line')}
-            className={`${chartType === 'line' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-900 dark:text-zinc-100`}
+            className={`${chartType === 'line' ? 'bg-gradient-to-r from-[#4400FF] to-[#7E63F7] text-transparent ' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-900 dark:text-zinc-100`}
           >
             Line
             <LineChart stroke="white" strokeWidth={2} className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />
           </Button>
           <Button 
             onClick={() => setChartType('candle')}
-            className={`${chartType === 'candle' ? 'bg-blue-600' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-900 dark:text-zinc-100`}
+            className={`${chartType === 'candle' ? 'bg-gradient-to-r from-[#4400FF] to-[#7E63F7] text-transparent' : 'bg-transparent'} border-[1px] border-zinc-800  text-zinc-900 dark:text-zinc-100`}
           >
             Candle
             <CandlestickChartIcon stroke="white" strokeWidth={2} className="h-5 w-5 text-zinc-900 dark:text-zinc-100" />

@@ -27,11 +27,11 @@ export function TokenPicker({ value, onValueChange }: TokenPickerProps) {
       <Button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-3 w-fit h-7 p-6 px-4 rounded-full bg-transparent border-none justify-between shadow shadow-zinc-950 "
+        className="flex items-center gap-2 w-fit h-fit py-2 px-1 rounded-md bg-transparent  justify-between shadow shadow-black/70 border border-px border-zinc-700 "
       >
         {value ? (
           <>
-            <Avatar className="h-8 w-8">
+            <Avatar className="h-7 w-7">
               <AvatarImage src={MAINNET_TOKENS_BY_SYMBOL[value]?.logoURI} />
             </Avatar>
             <span className="font-medium text-black dark:text-white">{value.toUpperCase()}</span>
@@ -39,7 +39,7 @@ export function TokenPicker({ value, onValueChange }: TokenPickerProps) {
         ) : (
           "Select Token"
         )}
-        <ChevronDown size={23} color="grey" strokeWidth={3}  className="" />
+        <ChevronDown size={25} color="grey" strokeWidth={2}  className="" />
       </Button>
 
       {open && (

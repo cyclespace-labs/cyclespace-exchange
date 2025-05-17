@@ -50,7 +50,7 @@ export const FinalSwapValue = ({
   if (!buyAmount || parseFloat(buyAmount) <= 0) return null;
 
   return (
-    <div className="flex flex-col gap-4 h-5 bg-zinc-900 rounded-full">
+    <div className="flex flex-col gap-4 h-5 zinc-900 rounded-full">
       <div className="text-sm text-gray-400 mt-1 font-normal flex">
       {loading ? (
         <span className="text-xs">
