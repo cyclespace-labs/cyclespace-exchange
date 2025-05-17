@@ -335,8 +335,7 @@ useEffect(() => {
     : undefined
 
   return (
-    <Card className="w-full flex flex-col justify-start border-none  bg-transparent rounded-none pt-0 mt-0 h-full">
-      <div className="w-full h-[1px] mb-2 bg-zinc-800"/>
+    <Card className="w-full flex flex-col justify-start border-transparent bg-transparent rounded-none pt-7 mt-0 h-full ">
       <CardHeader className="flex flex-row items-center justify-between h-[18px]">
         <div className="flex items-center gap-4 flex-row justify-start">
           <img 
@@ -376,10 +375,10 @@ useEffect(() => {
 
         <button 
           onClick={() => setShowBuyChart(!showBuyChart)}
-          className="text-sm hover:bg-accent p-3 py-2 rounded-md flex items-center gap-2 shadow-md shadow-1 shadow-zinc-950 justify-center"
+          className="text-sm hover:bg-accent w-fit px-2 py-2 rounded-md flex items-center gap-2 shadow-md shadow-1 shadow-zinc-950 justify-center"
           disabled={!buyTokenSymbol || !sellTokenSymbol}
         >
-          <div className="flex flex-row gap-2 items-center">
+          <div className="flex flex-row gap-2 items-center w-full justify-between">
             <span className="text-zinc-700 dark:text-zinc-100 font-medium uppercase text-sm">
               {otherTokenSymbol}
             </span>
@@ -394,7 +393,7 @@ useEffect(() => {
         </button>
       </CardHeader>
 
-      <div className="w-full h-[1px] m-0 bg-zinc-800"/>
+      <div className="w-full h-px bg-zinc-700"/>
 
       <div className="flex flex-row px-6 justify-between font m-0 h-fit p-0 w-full">
         <div className="flex flex-row gap-2 text-zinc-100 dark:text-zinc-900 h-fit w-full p-0">

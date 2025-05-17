@@ -105,7 +105,7 @@ export function Ticker() {
   }
 
   return (
-    <div className="flex h-10 sm:h-12 w-full overflow-hidden border-none border-y  bg-transparent shadow-sm justify-center items-center">
+    <div className="flex h-10 sm:h-12 w-full overflow-hidden border-transparent  bg-transparent shadow-sm justify-center items-center">
       <motion.div 
         className="flex-none items-center flex w-fit"
         animate={{
@@ -152,7 +152,7 @@ export function Ticker() {
                 {coin.price_change_percentage_24h.toFixed(2)}%
               </Badge>
             </div>
-            <div className="h-4 sm:h-6 w-px bg-border" />
+            <div className="h-4 sm:h-6 w-px bg-border"/>
           </div>
         ))}
       </motion.div>

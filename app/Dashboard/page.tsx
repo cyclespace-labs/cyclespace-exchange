@@ -62,25 +62,27 @@ const [fromToken, setFromToken] = useState("link");
     <div className="backdrop-filter backdrop-blur-3xl  w-full m-0 p-0">
       <div className=" w-full px-0 backdrop-filter backdrop-blur-3xl bg-zinc-900/50">
 
-        <header className="flex h-fit p-1 shrink-0 items-center gap-2 bg-transparent border-t-2 border-b-2  border-zinc-800">
+        <header className="flex h-fit p-1 shrink-0 items-center gap-2 bg-transparent border-b-[1px]  border-zinc-700 py-1">
           <NavMenu/>
         </header>
       
         <div className="w-full px-0">
           <div className="flex flex-row w-full h-full">
               <div className="flex flex-1 flex-col gap-0 pt-0 w-full h-fit">
-                <div className=" ">
+
+                <div className="h-fit w-full border-zinc-700 border-b-[1px]">
                   <Ticker/>
                 </div> 
+
                   <div className="h-full w-full justify-start items-start flex gap-0 overflow">
                     
                         <div className="max-w-[400px] h-[715px] flex flex-col bg-transparent"> 
                           <Command className="h-full flex flex-col bg-transparent p-0"> 
-                              <CommandList className=" h-full w-full flex flex-col gap-0 bg-transparent p-0 border-[1px] border-zinc-800"> 
-                                <div className="bg-transparent border-b-[1px] border-zinc-800">
+                              <CommandList className=" h-full w-full flex flex-col gap-0"> 
+                                <div className="bg-transparent border-b-[1px] border-zinc-700">
                                     <MarketStats tokenSymbol={currentChartToken} />
                                 </div>
-                                <div className="bg-transparent border-b-[1px] border-zinc-800">
+                                <div className="bg-transparent border-b-[1px] border-zinc-700">
                                     <TechnicalSpecs tokenSymbol={currentChartToken}/>
                                 </div>
                               </CommandList>
@@ -89,7 +91,7 @@ const [fromToken, setFromToken] = useState("link");
                     
 
                         {/* chart */}
-                      <div className="w-full h-full flex">
+                      <div className="w-full h-full border-zinc-700 border-x-[1px]">
                         <TradingChart
                           buyTokenSymbol={toToken}
                           sellTokenSymbol={fromToken}
@@ -99,7 +101,7 @@ const [fromToken, setFromToken] = useState("link");
                       </div>
                         <div className="max-w-[400px] h-[715px] flex flex-col">
                           <Command className="h-full flex flex-col bg-transparent p-0 rounded-none">
-                            <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none  border-t-2 border-b-2  border-zinc-800">
+                            <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none">
                               <Swap
                                 fromToken={fromToken}
                                 setFromToken={setFromToken}

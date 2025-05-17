@@ -31,6 +31,7 @@ import { color } from "motion/react";
 import { TradingChart } from '@/components/dashboard/tradingChart/trading-chart';
 import { TokenChart } from "../TokenChart";
 import { TokenPicker } from "./components/tokenPicker";
+import { Separator } from "@radix-ui/react-separator";
  
 interface PriceViewProps {
   taker: Address | undefined;
@@ -197,29 +198,32 @@ export default function PriceView({
 
   return (
     
-    <div className=" justify-start items-center gap-2 w-[400px] h-[715px]  border-1 border-zinc-800"> 
-
+    <div className=" justify-start items-center gap-2 w-[400px] h-[715px]"> 
       {/* swap */}
-      <div className="w-[400px] h-[715px] flex flex-col p-5  mt-0 bg-transparent my-0 shadow justify-start ">
+      <div className="w-[400px] h-[715px] flex flex-col  bg-transparent my-0 shadow justify-start ">
 
-        <div className="p-3 gap-3 flex flex-col">
+        <div className="p-5 gap-3 flex flex-col">
           <div className="justify-between flex flex-row">
             <h1 className="text-[18px] font-medium">Market</h1>
             <Button variant="default" className=" h-fit w-fit bg-transparent shadow shadow-zinc-950">
               <Settings width={35} height={35} color="white"/>
             </Button>
           </div>
-          <div className="w-full bg-zinc-700 h-[1px]"/>
         </div>
-        
-        <div className=" p-4 rounded-md h-full">
-          <div className="justify-between w-full items-center h-fit mx-auto flex flex-row">
-            <label htmlFor="sell" className="text-black text-[16px] dark:text-white mb-2 mr-2 font-normal items-start">
-              Sell
-            </label>
-          </div>
 
-          <section className="gap-0">
+        {/* Separator */}
+        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
+
+        <div className="h-full">
+
+          <section className="gap-0 p-5">
+
+              <div className="justify-between w-full items-center h-fit mx-auto flex flex-row">
+                <label htmlFor="sell" className="text-black text-[16px] dark:text-white mb-2 mr-2 font-normal items-start">
+                  Sell
+                </label>
+              </div>
+
             <label htmlFor="sell-amount" className="sr-only"></label>
             <TokenPicker 
               value={fromToken}
