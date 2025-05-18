@@ -26,12 +26,14 @@ import { FinalSwapValue } from "./components/FinalSwapValue";
 import { AffiliateFeeBadge } from "./components/SwapFee";
 import { TaxInfo } from "./components/TaxInfo";
 import { SwapButton } from "./components/SwapButton";
-import { Settings } from "lucide-react";
+import { Rotate3DIcon, RotateCcw, Settings } from "lucide-react";
 import { color } from "motion/react";
 import { TradingChart } from '@/components/dashboard/tradingChart/trading-chart';
 import { TokenChart } from "../TokenChart";
 import { TokenPicker } from "./components/tokenPicker";
 import { Separator } from "@radix-ui/react-separator";
+import { Card, CardContent } from "../ui/card";
+import { IconRotate2 } from "@tabler/icons-react";
  
 interface PriceViewProps {
   taker: Address | undefined;
@@ -220,13 +222,20 @@ export default function PriceView({
             <label htmlFor="sell" className="text-black text-[16px] dark:text-white  font-normal items-start">
                Sell
             </label>
-
-            <label htmlFor="sell-amount" className="sr-only"></label>
-            <TokenPicker 
-              value={fromToken}
-              onValueChange={setFromToken}
-              label="From"
-            />
+            <div className="flex flex-row items-center justify-between gap-5">
+              <label htmlFor="sell-amount" className="sr-only"></label>
+              <TokenPicker 
+                value={fromToken}
+                onValueChange={setFromToken}
+                label="From"
+              />
+              <div className="flex gap-2">
+                <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+                <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+                <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+                <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+              </div>
+            </div>
             <TokenInputSection
               label="sell"
               token={fromToken}
@@ -266,13 +275,20 @@ export default function PriceView({
           <label htmlFor="buy" className="text-black text-[16px] dark:text-white  font-normal items-start">
             Buy
           </label>
-
+          <div className="flex flex-row items-center justify-between gap-5">
             <label htmlFor="buy-amount" className="sr-only"></label>
             <TokenPicker 
               value={toToken}
               onValueChange={setToToken}
               label="To"
             />
+            <div className="flex gap-2">
+              <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+              <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+              <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+              <div className="bg-zinc-900 h-10 w-10 rounded-md"/>
+            </div>
+          </div>
             <TokenInputSection
               label="buy"
               token={toToken}
@@ -287,11 +303,15 @@ export default function PriceView({
               }}
               disabled
             />
+          </section>
+          </div>
 
-            {/* Add FinalSwapValue here */}
-            {price && (
-              <div className="flex flex-col gap-2 mt-3 ">
-                  <div className="flex flex-row justify-between items-center align-middle my-4">
+          <Card className="w-full h-full py-5 px-0 gap-4 flex flex-col bg-white/2">
+            <CardContent>
+          {/* Add FinalSwapValue here */}
+          {price && (
+            <div className="flex flex-col">
+                  <div className="flex flex-row justify-between items-center ">
                     <h1 className="text-sm">You receive:</h1>
                   <div className="">
                   <FinalSwapValue 
@@ -304,22 +324,18 @@ export default function PriceView({
                 </div>
               </div>
               )}
-          </section>
-        </div>
 
-        {/* Separator */}
-        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
 
           {/* Affiliate Fee Display */}
-          <div>
+          <div className="">
             <AffiliateFeeBadge price={price} buyToken={toToken} />
           </div>
 
-        {/* Separator */}
-        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
+
 
           {/* Token Equivalent Value Display */}
-          <div className="w-full items-end justify-end h-fit flex flex-row">
+          <div className="w-full justify-between items-center h-fit flex flex-row">
+            <IconRotate2 size={15} color="green" strokeWidth={3}/>
             <TokenEquivalentValue 
               sellToken={fromToken}
               buyToken={toToken}
@@ -327,8 +343,6 @@ export default function PriceView({
             />
           </div>
 
-        {/* Separator */}
-        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
 
           {/* Tax Information Display */}
           <div>
@@ -340,8 +354,9 @@ export default function PriceView({
           />
           </div>
 
-        {/* Separator */}
-        <Separator className="bg-zinc-700 h-px" orientation="horizontal" />
+            </CardContent>
+          </Card>
+
 
         </div>
 

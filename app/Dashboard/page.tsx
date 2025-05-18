@@ -43,6 +43,8 @@ import { Command, CommandList } from "@/components/ui/command"
 import { BentoGridDemo } from './../../components/Section2';
 import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation"
 import { AuroraBackground } from "@/components/ui/aurora-background"
+import RealtimeChart from "@/components/dashboard/tradingChart/realtime-chart"
+import NewsLayout from "@/components/NewsLayout"
 
 const token = {
   symbol: 'WETH',
@@ -58,7 +60,7 @@ const [fromToken, setFromToken] = useState("link");
   const [currentChartToken, setCurrentChartToken] = useState(fromToken);
 
   return (
-    <AuroraBackground className=" w-full h-full">
+    <div className=" w-full h-full bg-black">
     <div className="backdrop-filter backdrop-blur-3xl  w-full m-0 p-0">
       <div className=" w-full px-0 backdrop-filter backdrop-blur-3xl bg-zinc-900/50">
 
@@ -75,30 +77,44 @@ const [fromToken, setFromToken] = useState("link");
                 </div> 
 
                   <div className="h-full w-full justify-start items-start flex gap-0 overflow">
-                    
+
                         <div className="max-w-[400px] h-[715px] flex flex-col bg-transparent"> 
-                          <Command className="h-full flex flex-col bg-transparent p-0"> 
-                              <CommandList className=" h-full w-full flex flex-col gap-0"> 
+
+                          <div className="h-full flex flex-col bg-transparent p-0"> 
+                              <div className=" h-full w-full flex flex-col gap-0"> 
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
                                     <MarketStats tokenSymbol={currentChartToken} />
                                 </div>
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
                                     <TechnicalSpecs tokenSymbol={currentChartToken}/>
                                 </div>
-                              </CommandList>
-                          </Command>
+                                  <div className="bg-white w-full h-[300px]">
+                                        <NewsSection/>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
+
                     
 
                         {/* chart */}
-                      <div className="w-full h-full border-zinc-700 border-x-[1px]">
+                      <div className="w-full h-full border-zinc-700 border-x-[1px] flex flex-col">
+                        {/*
+                        <RealtimeChart coinId="ethereum"/>
+                        */}
                         <TradingChart
                           buyTokenSymbol={toToken}
                           sellTokenSymbol={fromToken}
                           price={0}
                           setCurrentChartToken={setCurrentChartToken}
                         />
+
+                        <div className="flex flex-col gap-4 w-full h-full bg-transparent">
+                          <BentoGridDemo/>
+                        </div>
                       </div>
+
+
                         <div className="max-w-[400px] h-[715px] flex flex-col">
                           <Command className="h-full flex flex-col bg-transparent p-0 rounded-none">
                             <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none">
@@ -114,9 +130,6 @@ const [fromToken, setFromToken] = useState("link");
                         </div>
                   </div>
 
-                  <div className="flex flex-col gap-4 w-full h-full bg-transparent">
-                    <BentoGridDemo/>
-                  </div>
 
                   {/*
                   
@@ -134,6 +147,6 @@ const [fromToken, setFromToken] = useState("link");
       </div>
     </div>
       
-    </AuroraBackground>
+    </div>
   )
 }

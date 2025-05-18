@@ -11,11 +11,11 @@ export function AffiliateFeeBadge({
 }) {
   return (
     
-    <Badge className="justify-end w-full items-end h-fit border-none flex flex-col bg-transparent gap-4">
-      <div className=" not-first:flex w-fit">
-        <div className="text-slate-500 text-[11px] items-end ">
+    <Badge className="justify-end w-full items-end h-fit border-none bg-transparent gap-4 m-0 p-0">
+      <div className=" flex w-full justify-end">
+        <div className="text-gray-300 text-[12px] items-end text-sm font-normal ">
           {price && price.fees?.integratorFee?.amount
-            ? "Swap Fee: " +
+            ? "Fee: " +
               Number(
                 formatUnits(
                   BigInt(price.fees.integratorFee.amount),

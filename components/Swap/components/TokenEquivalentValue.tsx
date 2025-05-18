@@ -73,8 +73,8 @@ export const TokenEquivalentValue = ({
   if (sellToken === buyToken) return null;
 
   return (
-    <div className=" text-gray-950  flex bg-transparent ">
-      <Badge className="p-1 rounded-full px-2 bg-transparent dark:text-gray-500 text-gray-950">
+    <div className=" text-gray-400">
+      <Badge className="text-gray-400 bg-transparent justify-end font-normal m-0 p-0" >
       {loading ? (
         <span className="text-xs">
 
@@ -86,7 +86,9 @@ export const TokenEquivalentValue = ({
           </div>
         </span>
       ) : equivalentAmount ? (
-        `1 ${sellToken.toUpperCase()} = ${equivalentAmount} ${buyToken.toUpperCase()}`
+        <span className="text-gray-300 ">
+          {`1 ${sellToken.toUpperCase()} = ${equivalentAmount} ${buyToken.toUpperCase()}`}
+        </span>
       ) : null}
       </Badge>
 

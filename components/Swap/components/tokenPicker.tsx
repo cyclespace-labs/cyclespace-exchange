@@ -27,7 +27,7 @@ export function TokenPicker({ value, onValueChange }: TokenPickerProps) {
       <Button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 w-fit h-fit py-2 px-1 rounded-md bg-transparent  justify-between shadow shadow-black/70 border border-px border-zinc-700 "
+        className="flex items-center gap-2 w-fit h-fit py-2 px-1 rounded-full bg-transparent  justify-between shadow shadow-black/70 border border-px border-zinc-700 "
       >
         {value ? (
           <>

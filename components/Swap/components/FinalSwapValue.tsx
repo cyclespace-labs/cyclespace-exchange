@@ -50,22 +50,26 @@ export const FinalSwapValue = ({
   if (!buyAmount || parseFloat(buyAmount) <= 0) return null;
 
   return (
-    <div className="flex flex-col gap-4 h-5 zinc-900 rounded-full">
-      <div className="text-sm text-gray-400 mt-1 font-normal flex">
+    <div className="flex flex-col gap-4 h-fit w-full ">
+      <div className="text-sm text-gray-400 mt- font-normal flex">
       {loading ? (
         <span className="text-xs">
           <div className="w-full h-full gap-3 p-3 flex flex-col ">
-            <Skeleton className="h-full w-1/2 bg-zinc-800" />
+            <Skeleton className="h-full w-1/2 " />
           </div>
       </span>
       ) : error ? (
       <span className="text-xs">
         <div className="w-full h-full gap-3 p-3 flex flex-col ">
-          <Skeleton className="h-full w-1/2 bg-zinc-800" />
+          <Skeleton className="h-full w-1/2 " />
         </div>
       </span>
       ) : formattedNetAmount ? (
-        `(incl. ${AFFILIATE_FEE/100}% fee) ${formattedNetAmount} ${buyTokenSymbol.toUpperCase()}`
+        <div className="text-xs flex flex-row gap-1">
+          <span className="text-gray-200">{`(incl. ${AFFILIATE_FEE/100}% fee)`}</span>
+          <span className="text-white">{`${formattedNetAmount}`}</span>
+          <span className="text-white">{`${buyTokenSymbol.toUpperCase()}`}</span>
+        </div>
       ) : null}
       </div>
     </div>
