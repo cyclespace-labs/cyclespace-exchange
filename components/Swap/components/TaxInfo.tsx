@@ -1,4 +1,4 @@
-import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+import { MAINNET_TOKENS_BY_SYMBOL } from "@/src/constants";
 import { useState } from "react";
 
 interface TaxInfoProps {

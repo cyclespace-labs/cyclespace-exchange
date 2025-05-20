@@ -2,7 +2,7 @@ import { Command, CommandInput, CommandList, CommandItem, CommandEmpty } from "@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState } from "react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import { MAINNET_TOKENS, MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+import { MAINNET_TOKENS, MAINNET_TOKENS_BY_SYMBOL } from "@/src/constants";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, X } from "lucide-react";
 import { ChevronLeft } from "lucide-react";

@@ -7,15 +7,18 @@ import QuoteView from "@/components/Swap/quote";
 import { useState } from "react";
 import { useAccount, useChainId } from "wagmi";
 
-import type { PriceResponse } from "@/utils/types";
+import type { PriceResponse } from "@/src/utils/types";
 
 interface SwapProps {
+  price: any;
+  setPrice: (price: any) => void;
+  setFinalize: (finalize: boolean) => void;
+  chainId: number;
   fromToken: string;
   setFromToken: (token: string) => void;
   toToken: string;
   setToToken: (token: string) => void;
   setCurrentChartToken: (token: string) => void;
-  // ... other existing props (e.g., address, chainId)
 }
 
 export default function Swap({
@@ -58,7 +61,7 @@ export default function Swap({
           toToken={toToken}
           setToToken={setToToken}
           setCurrentChartToken={setCurrentChartToken}
-            />
+        />
       )}
     </div>
   );

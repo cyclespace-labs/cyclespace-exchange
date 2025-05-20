@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { Skeleton } from "@/components/ui/skeleton";
-import { COINGECKO_IDS } from "@/lib/constants";
+import { COINGECKO_IDS } from "@/src/constants";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";

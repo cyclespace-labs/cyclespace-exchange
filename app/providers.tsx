@@ -12,12 +12,10 @@ import {
   trustWallet,
   ledgerWallet,
   rainbowWallet,
-  phantomWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 import { mainnet } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
-
 
 const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
 coinbaseWallet.preference = "smartWalletOnly";
@@ -36,7 +34,6 @@ const connectors = connectorsForWallets(
         argentWallet,
         trustWallet,
         ledgerWallet,
-        
       ],
     },
   ],
@@ -60,7 +57,9 @@ const queryClient = new QueryClient();
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className="bg-slate-100 "
+      style={{
+        padding: "20px",
+      }}
     >
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>

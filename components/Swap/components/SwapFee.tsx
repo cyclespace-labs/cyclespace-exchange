@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { formatUnits } from "ethers";
-import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+import { MAINNET_TOKENS_BY_SYMBOL } from "@/src/constants";
 
 export function AffiliateFeeBadge({
   price,

@@ -15,8 +15,8 @@ import {
   MAX_ALLOWANCE,
   AFFILIATE_FEE,
   FEE_RECIPIENT,
-} from "@/lib/constants";
-import { permit2Abi } from "@/utils/permit2Abi";
+} from "@/src/constants";
+import { permit2Abi } from "@/src/utils/permit2Abi";
 import Image from "next/image";
 import qs from "qs";
 import { TokenInputSection } from "./components/TokenInputSection";
@@ -26,10 +26,7 @@ import { FinalSwapValue } from "./components/FinalSwapValue";
 import { AffiliateFeeBadge } from "./components/SwapFee";
 import { TaxInfo } from "./components/TaxInfo";
 import { SwapButton } from "./components/SwapButton";
-import { Rotate3DIcon, RotateCcw, Settings } from "lucide-react";
-import { color } from "motion/react";
-import { TradingChart } from '@/components/dashboard/tradingChart/trading-chart';
-import { TokenChart } from "../TokenChart";
+import {  Settings } from "lucide-react";
 import { TokenPicker } from "./components/tokenPicker";
 import { Separator } from "@radix-ui/react-separator";
 import { Card, CardContent } from "../ui/card";
@@ -397,15 +394,13 @@ export default function PriceView({
                   {(() => {
                     if (!connected) {
                       return (
-                        <div className="px-5 py-6">
-                          <button
-                            className="w-full bg-gradient-to-r from-[#4400FF] to-[#7E63F7] text-white font-semibold p-2 rounded-md hover:bg-blue-700 "
-                            onClick={openConnectModal}
-                            type="button"
-                          >
-                            Connect Wallet
-                          </button>
-                        </div>
+                        <button
+                          className="w-full bg-blue-600 text-white font-semibold p-2 rounded hover:bg-blue-700"
+                          onClick={openConnectModal}
+                          type="button"
+                        >
+                          Connect Wallet
+                        </button>
                       );
                     }
 
@@ -490,7 +485,7 @@ export default function PriceView({
             // fetch data, when finished, show quote view
             onClick();
           }}
-          className="w-full bg-blue-500 text-white p-2 rounded-2xl hover:bg-blue-700 disabled:opacity-25"
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-25"
         >
           {disabled ? "Insufficient Balance" : "Review Trade"}
         </button>
@@ -541,12 +536,12 @@ export default function PriceView({
       return <div>Something went wrong: {error.message}</div>;
     }
 
-    if (allowance === BigInt(0)) {
+    if (allowance === 0n) {
       return (
         <>
           <button
             type="button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md w-full"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
             onClick={async () => {
               await writeContract({
                 abi: erc20Abi,
@@ -573,7 +568,7 @@ export default function PriceView({
           // fetch data, when finished, show quote view
           onClick();
         }}
-        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-700 disabled:opacity-25"
+        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-25"
       >
         {disabled ? "Insufficient Balance" : "Review Trade"}
       </button>

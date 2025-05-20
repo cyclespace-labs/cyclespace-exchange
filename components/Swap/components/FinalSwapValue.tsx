@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { formatUnits } from "ethers";
-import { MAINNET_TOKENS_BY_SYMBOL, AFFILIATE_FEE } from "@/lib/constants";
+import { MAINNET_TOKENS_BY_SYMBOL, AFFILIATE_FEE } from "@/src/constants";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface FinalSwapValueProps {

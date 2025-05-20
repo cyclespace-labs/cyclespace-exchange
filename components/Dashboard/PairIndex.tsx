@@ -14,7 +14,7 @@ import {
   MAINNET_TOKENS_BY_SYMBOL, 
   COINGECKO_IDS,
   Token 
-} from "@/lib/constants"
+} from "@/src/constants"
 import { Button } from "@/components/ui/button"
 import { CandlestickChart, LineChart } from "lucide-react"
 

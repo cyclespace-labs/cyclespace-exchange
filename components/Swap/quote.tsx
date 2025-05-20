@@ -8,13 +8,13 @@ import {
   type BaseError,
 } from "wagmi";
 import { Address, concat, numberToHex, size, type Hex } from "viem";
-import type { PriceResponse, QuoteResponse } from "@/utils/types";
+import type { PriceResponse, QuoteResponse } from "@/src/utils/types";
 import {
   MAINNET_TOKENS_BY_ADDRESS,
   AFFILIATE_FEE,
   FEE_RECIPIENT,
   MAINNET_TOKENS_BY_SYMBOL
-} from "@/lib/constants";
+} from "@/src/constants";
 import Image from "next/image";
 import qs from "qs";
 import { FinalSwapValue } from "./components/FinalSwapValue";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+import { MAINNET_TOKENS_BY_SYMBOL } from "@/src/constants";
 import qs from "qs";
 import { formatUnits, parseUnits } from "viem";
 import { Badge } from '@/components/ui/badge';

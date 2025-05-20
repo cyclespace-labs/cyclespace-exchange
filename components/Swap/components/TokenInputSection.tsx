@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { TokenPicker } from "./tokenPicker";
 import { TokenUSDValue } from "./TokenUSDValue";
 import { ChangeEvent, useState } from "react";
-import { MAINNET_TOKENS_BY_SYMBOL } from "@/lib/constants";
+import { MAINNET_TOKENS_BY_SYMBOL } from "@/src/constants";
 
 
 interface TokenInputSectionProps {

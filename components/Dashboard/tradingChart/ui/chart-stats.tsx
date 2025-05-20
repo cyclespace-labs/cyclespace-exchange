@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Skeleton } from "@/components/ui/skeleton";
-import { COINGECKO_IDS } from "@/lib/constants";
+import { COINGECKO_IDS } from "@/src/constants";
 
 interface MarketStatsProps {
   tokenSymbol: string;
