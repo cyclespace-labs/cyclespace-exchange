@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveContainer, ScatterChart, Scatter, XAxis, YAxis, ZAxis, Tooltip, Cell } from "recharts";
-import { styleText } from "util";
 
 type TokenomicsData = {
   name: string;
@@ -42,22 +41,11 @@ const TokenomicsBubbleChart = () => {
     if (payload && payload.length > 0) {
       const data = payload[0].payload;
       return (
-        <div className="backdrop-blur-xl bg-black/40 border border-white/10 rounded-lg p-3 shadow-lg">
-          <p className="font-medium text-sm">{data.name}</p>
-          <div className="space-y-1 mt-1">
-            <p className="text-xs flex items-center justify-between">
-              <span className="text-muted-foreground">Market Cap:</span>
-              <span className="font-mono">{formatCurrency(data.marketCap)}</span>
-            </p>
-            <p className="text-xs flex items-center justify-between">
-              <span className="text-muted-foreground">24h Volume:</span>
-              <span className="font-mono">{formatCurrency(data.volume24h)}</span>
-            </p>
-            <p className="text-xs flex items-center justify-between">
-              <span className="text-muted-foreground">Market Share:</span>
-              <span className="font-mono">{data.marketShare}%</span>
-            </p>
-          </div>
+        <div className="bg-background border border-border p-2 rounded-md shadow-lg">
+          <p className="font-medium">{data.name}</p>
+          <p className="text-sm">Market Cap: {formatCurrency(data.marketCap)}</p>
+          <p className="text-sm">24h Volume: {formatCurrency(data.volume24h)}</p>
+          <p className="text-sm">Market Share: {data.marketShare}%</p>
         </div>
       );
     }
@@ -65,15 +53,15 @@ const TokenomicsBubbleChart = () => {
   };
 
   return (
-    <Card className="mt-6 overflow-hidden backdrop-blur-sm bg-black/5 border-white/10">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-lg font-medium tracking-tight">Tokenomics Map</CardTitle>
+    <Card className="p-2 bg-transparent border-0 m-0">
+      <CardHeader>
+        <CardTitle className="text-sm">Tokenomics Bubble Map</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-[400px] w-full">
+        <div className="h-[350px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <ScatterChart
-              margin={{ top: 20, right: 30, bottom: 30, left: 30 }}
+              margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
             >
               <XAxis 
                 type="number" 
@@ -81,17 +69,8 @@ const TokenomicsBubbleChart = () => {
                 name="Market Cap" 
                 tickFormatter={formatCurrency}
                 domain={['auto', 'auto']}
-                tick={{ fill: '#8E9196', fontSize: 4 }}
-                stroke="#403E43"
-                axisLine={{ stroke: '#403E43', strokeWidth: 1 }}
-                tickLine={{ stroke: '#403E43' }}
-                label={{ 
-                  value: 'Market Cap', 
-                  position: 'insideBottom', 
-                  offset: -15,
-                  fill: '#8E9196',
-                  fontSize:4,
-                }}
+                label={{ value: 'Market Cap', position: 'bottom', offset: 0, }}
+                stroke="#6B7280"
               />
               <YAxis 
                 type="number" 
@@ -99,51 +78,29 @@ const TokenomicsBubbleChart = () => {
                 name="24h Volume" 
                 tickFormatter={formatCurrency}
                 domain={['auto', 'auto']}
-                tick={{ fill: '#8E9196', fontSize: 6 }}
-                stroke="#403E43"
-                axisLine={{ stroke: '#403E43', strokeWidth: 1 }}
-                tickLine={{ stroke: '#403E43' }}
-                label={{ 
-                  value: '24h Volume', 
-                  angle: -90, 
-                  position: 'insideLeft',
-                  fill: '#8E9196',
-                  fontSize: 6,
-                }}
+                label={{ value: '24h Volume', angle: -90, position: 'left' }}
+                stroke="#6B7280"
               />
               <ZAxis 
                 type="number" 
                 dataKey="marketShare" 
-                range={[80, 1200]} 
+                range={[100, 1500]} 
                 name="Market Share"
               />
-              <Tooltip 
-                cursor={{ strokeDasharray: '3 3' }} 
-                content={formatTooltipContent} 
-                wrapperStyle={{ outline: 'none' }}
-              />
+              <Tooltip content={formatTooltipContent} />
               <Scatter name="Tokenomics" data={tokenomicsData}>
                 {tokenomicsData.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={entry.color} 
-                    stroke="rgba(255,255,255,0.3)" 
-                    strokeWidth={1}
-                  />
+                  <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Scatter>
             </ScatterChart>
           </ResponsiveContainer>
         </div>
-        
-        <div className="flex flex-wrap gap-2 sm:gap-3 mt-2 justify-center">
+        <div className="flex flex-wrap gap-3 mt-4 justify-center">
           {tokenomicsData.map((token, index) => (
-            <div key={index} className="flex items-center gap-1.5 bg-black/10 backdrop-blur-sm px-2 py-1 rounded-full">
-              <div 
-                className="h-2.5 w-2.5 rounded-full ring-1 ring-white/10" 
-                style={{ backgroundColor: token.color }}
-              ></div>
-              <span className="text-[10px] sm:text-xs">{token.name}</span>
+            <div key={index} className="flex items-center gap-1">
+              <div className="h-3 w-3 rounded-full" style={{ backgroundColor: token.color }}></div>
+              <span className="text-xs">{token.name}</span>
             </div>
           ))}
         </div>

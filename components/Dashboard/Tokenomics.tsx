@@ -1,21 +1,19 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Pie, PieChart } from "recharts"
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
 } from "@/components/ui/chart"
 const chartData = [
   { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
@@ -39,44 +37,39 @@ const chartConfig = {
   },
   firefox: {
     label: "Firefox",
-    color: "white",
+    color: "red",
   },
   edge: {
     label: "Edge",
-    color: "orange",
+    color: "yellow",
   },
   other: {
     label: "Other",
-    color: "teal",
+    color: "purple",
   },
 } satisfies ChartConfig
 
-export function Piechart() {
+export function Tokenomics() {
   return (
-    <Card className="flex flex-col bg-zinc-950 border-none">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+    <Card className="flex flex-col bg-transparent p-0 m-0 w-full h-full border-0">
+      <CardHeader className="items-center p-0 m-0 w-full h-full bg-transparent">
+        <CardTitle className="text-sm">Pie Chart - Legend</CardTitle>
+        <CardDescription className="text-xs">January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+          className="aspect-square w-h-full w-full bg-transparent"
         >
-          <PieChart>
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="visitors" label nameKey="browser" />
+          <PieChart className="w-full h-full">
+            <Pie data={chartData} dataKey="visitors" />
+            <ChartLegend
+              content={<ChartLegendContent nameKey="browser" />}
+              className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   )
 }

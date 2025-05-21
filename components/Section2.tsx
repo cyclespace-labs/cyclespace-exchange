@@ -10,6 +10,7 @@ import {
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
+import { BarChart } from "./dashboard/Tokenomics";
 
 export function BentoGridDemo() {
   return (
@@ -17,10 +18,7 @@ export function BentoGridDemo() {
       {items.map((item, i) => (
         <BentoGridItem
           key={i}
-          title={item.title}
-          description={item.description}
           header={item.header}
-          icon={item.icon}
           className={i === 3 || i === 6 ? "md:col-span-2 bg-transparent" : "rounded-none bg-transparent"}
         />
       ))}
@@ -34,7 +32,7 @@ const items = [
   {
     title: "The Dawn of Innovation",
     description: "Explore the birth of groundbreaking ideas and inventions.",
-    header: <Skeleton />,
+    header: <BarChart/>,
     icon: <IconClipboardCopy className="h-4 w-4 text-neutral-500" />,
   },
   {

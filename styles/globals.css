@@ -283,3 +283,12 @@
 .refresh-button {
   margin-top: 10px;
 }
+
+@layer components {
+  .table-auto {
+    table-layout: auto;
+  }
+  .table-fixed {
+    table-layout: fixed;
+  }
+}

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased w-full m-0 p-0`}>
+      <body className={`${roboto.className} antialiased w-full `}>
         <ThemeProvider >
           <Providers >
             {children}

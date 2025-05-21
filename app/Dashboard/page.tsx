@@ -1,63 +1,28 @@
 "use client"
 
-import { AppSidebar } from "@/components/dashboard/ui/app-sidebar"
-import GlobalData from "@/components/dashboard/GlobalData"
-import { LinearChart } from "@/components/dashboard/Linear-Chart"
-import TopLosers from "@/components/dashboard/TopLosers"
-import TrendingTokens from "@/components/dashboard/MarketStats"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { ChartArea } from "lucide-react"
 import {  TradingChart } from "@/components/dashboard/tradingChart/trading-chart"
-import { DataTable } from "@/components/dashboard/ui/data-table"
-
-import data from "./data.json"
-import { BarChartData } from "@/components/dashboard/Bar-Chart"
-import { Piechart } from "@/components/dashboard/Pie-Chart"
-import { NewsSection } from "@/components/dashboard/News-Section"
-import { NavBar } from "@/components/Navigation/NavBar"
 import { Ticker } from "@/components/Ticker"
 import Swap from "../Swap/page"
 import { useState } from "react"
 import MarketStats from './../../components/dashboard/MarketStats';
 import { NavMenu } from "@/components/NavMenu/NavMenu"
-import BarIndex from "@/components/dashboard/BarIndex"
-import { PairIndex } from './../../components/dashboard/PairIndex';
-import { ScrollArea, ScrollAreaThumb } from "@radix-ui/react-scroll-area"
-import { XAxis } from 'recharts';
-import TechnicalSpecs from "@/components/dashboard/BarIndex"
-import { ScrollBar } from "@/components/ui/scroll-area"
-import { Command, CommandList } from "@/components/ui/command"
-import { BentoGridDemo } from './../../components/Section2';
-import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation"
-import { AuroraBackground } from "@/components/ui/aurora-background"
-import RealtimeChart from "@/components/dashboard/tradingChart/realtime-chart"
-import NewsLayout from "@/components/NewsLayout"
+import TechnicalSpecs from "@/components/dashboard/TechnicalSpecs"
+import { Tokenomics } from "@/components/dashboard/Tokenomics"
+import { Command, CommandList } from "cmdk"
+import TokenomicsBubbleChart from "@/components/dashboard/Bubblemap"
+import { SectionTabs } from './../../components/dashboard/ui/section-tabs';
 
-const token = {
-  symbol: 'WETH',
-  address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
-  chainId: 1,
-  coingeckoId: 'weth',
-};
 
 export default function Page() {
 
 const [fromToken, setFromToken] = useState("link");
   const [toToken, setToToken] = useState("busd");
   const [currentChartToken, setCurrentChartToken] = useState(fromToken);
+
+    const handleTokenSelect = (symbol: string) => {
+    setFromToken(symbol)
+    setCurrentChartToken(symbol)
+  }
 
   return (
     <div className=" w-full h-full bg-black">
@@ -88,8 +53,7 @@ const [fromToken, setFromToken] = useState("link");
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
                                     <TechnicalSpecs tokenSymbol={currentChartToken}/>
                                 </div>
-                                  <div className="bg-white w-full h-[300px]">
-                                        <NewsSection/>
+                                  <div className="w-full h-[300px]">
                                   </div>
                               </div>
                           </div>
@@ -109,8 +73,8 @@ const [fromToken, setFromToken] = useState("link");
                           setCurrentChartToken={setCurrentChartToken}
                         />
 
-                        <div className="flex flex-col gap-4 w-full h-full bg-transparent">
-                          <BentoGridDemo/>
+                        <div className="flex flex-row gap-4 w-full h-full bg-transparent items-center" >
+                          <SectionTabs onTokenSelect={handleTokenSelect}/>
                         </div>
                       </div>
 
@@ -118,13 +82,16 @@ const [fromToken, setFromToken] = useState("link");
                         <div className="max-w-[400px] h-[715px] flex flex-col">
                           <Command className="h-full flex flex-col bg-transparent p-0 rounded-none">
                             <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none">
-                              <Swap
-                                fromToken={fromToken}
-                                setFromToken={setFromToken}
-                                toToken={toToken}
-                                setToToken={setToToken}
-                                setCurrentChartToken={setCurrentChartToken}
-                              />
+                        <Swap
+                          fromToken={fromToken}
+                          setFromToken={setFromToken}
+                          toToken={toToken}
+                          setToToken={setToToken}
+                          setCurrentChartToken={setCurrentChartToken} price={undefined} setPrice={function (price: any): void {
+                            throw new Error("Function not implemented.")
+                          } } setFinalize={function (finalize: boolean): void {
+                            throw new Error("Function not implemented.")
+                          } } chainId={0}                              />
                             </CommandList>
                           </Command>
                         </div>

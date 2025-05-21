@@ -303,7 +303,7 @@ export default function PriceView({
           </section>
           </div>
 
-          <Card className="w-full h-full py-5 px-0 gap-4 flex flex-col bg-white/2">
+          <Card className="w-full h-fit py-5 px-0 gap-4 flex flex-col bg-white/2 rounded-none">
             <CardContent>
           {/* Add FinalSwapValue here */}
           {price && (

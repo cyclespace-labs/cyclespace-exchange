@@ -117,7 +117,7 @@ export default function TechnicalSpecs({ tokenSymbol }: TechnicalSpecsProps) {
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           Technical Specifications
-          <Badge variant="secondary">Rank #{specsData?.marketCapRank}</Badge>
+          <Badge variant="secondary" className='text-blue-400'>Rank #{specsData?.marketCapRank}</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">

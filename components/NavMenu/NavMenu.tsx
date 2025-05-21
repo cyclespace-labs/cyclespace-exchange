@@ -89,22 +89,28 @@ export function NavMenu() {
 
         </NavigationMenuItem>
 
-        <NavigationMenuItem className="font-light">
-          <Link href="/docs" passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Trade
-            </NavigationMenuLink>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Sentiment
-            </NavigationMenuLink>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Analysis
-            </NavigationMenuLink>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Vault
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+          <NavigationMenuItem className="font-light flex gap-1">
+            <Link href="/trade" passHref >
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Trade
+              </NavigationMenuLink>
+            </Link>
+            <Link href="/sentiment" passHref >
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Sentiment
+              </NavigationMenuLink>
+            </Link>
+            <Link href="/analysis" passHref >
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Analysis
+              </NavigationMenuLink>
+            </Link>
+            <Link href="/vault" passHref >
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Vault
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
 
       </NavigationMenuList>
       <NavigationMenuList className="w-full gap-3">
@@ -138,7 +144,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className="text-sm font-normal leading-none text-zinc-100">{title}</div>
+          <p className="text-sm font-normal leading-none text-zinc-100">{title}</p>
           <p className="line-clamp-2 text-sm leading-snug text-zinc-100 font-light">
             {children}
           </p>
