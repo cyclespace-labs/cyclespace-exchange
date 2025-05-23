@@ -74,7 +74,7 @@ const [fromToken, setFromToken] = useState("link");
                         />
 
                         <div className="flex flex-row gap-4 w-full h-full bg-transparent items-center" >
-                          <SectionTabs onTokenSelect={handleTokenSelect}/>
+                          <SectionTabs />
                         </div>
                       </div>
 
@@ -82,16 +82,17 @@ const [fromToken, setFromToken] = useState("link");
                         <div className="max-w-[400px] h-[715px] flex flex-col">
                           <Command className="h-full flex flex-col bg-transparent p-0 rounded-none">
                             <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none">
-                        <Swap
-                          fromToken={fromToken}
-                          setFromToken={setFromToken}
-                          toToken={toToken}
-                          setToToken={setToToken}
-                          setCurrentChartToken={setCurrentChartToken} price={undefined} setPrice={function (price: any): void {
-                            throw new Error("Function not implemented.")
-                          } } setFinalize={function (finalize: boolean): void {
-                            throw new Error("Function not implemented.")
-                          } } chainId={0}                              />
+                              <Swap
+                                fromToken={fromToken}
+                                setFromToken={setFromToken}
+                                toToken={toToken}
+                                setToToken={setToToken}
+                                setCurrentChartToken={setCurrentChartToken} price={undefined} setPrice={function (price: any): void {
+                                  throw new Error("Function not implemented.")
+                                } } setFinalize={function (finalize: boolean): void {
+                                  throw new Error("Function not implemented.")
+                                } } chainId={0}                              
+                              />
                             </CommandList>
                           </Command>
                         </div>

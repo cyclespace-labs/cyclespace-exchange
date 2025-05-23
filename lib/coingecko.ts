@@ -1,6 +1,6 @@
 const API_BASE = 'https://api.coingecko.com/api/v3';
 
-export async function fetchCoinHistory(coinId, days = 7) {
+export async function fetchCoinHistory(coinId: any, days = 7) {
   if (!process.env.NEXT_PUBLIC_COINGECKO_API_KEY) {
     console.error('CoinGecko API key is missing');
     throw new Error('API key not configured');

@@ -15,12 +15,10 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import {DataTable} from "@/components/dashboard/data-table"
 
-import { DataTable } from "../data-table"
-import { useState } from "react"
 
-export function SectionTabs({ onTokenSelect }: { onTokenSelect: (symbol: string) => void }) {
-  const [showTokenList, setShowTokenList] = useState(false)
+export function SectionTabs() {
   return (
     <Tabs defaultValue="account" className="w-full">
       <TabsList className="grid w-[400px] grid-cols-2">
@@ -28,9 +26,7 @@ export function SectionTabs({ onTokenSelect }: { onTokenSelect: (symbol: string)
         <TabsTrigger value="password">Password</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
-        <DataTable            isOpen={showTokenList}
-            onClose={() => setShowTokenList(false)}
-            onSelect={onTokenSelect} />
+        <DataTable />
       </TabsContent>
       <TabsContent value="password">
         <Card>

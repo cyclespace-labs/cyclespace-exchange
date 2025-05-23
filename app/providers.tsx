@@ -3,53 +3,39 @@
 import * as React from "react";
 import {
   RainbowKitProvider,
-  connectorsForWallets,
+  getDefaultWallets,
+  getDefaultConfig,
 } from "@rainbow-me/rainbowkit";
 import {
-  coinbaseWallet,
-  metaMaskWallet,
   argentWallet,
   trustWallet,
   ledgerWallet,
-  rainbowWallet,
 } from "@rainbow-me/rainbowkit/wallets";
-import { mainnet } from "wagmi/chains";
+import {
+  arbitrum,
+  base,
+  mainnet,
+  optimism,
+  polygon,
+  sepolia,
+} from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider, createConfig, http } from "wagmi";
+import { WagmiProvider } from "wagmi";
 
-const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID as string;
-coinbaseWallet.preference = "smartWalletOnly";
+const { wallets } = getDefaultWallets();
 
-const connectors = connectorsForWallets(
-  [
-    {
-      groupName: "Recommended Wallet",
-      wallets: [coinbaseWallet],
-    },
+const config = getDefaultConfig({
+  appName: "swap",
+  projectId: "3b7fdd9a77b10b7c460d917ca61cabd4",
+  wallets: [
+    ...wallets,
     {
       groupName: "Other",
-      wallets: [
-        rainbowWallet,
-        metaMaskWallet,
-        argentWallet,
-        trustWallet,
-        ledgerWallet,
-      ],
+      wallets: [argentWallet, trustWallet, ledgerWallet],
     },
   ],
-  {
-    appName: "0x Swap Demo App",
-    projectId,
-  }
-);
-
-const config = createConfig({
-  chains: [mainnet],
-  // turn off injected provider discovery
-  multiInjectedProviderDiscovery: false,
-  connectors,
+  chains: [polygon],
   ssr: true,
-  transports: { [mainnet.id]: http() },
 });
 
 const queryClient = new QueryClient();
@@ -58,7 +44,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        padding: "20px",
+        padding: "0px",
       }}
     >
       <WagmiProvider config={config}>

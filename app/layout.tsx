@@ -21,11 +21,12 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased w-full `}>
-        <ThemeProvider >
-          <Providers >
+        <ThemeProvider>
+                      <Providers >
             {children}
           </Providers>
-        </ThemeProvider>                
+        </ThemeProvider>
+              
       </body>
     </html>
   )
