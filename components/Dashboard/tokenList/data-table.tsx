@@ -38,10 +38,14 @@ import { MAINNET_TOKENS, COINGECKO_IDS } from "@/src/constants"
 import { Token } from "@/src/constants"
 import { useEffect, useState } from "react"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
+import { Skeleton } from "@/components/ui/skeleton"
 
 interface TokenWithRank extends Token {
   globalRank?: number
 }
+
+const API_DELAY = 1500 // 1.5 seconds between requests to stay under rate limits
+const MAX_RETRIES = 2
 
 export const columns: ColumnDef<TokenWithRank>[] = [
   {
@@ -91,11 +95,13 @@ export const columns: ColumnDef<TokenWithRank>[] = [
   {
     accessorKey: "globalRank",
     header: "Rank",
-    cell: ({ row }) => (
-      <div className="text-sm font-medium">
-        #{row.getValue("globalRank") || "N/A"}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const rank = row.getValue("globalRank")
+      if (rank === undefined) {
+        return <Skeleton className="h-4 w-[50px]" />
+      }
+      return <div className="text-sm font-medium">#{String(rank || "N/A")}</div>
+    },
   },
   {
     accessorKey: "address",
@@ -138,38 +144,70 @@ export const columns: ColumnDef<TokenWithRank>[] = [
 
 export function DataTable() {
   const [data, setData] = useState<TokenWithRank[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-  useEffect(() => {
-    const fetchMarketRanks = async () => {
-      const tokensWithRanks = await Promise.all(
-        MAINNET_TOKENS.map(async (token) => {
-          const coingeckoId = COINGECKO_IDS[token.symbol.toLowerCase()]
-          if (!coingeckoId) return { ...token, globalRank: undefined }
-          
-          try {
-            const response = await fetch(
-              `https://api.coingecko.com/api/v3/coins/${coingeckoId}`
-            )
-            const data = await response.json()
-            return {
-              ...token,
-              globalRank: data.market_cap_rank || null
-            }
-          } catch (error) {
-            console.error('Error fetching market rank:', error)
-            return { ...token, globalRank: undefined }
-          }
-        })
-      )
-      setData(tokensWithRanks)
+  const fetchWithRetry = async (url: string, retries = MAX_RETRIES) => {
+    try {
+      const response = await fetch(url)
+      if (response.status === 429) {
+        if (retries > 0) {
+          await new Promise(resolve => setTimeout(resolve, API_DELAY * 2))
+          return fetchWithRetry(url, retries - 1)
+        }
+        throw new Error("Rate limit exceeded")
+      }
+      return response.json()
+    } catch (error) {
+      throw error
     }
+  }
 
-    fetchMarketRanks()
+
+  const fetchMarketRanks = React.useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+    
+    try {
+      const tokensWithRanks = []
+      for (const token of MAINNET_TOKENS) {
+        try {
+          const coingeckoId = COINGECKO_IDS[token.symbol.toLowerCase()]
+          if (!coingeckoId) {
+            tokensWithRanks.push({ ...token, globalRank: null })
+            continue
+          }
+
+          const data = await fetchWithRetry(
+            `https://api.coingecko.com/api/v3/coins/${coingeckoId}`
+          )
+          
+          tokensWithRanks.push({
+            ...token,
+            globalRank: data.market_cap_rank || null
+          })
+
+          await new Promise(resolve => setTimeout(resolve, API_DELAY))
+        } catch (error) {
+          console.error(`Failed to fetch rank for ${token.symbol}:`, error)
+          tokensWithRanks.push({ ...token, globalRank: null })
+        }
+      }
+      setData(tokensWithRanks)
+    } catch (error) {
+      setError("Failed to load market data. Please try again later.")
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
+
+  useEffect(() => {
+    fetchMarketRanks()
+  }, [fetchMarketRanks])
 
   const table = useReactTable({
     data,
@@ -192,7 +230,21 @@ export function DataTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-4">
+        {error && (
+          <div className="flex-1 bg-red-100 p-3 rounded-lg flex items-center justify-between">
+            <span className="text-red-700">{error}</span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={fetchMarketRanks}
+              className="text-red-700 hover:bg-red-200"
+            >
+              Retry
+            </Button>
+          </div>
+        )}
+        
         <Input
           placeholder="Filter tokens..."
           value={(table.getColumn("symbol")?.getFilterValue() as string) ?? ""}
@@ -200,16 +252,17 @@ export function DataTable() {
             table.getColumn("symbol")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
+          disabled={isLoading}
         />
+        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto" disabled={isLoading}>
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
+            {table.getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => (
                 <DropdownMenuCheckboxItem
@@ -227,6 +280,7 @@ export function DataTable() {
         </DropdownMenu>
       </div>
       
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -246,7 +300,17 @@ export function DataTable() {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {isLoading ? (
+              Array(5).fill(0).map((_, i) => (
+                <TableRow key={i}>
+                  {columns.map((column) => (
+                    <TableCell key={column.id}>
+                      <Skeleton className="h-4 w-[80%]" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -268,7 +332,7 @@ export function DataTable() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Loading tokens...
+                  No tokens found
                 </TableCell>
               </TableRow>
             )}

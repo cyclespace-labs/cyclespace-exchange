@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 
 interface TechnicalSpecsProps {
   tokenSymbol: string;
+    cacheKey: string; // Add this line
 }
 
 interface TechnicalSpecsData {
@@ -25,7 +26,7 @@ interface TechnicalSpecsData {
   description: string;
 }
 
-export default function TechnicalSpecs({ tokenSymbol }: TechnicalSpecsProps) {
+export default function TechnicalSpecs({ tokenSymbol, cacheKey }: TechnicalSpecsProps) {
   const [specsData, setSpecsData] = useState<TechnicalSpecsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -81,7 +82,7 @@ export default function TechnicalSpecs({ tokenSymbol }: TechnicalSpecsProps) {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    toast({ title: "Copied to clipboard!" });
+    toast({ title: `Copied to clipboard!`, description: text, duration: 2000, icon: <CopyIcon className="h-4 w-4" /> });
   };
 
   if (isLoading) {

@@ -5,6 +5,9 @@ import { Providers } from './providers'
 import { Roboto } from 'next/font/google'
 import { ThemeProvider } from './../components/theme-provider';
 import './globals.css';
+import { SWRConfig } from 'swr'
+import fetcher from '@/src/utils/fetcher';
+import React from 'react';
 
 
 const roboto = Roboto({
@@ -24,7 +27,15 @@ function RootLayout({ children }: { children: React.ReactNode }) {
       <body className={`${roboto.className} antialiased w-full `}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <Providers >
-            {children}
+            <SWRConfig value={{
+              fetcher,
+              dedupingInterval: 60000, // 1 minute
+              revalidateOnFocus: true,
+              revalidateOnReconnect: true,
+              refreshInterval: 300000 // 5 minutes
+            }}>
+              {children}
+            </SWRConfig>
           </Providers>
         </ThemeProvider>
               
