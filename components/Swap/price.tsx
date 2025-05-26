@@ -153,12 +153,10 @@ export default function PriceView({
     }
     
     if (data.buyAmount) {
-      const formattedValue = formatUnits(data.buyAmount, buyTokenDecimals);
-      // Round to 6 decimal places
-      const roundedValue = parseFloat(formattedValue).toFixed(3);
-      setBuyAmount(roundedValue);
+      const formattedBuyAmount = formatUnits(data.buyAmount, buyTokenDecimals);
+      // Force update even if value is same to handle decimal truncation
+      setBuyAmount(formattedBuyAmount => formattedBuyAmount);
       setPrice(data);
-      setBuyAmount(formatUnits(data.buyAmount, buyTokenDecimals));
     }
     
     if (data?.tokenMetadata) {
@@ -228,7 +226,7 @@ export default function PriceView({
             <div className="flex flex-row items-center justify-between gap-5">
               <label htmlFor="sell-amount" className="sr-only"></label>
               <TokenPicker 
-                value={fromToken}
+                value={sellToken}
                 onValueChange={setFromToken}
                 label="From"
               />
@@ -294,7 +292,7 @@ export default function PriceView({
           </div>
             <TokenInputSection
               label="buy"
-              token={toToken}
+              token={buyToken}
               onTokenChange={setToToken}
               amount={buyAmount}
               chainId={chainId}

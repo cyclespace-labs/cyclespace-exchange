@@ -11,6 +11,7 @@ import { Tokenomics } from "@/components/dashboard/Tokenomics"
 import { Command, CommandList } from "cmdk"
 import TokenomicsBubbleChart from "@/components/dashboard/Bubblemap"
 import { SectionTabs } from './../../components/dashboard/ui/section-tabs';
+import { DEFAULT_BUY_TOKEN } from "@/components/Swap/price"
 
 
 export default function Page() {

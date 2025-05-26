@@ -14,7 +14,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -35,48 +34,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { MAINNET_TOKENS, COINGECKO_IDS } from "@/src/constants"
+import { Token } from "@/src/constants"
+import { useEffect, useState } from "react"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
-  },
-]
-
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+interface TokenWithRank extends Token {
+  globalRank?: number
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<TokenWithRank>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -100,47 +67,50 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "logoURI",
+    header: "",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
+      <Avatar className="h-6 w-6">
+        <AvatarImage src={row.getValue("logoURI")} />
+      </Avatar>
     ),
   },
   {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+    accessorKey: "symbol",
+    header: "Symbol",
+    cell: ({ row }) => (
+      <div className="uppercase font-medium">
+        {row.getValue("symbol")}
+      </div>
+    ),
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
+    accessorKey: "name",
+    header: "Name",
+  },
+  {
+    accessorKey: "globalRank",
+    header: "Rank",
+    cell: ({ row }) => (
+      <div className="text-sm font-medium">
+        #{row.getValue("globalRank") || "N/A"}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "address",
+    header: "Address",
+    cell: ({ row }) => (
+      <div className="text-xs font-mono">
+        {(row.getValue("address") as string).slice(0, 6)}...{(row.getValue("address") as string).slice(-4)}
+      </div>
+    ),
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const token = row.original
 
       return (
         <DropdownMenu>
@@ -153,13 +123,12 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(token.address)}
             >
-              Copy payment ID
+              Copy token address
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>View token details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -168,13 +137,39 @@ export const columns: ColumnDef<Payment>[] = [
 ]
 
 export function DataTable() {
+  const [data, setData] = useState<TokenWithRank[]>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+
+  useEffect(() => {
+    const fetchMarketRanks = async () => {
+      const tokensWithRanks = await Promise.all(
+        MAINNET_TOKENS.map(async (token) => {
+          const coingeckoId = COINGECKO_IDS[token.symbol.toLowerCase()]
+          if (!coingeckoId) return { ...token, globalRank: undefined }
+          
+          try {
+            const response = await fetch(
+              `https://api.coingecko.com/api/v3/coins/${coingeckoId}`
+            )
+            const data = await response.json()
+            return {
+              ...token,
+              globalRank: data.market_cap_rank || null
+            }
+          } catch (error) {
+            console.error('Error fetching market rank:', error)
+            return { ...token, globalRank: undefined }
+          }
+        })
+      )
+      setData(tokensWithRanks)
+    }
+
+    fetchMarketRanks()
+  }, [])
 
   const table = useReactTable({
     data,
@@ -199,10 +194,10 @@ export function DataTable() {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter tokens..."
+          value={(table.getColumn("symbol")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("symbol")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -216,40 +211,37 @@ export function DataTable() {
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
+              .map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) =>
+                    column.toggleVisibility(!!value)
+                  }
+                >
+                  {column.id}
+                </DropdownMenuCheckboxItem>
+              ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      
       <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -276,13 +268,14 @@ export function DataTable() {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Loading tokens...
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
+
       <div className="flex items-center justify-end space-x-2 py-4">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}

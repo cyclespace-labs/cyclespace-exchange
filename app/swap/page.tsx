@@ -51,17 +51,16 @@ export default function Swap({
         />
       ) : (
         <PriceView
-          taker={address}
-          price={price}
-          setPrice={setPrice}
-          setFinalize={setFinalize}
-          chainId={chainId}
-          fromToken={fromToken}
-          setFromToken={setFromToken}
-          toToken={toToken}
-          setToToken={setToToken}
-          setCurrentChartToken={setCurrentChartToken}
-        />
+            taker={address}
+            price={price}
+            setPrice={setPrice}
+            setFinalize={setFinalize}
+            chainId={chainId}
+            fromToken={fromToken}
+            setFromToken={setFromToken}
+            toToken={toToken}
+            setToToken={setToToken}
+            setCurrentChartToken={setCurrentChartToken} value={undefined}        />
       )}
     </div>
   );

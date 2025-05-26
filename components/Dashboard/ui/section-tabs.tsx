@@ -26,7 +26,9 @@ export function SectionTabs() {
         <TabsTrigger value="password">Password</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
+
         <DataTable />
+        
       </TabsContent>
       <TabsContent value="password">
         <Card>

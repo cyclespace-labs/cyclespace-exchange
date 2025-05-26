@@ -115,10 +115,6 @@ export function NavMenu() {
       </NavigationMenuList>
       <NavigationMenuList className="w-full gap-3">
 
-        <div className="">
-          <ThemeToggle />
-        </div>
-
         <div className="text-[12px] ">
           <ConnectButton />
         </div>

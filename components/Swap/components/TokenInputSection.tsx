@@ -68,6 +68,7 @@ export const TokenInputSection = ({
             width: "100%",
             backgroundColor: "transparent",
            }}
+          readOnly={label === "buy"} 
         />
 
         <TokenUSDValue 
