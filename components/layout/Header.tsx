@@ -97,9 +97,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="">
-            <ThemeToggle />
-          </div>
+
           <div className="hidden md:flex gap-2">
             <Button variant="outline" asChild>
               <Link href="Dashboard">Dashboard</Link>

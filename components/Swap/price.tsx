@@ -9,8 +9,9 @@ import {
   useSimulateContract,
   useWriteContract,
   useWaitForTransactionReceipt,
+  type BaseError,
 } from "wagmi";
-import { erc20Abi, Address } from "viem";
+import { erc20Abi, Address , } from "viem";
 import {
   MAINNET_TOKENS,
   MAINNET_TOKENS_BY_SYMBOL,
@@ -45,6 +46,7 @@ interface PriceViewProps {
   toToken: string;
   setToToken: (token: string) => void;
   setCurrentChartToken: (token: string) => void;
+  value: any;
 }
 
 export const DEFAULT_BUY_TOKEN = (chainId: number) => {
@@ -80,6 +82,13 @@ export default function PriceView({
     sellTaxBps: "0",
   });
 
+    const handleSellTokenChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSellToken(e.target.value);
+  };
+  function handleBuyTokenChange(e: ChangeEvent<HTMLSelectElement>) {
+    setBuyToken(e.target.value);
+  }
+
   const sanitizeDecimalPlaces = (value: string, decimals: number): string => {
     const [integerPart, decimalPart] = value.split('.');
     if (!decimalPart) return value;
@@ -102,14 +111,7 @@ export default function PriceView({
 
   const parsedSellAmount =
     sellAmount && tradeDirection === "sell"
-    ? (() => {
-      try {
-        return parseUnits(sellAmount, sellTokenDecimals).toString();
-      } catch (e) {
-        console.error("Invalid sell amount:", e);
-        return undefined;
-      }
-    })()
+      ? parseUnits(sellAmount, sellTokenDecimals).toString()
       : undefined;
 
   const parsedBuyAmount =
@@ -156,6 +158,7 @@ export default function PriceView({
       const roundedValue = parseFloat(formattedValue).toFixed(3);
       setBuyAmount(roundedValue);
       setPrice(data);
+      setBuyAmount(formatUnits(data.buyAmount, buyTokenDecimals));
     }
     
     if (data?.tokenMetadata) {
@@ -175,6 +178,7 @@ export default function PriceView({
     chainId,
     sellAmount,  // Keep this in dependencies
     setPrice,
+    buyAmount,
     FEE_RECIPIENT,
     AFFILIATE_FEE,,
   ]);

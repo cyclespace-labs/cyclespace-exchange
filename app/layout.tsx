@@ -1,10 +1,11 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter'
+
 import type { Metadata } from 'next'
-import './globals.css'
+import "@rainbow-me/rainbowkit/styles.css";
 import { Providers } from './providers'
 import { Roboto } from 'next/font/google'
-import "@rainbow-me/rainbowkit/styles.css";
-import { ThemeProvider } from '@/context/ThemeContext'
+import { ThemeProvider } from './../components/theme-provider';
+import './globals.css';
+
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -21,8 +22,8 @@ function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased w-full `}>
-        <ThemeProvider>
-                      <Providers >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <Providers >
             {children}
           </Providers>
         </ThemeProvider>

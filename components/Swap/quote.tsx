@@ -8,16 +8,14 @@ import {
   type BaseError,
 } from "wagmi";
 import { Address, concat, numberToHex, size, type Hex } from "viem";
-import type { PriceResponse, QuoteResponse } from "@/src/utils/types";
+import type { PriceResponse, QuoteResponse } from "../../src/utils/types";
 import {
   MAINNET_TOKENS_BY_ADDRESS,
   AFFILIATE_FEE,
   FEE_RECIPIENT,
-  MAINNET_TOKENS_BY_SYMBOL
-} from "@/src/constants";
+} from "../../src/constants";
 import Image from "next/image";
 import qs from "qs";
-import { FinalSwapValue } from "./components/FinalSwapValue";
 
 export default function QuoteView({
   taker,
@@ -105,7 +103,6 @@ export default function QuoteView({
 
   return (
     <div className="p-3 mx-auto max-w-screen-sm ">
-      
       <form>
         <div className="bg-slate-200 dark:bg-slate-800 p-4 rounded-sm mb-3">
           <div className="text-xl mb-2 text-white">You pay</div>
@@ -143,7 +140,6 @@ export default function QuoteView({
           </div>
         </div>
 
-
         <div className="bg-slate-200 dark:bg-slate-800 p-4 rounded-sm mb-3">
           <div className="text-slate-400">
             {quote &&
@@ -156,7 +152,7 @@ export default function QuoteView({
                     BigInt(quote.fees.integratorFee.amount),
                     buyTokenInfo(chainId).decimals
                   )
-                ).toFixed(3) + // Changed here
+                ) +
                 " " +
                 buyTokenInfo(chainId).symbol
               : null}
@@ -260,7 +256,5 @@ export default function QuoteView({
         <div>Error: {(error as BaseError).shortMessage || error.message}</div>
       )}
     </div>
-
-    
   );
 }

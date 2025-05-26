@@ -44,6 +44,6 @@ module.exports = {
       resolveAlias: {
         underscore: 'lodash',
       },
-      resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.json'],
+      resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.json', '.css'],
     },
 }

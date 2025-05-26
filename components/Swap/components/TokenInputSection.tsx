@@ -29,6 +29,8 @@ export const TokenInputSection = ({
 
   const [fromToken, setFromToken] = useState("")
   const [toToken, setToToken] = useState("")
+  const [tradeDirection, setTradeDirection] = useState("sell");
+  const [sellAmount, setSellAmount] = useState("");
 
 
   
