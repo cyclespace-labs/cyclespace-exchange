@@ -15,7 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import {DataTable} from "@/components/dashboard/data-table"
+import { DataTable } from "../tokenList/data-table"
 
 
 export function SectionTabs() {
@@ -28,7 +28,7 @@ export function SectionTabs() {
       <TabsContent value="account">
 
         <DataTable />
-        
+
       </TabsContent>
       <TabsContent value="password">
         <Card>

@@ -34,7 +34,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="w-full flex h-16 items-center justify-between px-3">
+      <div className="w-full flex h-16 items-center justify-between px-10">
         <div className="flex items-center gap-2">
           <Link href="/"  className={`${_tourney.className} antialiasedflex items-center space-x-2`}>
             <span className="hidden font-bold sm:inline-block text-xl bg-gradient-to-r from-purple-400 to-cyan-400 text-transparent bg-clip-text">

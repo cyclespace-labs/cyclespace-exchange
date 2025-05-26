@@ -67,7 +67,7 @@ export function Features() {
         <div className="absolute bottom-1/4 -left-1/4 w-1/2 h-1/2 bg-cyan-500/10 rounded-full blur-[120px]" />
       </div>
       
-      <div className="w-full relative px-10">
+      <div className="w-full relative px-20">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${animationReady ? 'animate-in fade-in slide-in-from-bottom-4 duration-700' : 'opacity-0'}`}>
             Advanced Features for Modern Traders

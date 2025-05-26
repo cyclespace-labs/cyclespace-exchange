@@ -33,7 +33,7 @@ export function Hero() {
         className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"
       />
       
-      <div className="w-full px-10 relative">
+      <div className="w-full px-20 relative">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 py-16 md:py-24">
           <div className={`space-y-8 ${animationReady ? 'animate-in fade-in slide-in-from-left-8 duration-700' : 'opacity-0'}`}>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight">

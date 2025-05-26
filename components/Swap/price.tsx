@@ -226,7 +226,7 @@ export default function PriceView({
             <div className="flex flex-row items-center justify-between gap-5">
               <label htmlFor="sell-amount" className="sr-only"></label>
               <TokenPicker 
-                value={sellToken}
+                value={fromToken}
                 onValueChange={setFromToken}
                 label="From"
               />

@@ -22,7 +22,7 @@ export function CTA() {
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-500/30 rounded-full blur-[100px]" />
       </div>
       
-      <div className="relative w-full px-10">
+      <div className="relative w-full px-20">
         <div className="max-w-4xl mx-auto bg-white/[0.03] backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12 shadow-xl overflow-hidden">
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 rounded-full blur-[60px]" />

@@ -61,7 +61,7 @@ export function Testimonials() {
         <div className="absolute -top-48 -right-48 w-96 h-96 bg-cyan-500/20 rounded-full blur-[100px]" />
       </div>
       
-      <div className="relative w-full px-10">
+      <div className="relative w-full px-20">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${animationReady ? 'animate-in fade-in slide-in-from-bottom-4 duration-700' : 'opacity-0'}`}>
             What Our Users Say
