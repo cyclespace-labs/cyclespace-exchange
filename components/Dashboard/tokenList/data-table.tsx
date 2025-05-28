@@ -262,7 +262,7 @@ export function DataTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4 gap-4">
+      <div className="flex items-center py-4 gap-4 px-5">
         {error && (
           <div className="flex-1 bg-red-100 p-3 rounded-lg flex items-center justify-between">
             <span className="text-red-700">{error}</span>
@@ -278,12 +278,12 @@ export function DataTable() {
         )}
         
         <Input
-          placeholder="Filter tokens..."
+          placeholder="Search for token, addresses & symbols"
           value={(table.getColumn("symbol")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("symbol")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="max-w-sm rounded-md"
           disabled={isLoading}
         />
         
@@ -312,7 +312,7 @@ export function DataTable() {
         </DropdownMenu>
       </div>
 
-      <div className="rounded-md border">
+      <div className="rounded-none border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -371,7 +371,7 @@ export function DataTable() {
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4 px-5">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.

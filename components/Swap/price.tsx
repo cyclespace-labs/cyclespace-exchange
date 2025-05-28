@@ -201,7 +201,7 @@ export default function PriceView({
 
   return (
     
-    <div className=" justify-start items-center gap-2 w-[400px] h-[715px]"> 
+    <div className=" justify-start items-center gap-2 w-[400px] h-fit min-h-fit"> 
       {/* swap */}
       <div className="w-[400px] h-[715px] flex flex-col  bg-transparent my-0 shadow justify-start ">
 

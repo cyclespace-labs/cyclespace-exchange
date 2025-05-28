@@ -22,7 +22,7 @@ const tokenomicsData: TokenomicsData[] = [
   { name: "BNB", marketCap: 65700000000, volume24h: 3200000000, marketShare: 2.5, color: "#F0B90B" },
 ];
 
-const TokenomicsBubbleChart = () => {
+const BubbleChart = () => {
   const formatCurrency = (value: number) => {
     if (value >= 1e12) {
       return `$${(value / 1e12).toFixed(2)}T`;
@@ -109,4 +109,4 @@ const TokenomicsBubbleChart = () => {
   );
 };
 
-export default TokenomicsBubbleChart;
+export default BubbleChart;

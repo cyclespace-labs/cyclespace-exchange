@@ -16,42 +16,34 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { DataTable } from "../tokenList/data-table"
+import { Rows2 } from "lucide-react"
+import { IconCube3dSphere } from "@tabler/icons-react"
+import { Tokenomics } from "../Tokenomics"
+import BubbleChart from "../Bubblemap"
+import { Separator } from "@/components/ui/separator"
 
 
 export function SectionTabs() {
   return (
-    <Tabs defaultValue="account" className="w-full px-5">
-      <TabsList className="grid w-[400px] grid-cols-2 bg-transparent">
-        <TabsTrigger value="account">Explore</TabsTrigger>
-        <TabsTrigger value="password">Research</TabsTrigger>
+    <Tabs defaultValue="explore" className="w-full ">
+      <TabsList className="grid w-[200px] grid-cols-2 bg-transparent gap-2 ml-5">
+        <TabsTrigger value="explore">
+          <Rows2 color="white" strokeWidth={2} size={20}/>
+          Explore
+        </TabsTrigger>
+        <TabsTrigger value="research">
+          <IconCube3dSphere color="white" strokeWidth={2} size={20} /> 
+          Research
+        </TabsTrigger>
       </TabsList>
-      <TabsContent value="account">
+      <TabsContent value="explore" className="w-full">
 
         <DataTable />
 
       </TabsContent>
-      <TabsContent value="password">
-        <Card>
-          <CardHeader>
-            <CardTitle>Password</CardTitle>
-            <CardDescription>
-              Change your password here. After saving, you'll be logged out.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="current">Current password</Label>
-              <Input id="current" type="password" />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="new">New password</Label>
-              <Input id="new" type="password" />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button>Save password</Button>
-          </CardFooter>
-        </Card>
+      <TabsContent value="research" className="grid grid-cols-2 ">
+        <div className="border border-px border-zinc-700 w-full h-fit"><Tokenomics /></div>
+        <BubbleChart/>
       </TabsContent>
     </Tabs>
   )

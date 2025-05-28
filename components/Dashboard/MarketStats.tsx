@@ -85,7 +85,7 @@ export default function MarketStats({ tokenSymbol}: MarketStatsProps) {
 
   if (error) {
     return (
-      <div className="p-4 w-full bg-zinc-900 rounded-2xl">
+      <div className="p-4 w-full bg-zinc-900 rounded">
         <h1 className="text-white font-bold text-sm sm:text-base">Error: {error}</h1>
       </div>
     );

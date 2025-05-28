@@ -30,7 +30,6 @@ interface TradingChartProps {
   chartColor?: string;
   price: number;
   setCurrentChartToken: (token: string) => void;
-   cacheKey: string; // Add this line
 }
 
 interface ChartDataPoint {

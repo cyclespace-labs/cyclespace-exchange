@@ -2,48 +2,28 @@
 
 import {  TradingChart } from "@/components/dashboard/tradingChart/trading-chart"
 import { Ticker } from "@/components/Ticker"
+import Swap from "../Swap/page"
+import { useState } from "react"
 import MarketStats from './../../components/dashboard/MarketStats';
 import { NavMenu } from "@/components/NavMenu/NavMenu"
 import TechnicalSpecs from "@/components/dashboard/TechnicalSpecs"
+import { Tokenomics } from "@/components/dashboard/Tokenomics"
 import { Command, CommandList } from "cmdk"
+import TokenomicsBubbleChart from "@/components/dashboard/Bubblemap"
 import { SectionTabs } from './../../components/dashboard/ui/section-tabs';
 import { DEFAULT_BUY_TOKEN } from "@/components/Swap/price"
-import { useSWRConfig } from 'swr'
-import dynamic from "next/dynamic"
-import { useState, useEffect, useCallback } from "react"
-import { Separator } from "@radix-ui/react-separator";
-import NewsLayout from "@/components/NewsLayout";
-
-// Lazy load heavy components
-const Swap = dynamic(() => import("../Swap/page"), {
-  ssr: false,
-  loading: () => <div className="animate-pulse bg-zinc-800 rounded-lg h-64" />
-})
-
-const TokenomicsBubbleChart = dynamic(
-  () => import("@/components/dashboard/Bubblemap"),
-  { ssr: false }
-)
-
-// Cache key for SWR
-const CACHE_KEY = 'dashboard-data'
 
 
 export default function Page() {
 
-  const { cache, mutate } = useSWRConfig()
-  const [fromToken, setFromToken] = useState("link")
-  const [toToken, setToToken] = useState("busd")
-  const [currentChartToken, setCurrentChartToken] = useState(fromToken)
+const [fromToken, setFromToken] = useState("link");
+  const [toToken, setToToken] = useState("busd");
+  const [currentChartToken, setCurrentChartToken] = useState(fromToken);
 
-  // Memoized token handler with cache invalidation
-  const handleTokenSelect = useCallback((symbol: string) => {
+    const handleTokenSelect = (symbol: string) => {
     setFromToken(symbol)
     setCurrentChartToken(symbol)
-  }, [mutate])
-
-    // Prefetch and cache initial data
-
+  }
 
   return (
     <div className=" w-full h-full bg-black">
@@ -69,13 +49,12 @@ export default function Page() {
                           <div className="h-full flex flex-col bg-transparent p-0"> 
                               <div className=" h-full w-full flex flex-col gap-0"> 
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
-                                    <MarketStats tokenSymbol={currentChartToken}  />
+                                    <MarketStats tokenSymbol={currentChartToken} />
                                 </div>
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
-                                    <TechnicalSpecs tokenSymbol={currentChartToken} />
+                                    <TechnicalSpecs tokenSymbol={currentChartToken}/>
                                 </div>
                                   <div className="w-full h-[300px]">
-                                   {/*<NewsLayout/>*/}
                                   </div>
                               </div>
                           </div>
@@ -84,7 +63,7 @@ export default function Page() {
                     
 
                         {/* chart */}
-                      <div className="w-full h-full border-zinc-700 border-x-[1px] flex flex-col ">
+                      <div className="w-full h-full border-zinc-700 border-x-[1px] flex flex-col">
                         {/*
                         <RealtimeChart coinId="ethereum"/>
                         */}
@@ -93,31 +72,31 @@ export default function Page() {
                           sellTokenSymbol={fromToken}
                           price={0}
                           setCurrentChartToken={setCurrentChartToken}
-                          cacheKey={CACHE_KEY}
                         />
-
-                        <Separator className="w-full h-px bg-zinc-800 mb-5"/>
 
                         <div className="flex flex-row gap-4 w-full h-full bg-transparent items-center" >
                           <SectionTabs />
                         </div>
-
                       </div>
 
 
-                  <div className="max-w-[400px] h-[715px] flex flex-col">
-                    <Swap
-                      fromToken={fromToken}
-                      setFromToken={setFromToken}
-                      toToken={toToken}
-                      setToToken={setToToken}
-                      setCurrentChartToken={setCurrentChartToken}
-                      price={undefined}
-                      setPrice={() => {}}
-                      setFinalize={() => {}}
-                      chainId={0}                              
-                    />
-                  </div>
+                        <div className="max-w-[400px] h-[715px] flex flex-col">
+                          <Command className="h-full flex flex-col bg-transparent p-0 rounded-none">
+                            <CommandList className=" h-full w-full flex flex-col gap-4 bg-transparent p-0 rounded-none">
+                              <Swap
+                                fromToken={fromToken}
+                                setFromToken={setFromToken}
+                                toToken={toToken}
+                                setToToken={setToToken}
+                                setCurrentChartToken={setCurrentChartToken} price={undefined} setPrice={function (price: any): void {
+                                  throw new Error("Function not implemented.")
+                                } } setFinalize={function (finalize: boolean): void {
+                                  throw new Error("Function not implemented.")
+                                } } chainId={0}                              
+                              />
+                            </CommandList>
+                          </Command>
+                        </div>
                   </div>
               </div>
           </div>
