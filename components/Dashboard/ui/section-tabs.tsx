@@ -20,10 +20,10 @@ import { DataTable } from "../tokenList/data-table"
 
 export function SectionTabs() {
   return (
-    <Tabs defaultValue="account" className="w-full">
-      <TabsList className="grid w-[400px] grid-cols-2">
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
+    <Tabs defaultValue="account" className="w-full px-5">
+      <TabsList className="grid w-[400px] grid-cols-2 bg-transparent">
+        <TabsTrigger value="account">Explore</TabsTrigger>
+        <TabsTrigger value="password">Research</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
 

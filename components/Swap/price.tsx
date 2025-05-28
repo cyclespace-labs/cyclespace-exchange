@@ -361,6 +361,8 @@ export default function PriceView({
 
         </div>
 
+
+
         {taker ? (
           <ApproveOrReviewButton
             sellTokenAddress={MAINNET_TOKENS_BY_SYMBOL[sellToken].address}
@@ -399,7 +401,7 @@ export default function PriceView({
                     if (!connected) {
                       return (
                         <button
-                          className="w-full bg-blue-600 text-white font-semibold p-2 rounded hover:bg-blue-700"
+                          className="w-full bg-blue-600 text-white font-semibold p-2 rounded hover:bg-blue-700 "
                           onClick={openConnectModal}
                           type="button"
                         >

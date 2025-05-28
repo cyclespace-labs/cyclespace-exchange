@@ -11,6 +11,8 @@ import { DEFAULT_BUY_TOKEN } from "@/components/Swap/price"
 import { useSWRConfig } from 'swr'
 import dynamic from "next/dynamic"
 import { useState, useEffect, useCallback } from "react"
+import { Separator } from "@radix-ui/react-separator";
+import NewsLayout from "@/components/NewsLayout";
 
 // Lazy load heavy components
 const Swap = dynamic(() => import("../Swap/page"), {
@@ -38,18 +40,10 @@ export default function Page() {
   const handleTokenSelect = useCallback((symbol: string) => {
     setFromToken(symbol)
     setCurrentChartToken(symbol)
-    mutate(CACHE_KEY) // Refresh data when token changes
   }, [mutate])
 
     // Prefetch and cache initial data
-  useEffect(() => {
-    const prefetchData = async () => {
-      if (!cache.get(CACHE_KEY)) {
-        await mutate(CACHE_KEY)
-      }
-    }
-    prefetchData()
-  }, [cache, mutate])
+
 
   return (
     <div className=" w-full h-full bg-black">
@@ -75,12 +69,13 @@ export default function Page() {
                           <div className="h-full flex flex-col bg-transparent p-0"> 
                               <div className=" h-full w-full flex flex-col gap-0"> 
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
-                                    <MarketStats tokenSymbol={currentChartToken} cacheKey={CACHE_KEY} />
+                                    <MarketStats tokenSymbol={currentChartToken}  />
                                 </div>
                                 <div className="bg-transparent border-b-[1px] border-zinc-700">
-                                    <TechnicalSpecs tokenSymbol={currentChartToken} cacheKey={CACHE_KEY}/>
+                                    <TechnicalSpecs tokenSymbol={currentChartToken} />
                                 </div>
                                   <div className="w-full h-[300px]">
+                                   {/*<NewsLayout/>*/}
                                   </div>
                               </div>
                           </div>
@@ -89,7 +84,7 @@ export default function Page() {
                     
 
                         {/* chart */}
-                      <div className="w-full h-full border-zinc-700 border-x-[1px] flex flex-col">
+                      <div className="w-full h-full border-zinc-700 border-x-[1px] flex flex-col ">
                         {/*
                         <RealtimeChart coinId="ethereum"/>
                         */}
@@ -101,9 +96,12 @@ export default function Page() {
                           cacheKey={CACHE_KEY}
                         />
 
+                        <Separator className="w-full h-px bg-zinc-800 mb-5"/>
+
                         <div className="flex flex-row gap-4 w-full h-full bg-transparent items-center" >
                           <SectionTabs />
                         </div>
+
                       </div>
 
 
@@ -114,7 +112,6 @@ export default function Page() {
                       toToken={toToken}
                       setToToken={setToToken}
                       setCurrentChartToken={setCurrentChartToken}
-                      cacheKey={CACHE_KEY}
                       price={undefined}
                       setPrice={() => {}}
                       setFinalize={() => {}}

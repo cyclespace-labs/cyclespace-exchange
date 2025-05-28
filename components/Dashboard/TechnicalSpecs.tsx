@@ -13,7 +13,6 @@ import { toast } from 'sonner';
 
 interface TechnicalSpecsProps {
   tokenSymbol: string;
-    cacheKey: string; // Add this line
 }
 
 interface TechnicalSpecsData {
@@ -26,7 +25,7 @@ interface TechnicalSpecsData {
   description: string;
 }
 
-export default function TechnicalSpecs({ tokenSymbol, cacheKey }: TechnicalSpecsProps) {
+export default function TechnicalSpecs({ tokenSymbol }: TechnicalSpecsProps) {
   const [specsData, setSpecsData] = useState<TechnicalSpecsData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

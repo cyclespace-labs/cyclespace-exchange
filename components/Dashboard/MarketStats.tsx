@@ -7,7 +7,7 @@ import { COINGECKO_IDS } from "@/src/constants";
 interface MarketStatsProps {
   tokenSymbol: string;
   chainId?: number;
-  cacheKey: string; // Add this line
+
 }
 
 interface MarketData {
@@ -22,8 +22,7 @@ interface MarketData {
 }
 import useSWR from 'swr'
 
-export default function MarketStats({ tokenSymbol, cacheKey }: MarketStatsProps) {
-  const { data } = useSWR(cacheKey, fetcher)
+export default function MarketStats({ tokenSymbol}: MarketStatsProps) {
   const [marketData, setMarketData] = useState<MarketData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

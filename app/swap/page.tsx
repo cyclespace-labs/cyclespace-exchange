@@ -19,7 +19,7 @@ interface SwapProps {
   toToken: string;
   setToToken: (token: string) => void;
   setCurrentChartToken: (token: string) => void;
-   cacheKey: string; // Add this line
+
 }
 
 export default function Swap({

@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -40,14 +40,16 @@ import { useEffect, useState } from "react"
 import { Avatar, AvatarImage } from "@/components/ui/avatar"
 import { Skeleton } from "@/components/ui/skeleton"
 
-interface TokenWithRank extends Token {
-  globalRank?: number
+interface TokenWithMarketData extends Token {
+  price?: number
+  priceChange1h?: number
+  marketCap?: number
 }
 
-const API_DELAY = 1500 // 1.5 seconds between requests to stay under rate limits
+const API_DELAY = 1500
 const MAX_RETRIES = 2
 
-export const columns: ColumnDef<TokenWithRank>[] = [
+export const columns: ColumnDef<TokenWithMarketData>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -93,14 +95,38 @@ export const columns: ColumnDef<TokenWithRank>[] = [
     header: "Name",
   },
   {
-    accessorKey: "globalRank",
-    header: "Rank",
+    accessorKey: "price",
+    header: "Price",
     cell: ({ row }) => {
-      const rank = row.getValue("globalRank")
-      if (rank === undefined) {
-        return <Skeleton className="h-4 w-[50px]" />
+      const price = row.getValue("price")
+      if (price === undefined) {
+        return <Skeleton className="h-4 w-[80px]" />
       }
-      return <div className="text-sm font-medium">#{String(rank || "N/A")}</div>
+      return (
+        <div className="font-medium">
+          ${Number(price).toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 4
+          })}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "priceChange1h",
+    header: "1h Change",
+    cell: ({ row }) => {
+      const change = row.getValue("priceChange1h")
+      if (change === undefined) {
+        return <Skeleton className="h-4 w-[60px]" />
+      }
+      return (
+        <div className={`font-medium ${
+          Number(change) >= 0 ? 'text-green-500' : 'text-red-500'
+        }`}>
+          {Number(change).toFixed(2)}%
+        </div>
+      )
     },
   },
   {
@@ -143,7 +169,7 @@ export const columns: ColumnDef<TokenWithRank>[] = [
 ]
 
 export function DataTable() {
-  const [data, setData] = useState<TokenWithRank[]>([])
+  const [data, setData] = useState<TokenWithMarketData[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -167,18 +193,17 @@ export function DataTable() {
     }
   }
 
-
-  const fetchMarketRanks = React.useCallback(async () => {
+  const fetchMarketData = React.useCallback(async () => {
     setIsLoading(true)
     setError(null)
     
     try {
-      const tokensWithRanks = []
+      const tokensWithData = []
       for (const token of MAINNET_TOKENS) {
         try {
           const coingeckoId = COINGECKO_IDS[token.symbol.toLowerCase()]
           if (!coingeckoId) {
-            tokensWithRanks.push({ ...token, globalRank: null })
+            tokensWithData.push({ ...token })
             continue
           }
 
@@ -186,18 +211,25 @@ export function DataTable() {
             `https://api.coingecko.com/api/v3/coins/${coingeckoId}`
           )
           
-          tokensWithRanks.push({
+          tokensWithData.push({
             ...token,
-            globalRank: data.market_cap_rank || null
+            price: data.market_data?.current_price?.usd,
+            priceChange1h: data.market_data?.price_change_percentage_1h_in_currency?.usd,
+            marketCap: data.market_data?.market_cap?.usd
           })
 
           await new Promise(resolve => setTimeout(resolve, API_DELAY))
         } catch (error) {
-          console.error(`Failed to fetch rank for ${token.symbol}:`, error)
-          tokensWithRanks.push({ ...token, globalRank: null })
+          console.error(`Failed to fetch data for ${token.symbol}:`, error)
+          tokensWithData.push({ ...token })
         }
       }
-      setData(tokensWithRanks)
+      
+      // Sort by market cap descending
+      const sortedTokens = tokensWithData.sort((a, b) => 
+        (b.marketCap || 0) - (a.marketCap || 0)
+      )
+      setData(sortedTokens)
     } catch (error) {
       setError("Failed to load market data. Please try again later.")
     } finally {
@@ -206,8 +238,8 @@ export function DataTable() {
   }, [])
 
   useEffect(() => {
-    fetchMarketRanks()
-  }, [fetchMarketRanks])
+    fetchMarketData()
+  }, [fetchMarketData])
 
   const table = useReactTable({
     data,
@@ -237,7 +269,7 @@ export function DataTable() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={fetchMarketRanks}
+              onClick={fetchMarketData}
               className="text-red-700 hover:bg-red-200"
             >
               Retry
@@ -279,7 +311,6 @@ export function DataTable() {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      
 
       <div className="rounded-md border">
         <Table>
